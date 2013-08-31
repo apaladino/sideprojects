@@ -1,0 +1,91 @@
+<?php 
+   	session_start();
+   	require_once('config.php');
+   	require_once('util/common/common.php');
+    require_once("util/mysql/dbutil.php");
+  
+    $status = getSiteStatus();
+    if($status != 'Running'){
+    	header("Location: downpage.php");
+    }
+   	
+    $message = "";
+    $error = "";
+    
+    if($_POST["action"] != null && $_POST["action"] == "subcribe"){
+		$email = $_POST["email"];
+		$email = filterEmail($email);
+		$result = validateEmail($email);
+		
+		if($result != "VALID"){
+			$error = $result;
+			$message = "";
+		}else{
+			if(addUserEmailToSubscriptions($email)){
+				$message =  "Email: " . $email . " has been subscribed. You will now receive emails when I post a new comic.";
+				$error = "";
+				$msg = "New subscription added to techmuffin\rEmail: " . $email;
+				mailEventNotice("Subscription added", $msg);
+			}else{
+				$message = "Thank you for subscribing. You will now receive emails when I post a new comic.";
+				$error = "";
+			}			
+		}
+	}
+	
+	if($message != ""){
+		$message = "<div id=\"messages\">" . $message . "</div>";				
+	}
+	if($error != ""){
+		$error = "<div id=\"errors\">" . $error . "</div>";
+	}
+    	
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
+  <title><?php echo TITLE;?></title>
+  <script type="text/javascript" src="scripts/public_scripts.js"></script>
+</head>
+<body>
+    	
+	<!-- Center Panel -->
+	<div id="centerPanel">
+		
+		<!-- Title Panel -->
+		<?php include_once("includes/titlebar.php"); ?>
+		
+		<!-- Main Nav -->
+		<?php include_once("includes/mainnav.php"); ?>
+		
+	    <div id="workspace" >
+	        <div id="subscribe">
+		        <p>
+		        	<h2>Subscribe to TechMuffin and receive emails whenever a new comic is posted.</h2>
+		        	<hr/>
+		        </p>
+		        <br/>
+				
+				<?php echo $message;?>
+				<?php echo $error; ?>
+				
+			    <form action="subscriptions.php" method="POST">
+			    	<input type="hidden" name="action" value="subcribe" />
+			    	<p><h4>Please enter your email address below:</h4></p>
+			    	<p>
+			    		<label for="email">Email:</label>
+			    		<input type="text" name="email" id="email""/>
+			    	</p>
+			    	<input type="submit" value="Submit"/>
+			    </form>	
+				
+	        </div>
+	    		
+			
+			<?php include_once("includes/footer.php");?>
+	    </div>	
+	</div>
+</body>
+</html>

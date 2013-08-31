@@ -1,0 +1,507 @@
+
+body{
+margin:0;
+padding:0;
+line-height: 1.5em;
+background-repeat:repeat-x;
+background-color: black;
+	text-align:center;	
+color:#00ff00;
+}
+
+form{
+  color: white;
+}
+
+form input{
+  color: black;
+  line-height: 1.5em;	
+}
+b{font-size: 110%;}
+em{color: red;}
+
+.hidden{
+	display:none;
+}
+#titlePanel
+{
+	padding-left:2em;
+	text-align:left;
+	width:100%;
+	height:156px;
+	float:left;
+	color: #79CECE;
+}
+
+#titlePanel img{
+	margin: 0;
+    display:block;
+    top: 0%;
+    left: 0%;
+    height: 156px;
+ 	z-index:-2;
+ 	float: left;
+ 	clear: right;
+ 	margin-right: 2em;
+}
+#titlePanel span{
+	margin-left: 20px;
+	margin-top: 0;
+	display: inline-block;
+	padding: 0;	
+	width: 100%;
+}
+#titlePanel h1{
+	font-size: 50px;
+	margin: 0;
+	margin-top: 1em;
+}
+#titlePanel h4{
+	font-family: SCRIPT;
+	font-size: 15px;
+	margin: 0;
+	line-height: 1.5em;
+}
+#menuPanel{
+	float:left;
+    height: 4%;
+    display: block;
+    width: 100%;
+    top: 12%;
+}
+#centerPanel
+{
+	width:85%;
+	height:90%;
+	padding:0;
+	margin:auto;
+	border: 0;
+}
+.workspace{
+	float:left;
+	text-align:left;
+	width:85%;
+	height:90%;
+	clear:right;
+	padding-top:0;
+	margin-top:-2em;
+}
+
+.comic{
+    width:65%;	
+    float:left;
+    clear:right;
+}
+
+.comic div{
+  margin-left:1em;	
+}
+
+.comic h3{
+	margin:0;
+	color:white;
+	font-style:italic;
+	line-height:1.5em;	
+	font-size:1.5em;
+}
+
+.comic img{
+   display:inline;
+   width:100%;	
+}
+
+.arrows{
+	float:left;
+	clear:right;	
+	margin-right:1em;
+}
+
+.arrows a{
+	margin-right: 1em;	
+}
+
+.arrows img{
+	width:25px;
+	border:0;	
+}
+
+#comments{
+	display:inline;
+	width:32%;
+	float:right;
+	text-align:left;
+	color: white;
+	padding-top:1em;
+}
+
+#comments li 
+{
+	padding:0 0 0 15px;
+	margin-left: 0px; 
+    list-style-position : outside;
+	list-style-type: none;
+}
+
+#comments ul
+{
+ margin-top:.25em;
+ margin-left:1em;
+ padding-left:0px;
+ padding-right:5px;
+ padding-bottom:0px;
+ margin-bottom:0px;
+ color: white;
+}
+
+#comments ul, #comments li 
+{
+	float:right;
+	line-height:31px;
+}
+#comments a {
+	font-weight:normal;
+	text-decoration:none;
+	cursor:pointer;
+	border-bottom: 1px solid #277777;
+	color: white;
+}
+
+#comments a:hover
+{
+	text-decoration: underline;
+}
+	
+#commentsList{
+	float:left;
+	clear:right;
+	color: white;
+}
+#commentsList p{
+	border-bottom: 1px dotted #277777;
+}
+
+#addCommentForm{
+	color: white;
+}
+#footerPanel{
+	width:100%;
+	height:10%;
+	min-height:10%;
+	float:left;
+	margin:1em;
+}
+
+#mainNav
+{
+	display:block;
+	height:8%;
+	width:75%;
+	left:20.5%;
+	top:23%;
+	float:left;
+	clear:right;
+}
+
+#mainNav li 
+{
+	padding:0 0 0 15px;
+	margin-left: 0px; 
+    list-style-position : outside;
+	list-style-type: none;
+}
+#mainNav ul
+{
+ margin-top:.25em;
+ margin-left:1em;
+ padding-left:0px;
+ padding-right:5px;
+ padding-bottom:0px;
+ margin-bottom:0px;
+}
+#mainNav ul, #mainNav li 
+{
+	float:right;
+	line-height:31px;
+}
+#mainNav a {
+	font-weight:normal;
+	font-style:italic;
+	text-decoration:none;
+	cursor:pointer;
+	border-bottom: 1px solid #277777;
+	color: white;
+}
+#mainNav img{
+   width:25px;	
+   border: 0;
+}
+
+#mainNav a:hover
+{
+	text-decoration: underline;
+}
+
+#altNav
+{
+	display:block;
+	height:8%;
+	width:75%;
+	left:20.5%;
+	top:23%;
+	float:left;
+	clear:right;
+}
+
+#altNav li 
+{
+	padding:0 0 0 15px;
+	margin-left: 0px; 
+    list-style-position : outside;
+	list-style-type: none;
+}
+#altNav ul
+{
+ margin-top:.25em;
+ margin-left:1em;
+ padding-left:0px;
+ padding-right:5px;
+ padding-bottom:0px;
+ margin-bottom:0px;
+}
+#altNav ul, #altNav li 
+{
+	float:right;
+	line-height:31px;
+}
+#altNav a {
+	font-weight:normal;
+	font-style:italic;
+	text-decoration:none;
+	cursor:pointer;
+	color: white;
+}
+#altNav img{
+   width:25px;	
+   border: 0;
+}
+
+#altNav a:hover
+{
+	text-decoration: underline;
+}
+
+.paragraph 
+{
+	margin-bottom:10px;
+	position:relative;
+	text-align:justify;
+	width:100%;
+}
+.header 
+{
+	font-size:11px;
+	font-weight:bold;
+}
+.lineheader 
+{
+	font-size:16px;
+	font-weight:bold;
+	margin-bottom:10px;
+}
+
+body, div, p, td, th, select, input 
+{
+	color:#79cece;
+	font-family:cursive;
+	font-size:12px;
+}
+
+#siteDownMsg{
+	color: red;
+	font-size:2em;
+	font-weight:bold;
+	margin:auto;
+	padding:5em;
+	width:50%;
+}
+
+#welcomeText{
+	display: block;
+	float:left;	
+	padding-top: 1em;
+	padding-left: 1em;
+	color: #79CECE;
+}
+
+#welcomeText img{
+	width:350px;
+	height:100px;	
+}
+
+#welcomeText h5{
+	float:left;
+	clear:right;
+	margin:0;	
+}
+
+#welcomeText h4{
+	margin:0;
+	clear:left;
+	padding-left:1em;
+	font-family: cursive;
+	font-style: italic;
+}
+
+#quote {
+	clear:right;	
+	float:left;
+	width:55%;
+}
+
+#quote h2{
+	font-size:1em;
+	margin:0;	
+	color: white;
+}
+#quote a{
+	float:left;
+	clear:right;
+	margin-right: 1em;	
+}
+
+#quote h5{
+	font-size:2em;
+	margin:0;
+	font-family:cursive;
+	font-style:italic;
+	color:white;	
+}
+
+#addQuoteForm {
+	clear:right;
+	float:left;
+	margin-top:4em;
+	width:33%;
+}
+
+#subscribe{
+	width:60%;
+	color: white;
+}
+
+#messages{
+	font-size:15px;
+	padding: 5px;
+	color: lightgreen;
+	font-weight:bold;
+	border: 1px dotted lightgreen;
+}
+#errors{
+	font-size:15px;
+	padding: 5px;
+	color: red;
+	font-weight:bold;
+	border: 1px dotted red;
+}
+#popup{
+    color: lightCyan;
+    float: right;
+    height: 1%;
+    margin-top: 1.5em;
+    padding-bottom: 1.5em;
+    padding-top: 1.5em;
+    width: 25%;
+}
+#popup label{
+	color: lightCyan;	
+}
+
+#facebook{
+	margin-top:5em;
+	display:block;
+}
+#archive{
+	color: lightCyan;
+	font-family: cursive;
+    font-size: 1.5em;
+    font-style: italic;
+    float:left;
+    clear:right;
+    width:55%;
+}
+#archive p{
+	color: lightCyan;	
+}
+#archive a{
+	font-weight:normal;
+	font-style:italic;
+	text-decoration:none;
+	cursor:pointer;
+	color: white;
+	float: none;
+	font-size:1em;	
+}
+#archive td{
+	margin: 1.5em;
+}
+.blog{
+	background-color: DarkGrey;	
+	float: left;
+    margin-top: 2em;
+    width: 74%;
+    color: Black;
+}
+.blog div{
+	color: Black;	
+}
+.blog p{
+	color: Black;	
+}
+.blogEntry{
+	border: 1px solid lightCyan;
+	background-color: White;
+}
+.blogContent{
+	background-color: White;
+	width: 90%;
+	float: left;
+	clear: right;
+	margin: 1em;	
+	padding: 10px;
+}
+.blogPosted{
+	background: none repeat scroll 0 0 white;
+    float: left;
+    margin: 0 11px 11px;
+    padding-bottom: 7px;
+    padding-right: 7px;
+    padding-top: 7px;
+    text-align: center;
+    width: 150px;	
+}
+.blogComments{
+	background: none repeat scroll 0 0 white;
+    float: left;
+    margin: 0 11px 11px;
+    padding-bottom: 7px;
+    padding-right: 7px;
+    padding-top: 7px;
+    text-align: center;
+    width: 150px;
+	float: left;
+}
+.blogComments a{
+	text-decoration: none;
+	color: Black;
+	line-height: 1.5em;
+		
+}
+.label{
+	width:50%;	
+}
+.adminPanel{
+	color: white;	
+}
+.adminPanel a{
+	color: white;	
+}

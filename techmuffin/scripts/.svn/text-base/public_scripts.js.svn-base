@@ -1,0 +1,180 @@
+function getCaption(captionId, min, max){
+	if (window.XMLHttpRequest){
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+  	  	xmlhttp=new XMLHttpRequest();
+  	}else{
+	  	// code for IE6, IE5
+  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+
+  	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+  	    	document.getElementById("caption").innerHTML=xmlhttp.responseText;
+  	    }
+  	  }
+  	var params = "util/publicGetAjaxInfo.php?function=getCaptionById&captionId=" + captionId;
+  	params += "&mn=" + min + "&mx=" + max;
+  	xmlhttp.open("GET", params, true);
+  	xmlhttp.send();	
+}
+
+function addQuoteForm(quoteId){
+		
+	if (window.XMLHttpRequest){
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+  	  	xmlhttp=new XMLHttpRequest();
+  	}else{
+	  	// code for IE6, IE5
+  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+
+  	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+  	    	document.getElementById("addQuoteForm").innerHTML=xmlhttp.responseText;
+  	    }
+  	  }
+  	xmlhttp.open("GET","util/publicGetAjaxInfo.php?function=addQuoteForm&quoteId=" + quoteId, true);
+  	xmlhttp.send();
+}
+
+function addQuote(quoteId, name, quote){
+	if (window.XMLHttpRequest){
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+  	  	xmlhttp=new XMLHttpRequest();
+  	}else{
+	  	// code for IE6, IE5
+  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+
+	var params ="action=addQuote&function=addQuote&quoteId=" + quoteId;
+  	params += "&name=" + name + "&quote=" + quote;
+	xmlhttp.open("POST","util/addQuote.php",true);
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  	xmlhttp.setRequestHeader("Content-length", params.length);
+  	xmlhttp.setRequestHeader("Connection", "close");
+  	 
+  	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+	  		document.getElementById("addQuoteForm").innerHTML=xmlhttp.responseText;
+  	    }
+  	}
+   
+  	xmlhttp.send(params);
+
+}
+
+function quoteAjaxPost(){
+	var quoteId= document.getElementById("field_quoteId").value;
+	var name = document.getElementById("field_name").value;
+	var Quote = document.getElementById("field_quote").value;
+	addQuote(quoteId, name, Quote);
+}
+
+function loadFrame(panel)
+{
+	var workspace = document.getElementById('workspace');
+	var targetPnl = document.getElementById(panel);
+	workspace.innerHTML = targetPnl.innerHTML;
+}
+
+function addCommentForm(comicId){
+	
+	if (window.XMLHttpRequest){
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+  	  	xmlhttp=new XMLHttpRequest();
+  	}else{
+	  	// code for IE6, IE5
+  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+
+  	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+  	    	document.getElementById("addCommentForm").innerHTML=xmlhttp.responseText;
+  	    }
+  	  }
+  	  
+  	xmlhttp.open("GET","util/publicGetAjaxInfo.php?function=addCommentForm&comicId=" + comicId, true);
+  	xmlhttp.send();
+}
+
+function addComment(comicId, name, comment){
+
+	if (window.XMLHttpRequest){
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+  	  	xmlhttp=new XMLHttpRequest();
+  	}else{
+	  	// code for IE6, IE5
+  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+
+	var params ="action=addComment&function=addComment&comicId=" + comicId;
+  	params += "&name=" + name + "&comment=" + comment;
+	
+	xmlhttp.open("POST","util/addComment.php",true);
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  	xmlhttp.setRequestHeader("Content-length", params.length);
+  	xmlhttp.setRequestHeader("Connection", "close");
+  	 
+  	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+	  		document.getElementById("addCommentForm").innerHTML=xmlhttp.responseText;
+  	    }
+  	}
+   
+  	xmlhttp.send(params);
+
+}
+
+function ajaxPost(){
+	var comicId= document.getElementById("field_comicId").value;
+	var name = document.getElementById("field_name").value;
+	var comment = document.getElementById("field_comment").value;
+	addComment(comicId, name, comment);
+}
+
+function showEmailFriendForm(){
+	
+	if (window.XMLHttpRequest){
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+  	  	xmlhttp=new XMLHttpRequest();
+  	}else{
+	  	// code for IE6, IE5
+  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+
+  	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+  	    	document.getElementById("emailToFriend").innerHTML=xmlhttp.responseText;
+  	    }
+  	  }
+  	  
+  	xmlhttp.open("GET","util/publicGetAjaxInfo.php?function=emailFriendForm", true);
+  	xmlhttp.send();
+}
+
+function emailToFriend(){
+	
+	var yourEmail = document.getElementById("yourEmail").value;
+	var theirEmail = document.getElementById("theirEmail").value;
+	if (window.XMLHttpRequest){
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+  	  	xmlhttp=new XMLHttpRequest();
+  	}else{
+	  	// code for IE6, IE5
+  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+
+	var params ="action=emailToFriend&yourEmail="+yourEmail+"&theirEmail="+theirEmail;
+	xmlhttp.open("POST","util/emailToFriend.php",true);
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  	xmlhttp.setRequestHeader("Content-length", params.length);
+  	xmlhttp.setRequestHeader("Connection", "close");
+  	 
+  	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+	  		document.getElementById("emailToFriend").innerHTML=xmlhttp.responseText;
+  	    }
+  	}
+  	
+  	xmlhttp.send(params);
+}

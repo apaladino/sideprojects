@@ -1,0 +1,128 @@
+<?php
+	session_start();
+   	require_once('../config.php');
+   	require_once(ROOT_PATH . 'util/common/common.php');
+   	require_once(ROOT_PATH . "util/mysql/dbutil.php");
+   	require_once("loginCheck.php");
+   	
+   	$message = "";
+   	
+   	
+    if($_POST['comicName'] != null && $_POST['comicName'] != ''){
+	   	$adminPW = $_POST['adminPW'];
+	   	if(!authorizeAdmin($_SESSION["UserName"], $adminPW)){
+	   		header("Location: login.php");
+	   	}
+	   	$comicId = $_POST["comicId"];
+	   	$comicName = $_POST["comicName"];
+	   	$comicTitle = $_POST["comicTitle"];
+	    $hasError = false;
+	   	$fileChanged = false;
+	   	$comicFileName = null;
+	    
+	   	if(isset($_FILES["file"]["name"]) && $_FILES["file"]["name"] != ""){
+	   	  $fileChanged = true;
+	   	}
+
+	   	if($fileChanged){
+	   		$oldComic = getComicById($comicId);
+	   		if((deleteComicFile($oldComic["location"])=="SUCCESS") && upload_comic_file()){
+	   			$comicFileName =  $_FILES["file"]["name"];
+	   		}else{
+	   			$message = "Unable to upload comic";
+	   			$hasError = true;
+	   		}
+	  	}
+	   
+	  	if(!$hasError && update_comic_data($comicName, $comicTitle, $comicFileName, $comicId, $fileChanged)){
+			$message="Comic " . $comicName . " has been successfully updated.";
+		}else{
+	   		$message="Unable to update comic: " . $comicName;
+	   	}
+	   
+   	}
+   	
+   	$comics = loadAllComics();
+   	
+?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  <script language="javascript">
+  	function loadComicForm(){
+		var comicSelect = document.getElementById("comicsToUpdate");
+		loadComic(comicSelect.value);
+  	}
+
+  	function loadComic(comicId)
+  	{
+	  	if (comicId.length==0){
+	  	  document.getElementById("comicInfo").innerHTML="?";
+	  	  return;
+	  	}
+	  	if (window.XMLHttpRequest){
+		  	// code for IE7+, Firefox, Chrome, Opera, Safari
+	  	  	xmlhttp=new XMLHttpRequest();
+	  	}else{
+		  	// code for IE6, IE5
+	  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  	}
+
+	  	xmlhttp.onreadystatechange=function(){
+	  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+	  	    	document.getElementById("comicInfo").innerHTML=xmlhttp.responseText;
+	  	    }
+	  	  }
+	  	  
+	  	xmlhttp.open("GET","getAjaxInfo.php?function=loadComicForm&comicId="+comicId,true);
+	  	xmlhttp.send();
+  	}
+  </script>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <link rel="stylesheet" type="text/css" href="../css/mainStyle.css">
+  <title>TechMuffin! Administrator</title>
+</head>
+<body>
+    	
+	<!-- Center Panel -->
+	<div id="centerPanel">
+		
+		<!-- Title Panel -->
+		<div>
+		  <span>
+		  	<p><h2>Update a Comic</h2></p>
+		  </span>
+		</div>
+		
+		<?php include("includes/adminNav.php");?>
+
+		<div class="workspace" >
+			<p><h3>Update Comic.</h3></p>
+			<p><h4><?php print $message;?></h4>
+			<hr>
+			<p>
+			
+			<?php 
+				if(isset($comics)){  
+			?>
+					<input type="hidden" id="action" name="action" value="update"/>				
+					<select id="comicsToUpdate" name="comicsToUpdate" onfocus="javascript:loadComicForm()">
+
+					<?php 
+						foreach( $comics as $key => $value){ 
+					    	echo "<option value=\"" . $value["comicid"] . "\">" . $value["comicname"] . "</option>";
+				   		} 
+					?> 
+					</select> 
+			
+				    <div id="comicInfo">
+				    	
+				    </div>
+			<?php 
+				}
+			?>
+			</p>
+		</div>	
+</body>
+</html>

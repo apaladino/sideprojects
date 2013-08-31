@@ -1,0 +1,15 @@
+<?php 
+$subtitle = getRandomSubtitle();
+?>
+<div id="titlePanel">
+    <div id="icon">
+    	<img src="images/blue_ascii_muffin.png" />
+    </div>
+    <div id="welcomeText">
+	    <h5>Welcome To</h5>
+	    <span>
+			<img src="images/welcome_text_blue.png" border="0" style="width:350px">
+  			<h4><?php print($subtitle["phrase"]);?></h4>
+  		</span>
+	</div>
+</div>
