@@ -1,0 +1,12 @@
+-- running jar files from node
+http://stackoverflow.com/questions/12892195/how-to-run-a-jar-file-with-node-js-child-process-api
+
+
+-- mongoose
+http://mongoosejs.com/docs/queries.html
+
+-- mongoDB
+http://docs.mongodb.org/manual
+
+-- knockout js
+http://knockoutjs.com/

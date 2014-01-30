@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/javascripts/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="/javascripts/knockout-3.0.0.js"></script>
+  </head>
+  <body>
+  	
+	<div id="centerPanel">
+		
+		<div id="titlePanel">
+		  <h1><%= title %> - Workspace</h1>
+    	  <p>You are currently logged in as <%=user.username%></p>
+    	</div>
+	
+		<div id="mainNav">
+			<ul>
+				<li><a href="/logout">Log Out</a></li>
+				<li><a href="#">Option 1</a></li>
+			</ul>
+		</div>
+
+		
+		<div id="workspace" >
+			<div class="sidebar">
+				<p data-bind='visible: inEditMode() == false'>
+					<p>You have asked for <span data-bind='text: connections().length > 0 ? connections().length : 0'>&nbsp;</span> connections(s)</p>
+					<table>
+						<thead>
+							<tr>
+								<th/><th/>
+							</tr>
+						</thead>
+						<tbody data-bind='foreach: connections'>
+							<tr>
+								<td> <span data-bind="text: name"></span></td><td><input type="checkbox"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+				<p>
+					Edit Connections &nbsp;
+					<input type="checkbox"data-bind="checked: inEditMode" />
+				</p>
+				
+				<form action='/someServerSideHandler' data-bind='visible: inEditMode()'>
+        			
+        			<table data-bind='visible: connections().length > 0 && inEditMode()'>
+			            <thead>
+			                <tr>
+			                    <th>Connection name</th>
+			                    <th>Url</th>
+			                    <th>UserName</th>
+			                    <th>Password</th>
+			                </tr>
+			            </thead>
+		            	<tbody data-bind='foreach: connections'>
+			                <tr>
+			                    <td><input class='required' data-bind='value: name, uniqueName: true' /></td>
+			                    <td><input class='required' data-bind='value: url, uniqueName: true' /></td>
+			                    <td><input data-bind='value: username, uniqueName: true'</td>
+			                    <td><input data-bind='value: password, uniqueName: true'</td>
+			                    <td><a href='#' data-bind='click: $root.removeConnection'>Delete</a></td>
+			                </tr>
+		         	   </tbody>
+		        	</table>
+		     
+			        <button data-bind='click: addConnection'>Add Connection</button>
+			        <button data-bind="enable: connections().length > 0, click: save">Save</button>
+			    </form>
+			</div>	
+		</div>	
+		
+		<div id="footerPanel">
+		   footer		
+  	    </div>
+   
+   
+   <script type='text/javascript'>
+		/*<![CDATA[*/
+		var ConnectionModel = function(connections) {
+		    var self = this;
+		    self.connections = ko.observableArray(connections);
+		 
+		    self.addConnection = function() {
+		        self.connections.push({
+		            name: "",
+		            url: "",
+		            username: "",
+		            password: ""
+		        });
+		    };
+		 
+		    self.removeConnection = function(connection) {
+		        self.connections.remove(connection);
+		    };
+		 
+		    self.save = function(form) {
+		        $.post("/connections/add", {
+		            data: {
+		                json: ko.toJSON({
+		                    tasks: this.connections
+		                })
+		            },
+		            type: "POST",
+		            dataType: 'json',
+		            success: function(result) {
+		                alert(ko.toJSON(result));
+		            },
+		            always: function(result){
+		            	alert(ko.toJSON(result));
+		            }
+		        });
+		    };
+		    
+		    self.inEditMode = ko.observable(false);
+		    
+		    /*
+		    
+		    //Load initial state from server, convert it to Task instances, then populate self.tasks
+		    $.ajax("/echo/json/", {
+		        data: {
+		            json: ko.toJSON(fakeData)
+		        },
+		        type: "POST",
+		        dataType: 'json',
+		        success: function(data) {
+		            var mappedTasks = $.map(data, function(item) {
+		                return new Task(item);
+		            });
+		
+		            self.tasks(mappedTasks);
+		        }
+		    });     
+		    */
+		};
+		 
+		var viewModel = new ConnectionModel([
+		    { name: "ED Billing Service", url: "qaracdb-scan.qai.expertcity.com:1521/qa", username: "BILLINGED1", password: "BILLINGED1"},
+		    { name: "ED Payment Service", url: "qaracdb-scan.qai.expertcity.com:1521/qa", username: "PAYMENTED1", password: "PAYMENTED1"}
+		]);
+		ko.applyBindings(viewModel);
+		 
+		// Activate jQuery Validation
+		//$("form").validate({ submitHandler: viewModel.save }); 
+		/*]]>*/
+</script>
+  </body>
+</html>

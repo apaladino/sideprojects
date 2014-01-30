@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  <div id="centerPanel">
+		
+		<div id="titlePanel">
+		  <h1><%= title %></h1>
+    	</div>
+	
+		<div id="workspace" >
+			<%
+		  		if(!user){
+		  	%>
+		  		<a href="/login">Login</a>
+		  		<br/>
+		  		<a href="register">Register</a>
+		  	<%	
+		  		}
+		     %>
+		</div>	
+		
+		<div id="footerPanel">
+		   footer		
+  	    </div>
+   
+  	
+  </body>
+</html>
