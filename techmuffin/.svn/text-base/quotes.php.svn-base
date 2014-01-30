@@ -1,0 +1,166 @@
+<?php 
+   	session_start();
+   	require_once('config.php');
+   	require_once('util/common/common.php');
+    require_once("util/mysql/dbutil.php");
+  
+    $status = getSiteStatus();
+    if($status != 'Running'){
+    	header("Location: downpage.php");
+    }
+    
+   	if(isset($_GET["quoteId"]) && $_GET["quoteId"] != ""){
+   		$quoteId = $_GET["quoteId"];
+   		$currentQuote = loadQuoteById($quoteId);
+   	}else{
+   		$currentQuote = loadCurrentQuote();
+   	}
+   	
+   	$currentQuoteId = $currentQuote["quoteid"];
+   	$minQuoteId = getMinQuoteId();
+   	$maxQuoteId = getMaxQuoteId();
+   	$minCaptionId = getMinCaptionId($currentQuoteId);
+   	$maxCaptionid = getMaxCaptionId($currentQuoteId);
+   	
+    $statements = null;
+    $randStatement = "";
+   	$quoteId = "";
+   	$quoteImg = "";
+   	$Quotes = array();
+   	$currentCaptionId = 0;
+   	$statements = array();
+   	$captionIds = "";
+   	$captions = "";
+   	
+   	if(isset($currentQuote)){
+   		$quoteId = $currentQuote["quoteid"];
+   		$quoteName = $currentQuote["name"];
+   		$quoteDescription = $currentQuote["description"];
+   		$quoteImg = "quotes/pics/" . $currentQuote["filename"];
+   		$Quotes = loadAllQuotes($quoteId, "quotes");
+   		$statements = getStatementsForQuote($quoteId);
+   		if($statements != null){
+   			$numStatements = count($statements);
+   			$captionId = rand(0, $numStatements - 1);
+   			$randStatement = $statements[$captionId]["quote"];
+   			$currentCaptionId = $statements[$captionId]["id"];
+   			$i = 0;
+
+   			foreach($statements as $key => $value){
+   				if($i > 0){
+   					$captionIds .= ",";
+   					$captions .= ",";
+   				}
+   				$captionIds .=  $statements[$i]["id"];
+   				$captions .= "'" . $statements[$i]["quote"] . "'";
+   				$i = $i + 1;
+   			}
+   		}
+   	} 
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
+  <title><?php echo TITLE;?></title>
+  <script type="text/javascript" src="scripts/public_scripts.js"></script>
+  <script language="javascript">
+      function updateCaption(){
+
+  		  var captions = [<?php echo $captions;?>];
+		  var captionIds = [<?php echo $captionIds;?>];
+  		  var currentId = document.getElementById('captionId').value;
+          var nextId = 0;
+          var nextCaption = "";
+          var size = <?php echo count($captions);?>
+          
+          for(var i = 0; i < captionIds.length; i++)
+          {
+              if(captionIds[i] == currentId){
+				  if(i < captionIds.length - 1){
+					  document.getElementById('captionId').value = captionIds[i+1];
+					  document.getElementById('caption').innerHTML = "<h5>" + captions[i+1] + "</h5>";
+				  }else{
+					  document.getElementById('captionId').value = captionIds[0];
+					  document.getElementById('caption').innerHTML = "<h5>" + captions[0] + "</h5>";
+				  }
+				  break;
+              }
+          }
+          
+	      setTimeout("updateCaption()", 4000);
+      }
+  </script>
+</head>
+<body onload="javascript:updateCaption()">
+    	
+	<!-- Center Panel -->
+	<div id="centerPanel">
+		
+	<!-- Title Panel -->
+	<?php include_once("includes/titlebar.php"); ?>
+	
+	<!-- Main nav -->
+	<?php include_once("includes/mainnav.php"); ?>
+		
+		<div id="workspace" >
+			<?php 
+				if($quoteImg != ""){
+					
+			?>
+				<form>
+					<input type="hidden" id="captionId" value="<?php echo $currentCaptionId;?>"/>
+				</form>
+				<div id="quote">
+					<h2>Today's Quote</h2>
+					<div class="arrows">
+			    		<?php 
+			    			if($quoteId > $minQuoteId){
+			    				$targetQuoteId = $quoteId - 1;	
+			    		?>
+			    		<a href="quotes.php?quoteId=<?php echo "$targetQuoteId";?>">
+			    			<img src="images/leftarrow_white.png"/>
+			    		</a>
+			    		<?php }
+			    			if($quoteId < $maxQuoteId){
+			    			    $targetQuoteId = $quoteId + 1;
+			    		?>
+			    			<a href="quotes.php?quoteId=<?php echo "$targetQuoteId";?>">
+			    			<img src="images/rightarrow_white.png"/>
+			    		</a>
+			    		<?php }?>
+			    		
+			    		<a href="javascript:addQuoteForm('<?php echo $quoteId; ?>')">Add A Caption.</a>
+			    	</div>
+			    	<br/>
+					<p>
+						<img src="<?php print("$quoteImg");?>"/>
+						<div id="caption">
+							<h5>
+								<?php if($randStatement != ""){ 
+									echo "\"" . $randStatement . "\"";
+								}?>
+							</h5>
+						</div>			    		
+					</p>
+				</div>
+			<?php 
+				}
+			?>
+			<div id="emailToFriend">
+			
+			</div>
+			<div id="comments">
+				<div id="addQuoteForm"></div>
+			</div>
+			
+			
+	    </div>	
+		
+	<?php include_once("includes/footer.php");?>
+			
+</div>
+			
+</body>
+</html>

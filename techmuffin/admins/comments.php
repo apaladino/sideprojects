@@ -1,0 +1,119 @@
+<?php
+	session_start();
+   	require_once('../config.php');
+   	require_once(ROOT_PATH . 'util/common/common.php');
+   	require_once(ROOT_PATH . "util/mysql/dbutil.php");
+   	require_once("loginCheck.php");
+   	
+   	$message = "";
+   	
+   	
+   if($_POST['comicId']){
+   		$commentIds = array();
+   		$comicId = $_POST["comicId"];
+   		$i = 0;
+   		foreach( $_POST as $key => $value){
+   			$idCheck = strpos($key, 'commentid_');
+   			if($idCheck >= 0 && $value == "on"){
+   				$commentIds[$i] = str_replace("commentid_", "", $key);
+   			}
+   			$i++;
+   		}
+   		
+   		if(count($commentIds) > 0){
+   			$result = deleteComments($commentIds, $comicId);
+   			if($result == "SUCCESS"){
+   				$message = "Comments successfully deleted.";
+   			}else{
+   				$message = $result;
+   			}
+   		}else{
+   			echo "No comments selected.";
+   		}
+   	}
+   	
+   	$comics = loadAllComics();   	
+?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  <script language="javascript">
+  	function loadCommentsForm(){
+		var comicSelect = document.getElementById("comicsToUpdate");
+		loadComments(comicSelect.value);
+  	}
+
+  	function loadComments(comicId)
+  	{
+	  	if (comicId.length==0){
+	  	  document.getElementById("comicInfo").innerHTML="?";
+	  	  return;
+	  	}
+	  	if (window.XMLHttpRequest){
+		  	// code for IE7+, Firefox, Chrome, Opera, Safari
+	  	  	xmlhttp=new XMLHttpRequest();
+	  	}else{
+		  	// code for IE6, IE5
+	  	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  	}
+
+	  	xmlhttp.onreadystatechange=function(){
+	  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+	  	    	document.getElementById("comicInfo").innerHTML=xmlhttp.responseText;
+	  	    }
+	  	  }
+	  	  
+	  	xmlhttp.open("GET","getAjaxInfo.php?function=loadCommentsForm&comicId="+comicId,true);
+	  	xmlhttp.send();
+  	}
+  </script>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <link rel="stylesheet" type="text/css" href="../css/mainStyle.css">
+  <title>TechMuffin! Administrator</title>
+</head>
+<body>
+    	
+	<!-- Center Panel -->
+	<div id="centerPanel">
+		
+		<!-- Title Panel -->
+		<div>
+		  <span>
+		  	<p><h2>Select a Comic to update view its comments</h2></p>
+		  </span>
+		</div>
+		
+		<?php include("includes/adminNav.php");?>
+
+		<div class="workspace" >
+			<p><h3>Select Comic.</h3></p>
+			<p><h4><?php print $message;?></h4>
+			<hr>
+			<p>
+			
+			<?php 
+				if(isset($comics)){  
+			?>
+				<form>
+					<input type="hidden" id="action" name="action" value="update"/>			
+					<select id="comicsToUpdate" name="comicsToUpdate" onChange="javascript:loadCommentsForm()">
+
+					<?php 
+						foreach( $comics as $key => $value){ 
+					    	echo "<option value=\"" . $value["comicid"] . "\">" . $value["comicname"] . "</option>";
+				   		} 
+					?> 
+					</select> 
+				</form>
+				 
+				<div id="comicInfo">
+				    	
+				</div>
+			<?php 
+				}
+			?>
+			</p>
+		</div>	
+</body>
+</html>
