@@ -1,0 +1,149 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %> - Workspace</title>
+    <link rel="stylesheet" href="stylesheets/foundation.css" />
+    <script src="javascripts/vendor/jquery.js"></script>
+    <script src="javascripts/foundation/foundation.js"></script>
+    <script src="javascripts/foundation/foundation.reveal.js"></script>
+	<script type="text/javascript" src="javascripts/knockout-3.0.0.js"></script>
+  </head>
+  <body>
+ 
+  <div class="row"> 
+  	 <div class="section.left-small">
+  	 <p>
+  	 	You are currently logged in as <strong><%=user.username%></strong>
+  	 	<span class="right">
+  	 		<a href="/logout">Log Out</a>
+  	 	</span>
+  	 </p>
+  	 </div>
+	
+  	 <div class="large-3 medium-3 columns">
+			<div class="row">
+			<ul id="connections" class="pricing-table">
+			<li class="description">
+				<p>Connections </p>
+				<a href="#" data-reveal-id="addConnectionModal" class="radius button tiny">Add a connection</a>
+			</li>
+			<span id="connectionLinks">
+			<% 
+				if(user.connections && user.connections.length > 0){
+					for(var i=0; i < user.connections.length; i++){
+			%>
+				<li class="bullet-item">
+					<a id='<%=user.connections[i].name%>' href='#'>
+						<%= user.connections[i].name %>
+					</a>
+				</li>
+			<%
+					} // end for loop
+				}// end if block
+			%>
+			</span>
+			</ul>
+			<img src="images/snapshotlogo.jpg"/>
+			</div>
+		</div>
+		
+		<div class="large-9 medium 9 columns">
+			<div id="addConnectionSuccessMessage" data-alert class="alert-box success radius large-9 medium 9 columns">
+			  New Connection Created.
+			  <a href="#" class="close">&times;</a>
+			</div>
+			
+			<div id="workspace" class="panel">
+			<p>This is a simple tool to take and compare snapshots of an Oracle.</p>
+			<p>This will allow you to map out what tables are affected by a given application user flow.</p>
+			<p>
+				<h6>Steps</h6>
+				<ul>
+					<li>Create a DB connection</li>
+					<li>Take a snapshot</li>
+					<li>Perform an action in the application associated with the DB connection</li>
+					<li>Take another snapshot</li>
+					<li>select two snapshots and diff them to see what which tables have been affected</li>
+			</p>
+			</div>
+		</div>
+	</div>
+	
+	<div id="addConnectionModal" class="reveal-modal tiny" data-reveal>
+	  <h3>Add an Oracle connection.</h3>
+	  <p>Please enter the Oracle connection information</p>
+	  <form>
+	  	  <label>Connection Name:</label>
+	  	  <input type="text" name="connectionName" data-bind="value: connectionName"/>
+	  	  <label>Url: &nbsp;jdbc:oracle:thin:@//server-address:1521/sid</label>
+	  	  <input type="text" name="url" data-bind="value: url"/>
+	      <label>Username:</label>
+	      <input type="text" name="username" data-bind="value: userName"/>
+	      <label>Password:</label>
+	      <input type="password" name="password" data-bind="value: password"/>
+	      <input type="button"	 data-bind="click: save" value="Save"/>
+	  </form>
+	  <a class="close-reveal-modal">&#215;</a>
+	</div>
+
+	
+	 <script>
+	    $(document).foundation();
+	    $('#addConnectionSuccessMessage').hide();
+	    
+    	$(document).ready(function(){
+    		
+    		$("#connectionLinks a").click(function() {
+            	$.ajax({
+
+		    	     type: "GET",
+		    	     url: '/connection/workspace',
+		    	     data: "id=" + $(this).attr("id"), 
+		    	     success: function(data) {
+		    	    	 $("#workspace").show();
+		    	         $('#workspace').html(data);
+		    	     }
+		    	   });
+            	
+            	return false;
+        	});
+    	});
+	  </script>
+	 
+	 <script type='text/javascript'>
+	 /*<![CDATA[*/
+	 	var ConnectionModel = function(connections) {
+	     var self = this;
+	     self.connectionName = ko.observable("");
+	     self.url = ko.observable("");
+	     self.userName = ko.observable("");
+	     self.password = ko.observable("");
+	     self.save = function(form) {
+	    	 
+	    	 var connection = self.connectionName();
+	    	 var url = self.url();
+	    	 var userName = self.userName();
+	    	 var password = self.password();
+	    	 
+	    	 $.post("/connections", { connectionName: connection, url: url, 
+	    		 userName: userName, password: password}).done(
+	    		 function(data){
+	    			 var con = data;
+	    			 $('#connections').append('<li class="bullet-item">' + con.name + '</li>');
+	    			 $('#addConnectionModal').foundation('reveal','close');
+	    			 $('#addConnectionSuccessMessage').show().fadeOut(2600,function(){ $(this).remove(); });;
+	    		 });
+	         
+	     }; // end save function
+	 
+	 };
+	  
+	 ko.applyBindings(new ConnectionModel());
+	  
+	 /*]]>*/
+	 </script>
+
+  </body>
+</html>

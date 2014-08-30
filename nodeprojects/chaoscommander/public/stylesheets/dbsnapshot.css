@@ -1,0 +1,11 @@
+.dbtitlebar {
+	padding: 5px;
+}
+.added{
+    font-size: 14px;
+    color: green;
+}
+.removed{
+    font-size: 14px;
+    color: red;
+}

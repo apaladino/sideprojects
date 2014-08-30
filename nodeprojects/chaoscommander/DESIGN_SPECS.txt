@@ -1,0 +1,105 @@
+-- Links: http://www.cyberciti.biz/tips/linux-iptables-examples.html
+
+
+
+------------------------------------------------------------------------------------------
+--
+-- User
+-- 		
+--
+------------------------------------------------------------------------------------------
+UserName - user name
+Password - password
+List<Service> - list of services managed by user.
+
+
+------------------------------------------------------------------------------------------
+--
+-- Service
+-- 		
+--
+------------------------------------------------------------------------------------------
+Service ID - service _id
+Name - descriptive name of service
+hostname - host name or IP address
+Service name - linux service name (service <service-name> start/stop)
+Start Command - linux full service start command (sudo /opt/ec/broker/bin/brokerctl start)
+Stop Command - linux full service start command (sudo /opt/ec/broker/bin/brokerctl stop)
+Log directory - (Optonal - TBD)
+ServiceStatus - Service status
+List<Policy> Policys -  List of Policys to be applied to a service
+
+
+------------------------------------------------------------------------------------------
+--
+-- Policy : Disrupt Service
+--
+--    ex: # sudo service <service_name> stop
+--
+------------------------------------------------------------------------------------------
+Policy ID - Policy _id
+Enabled - enabled flag
+Service - service to stop
+BeginTime - Time the Policy began to be applied to a service
+DownDelay - Time duration the Policy is applied to a service
+Frequency - Cron Frequency of how often the Policy is applied to a service
+
+------------------------------------------------------------------------------------------
+--
+-- Policy : Block Incoming IP Address
+--
+--    ex: # iptables -A INPUT -s 192.168.0.0/24 -j DROP
+--
+------------------------------------------------------------------------------------------
+Policy ID - Policy _id
+Enabled - enabled flag
+TargetIP - target IP address
+BeginTime - Time the Policy began to be applied to a service
+DownDelay - Time duration the Policy is applied to a service
+Frequency - Cron Frequency of how often the Policy is applied to a service
+
+------------------------------------------------------------------------------------------
+--
+-- Policy : Block Outgoing IP Address
+--
+--    ex: # iptables -A OUTPUT -d 75.126.153.206 -j DROP
+--
+------------------------------------------------------------------------------------------
+Policy ID - Policy _id
+Enabled - enabled flag
+TargetIP - target IP address
+BeginTime - Time the Policy began to be applied to a service
+DownDelay - Time duration the Policy is applied to a service
+Frequency - Cron Frequency of how often the Policy is applied to a service
+
+------------------------------------------------------------------------------------------
+--
+-- Policy : Block Incoming PORT Requests
+--
+--    ex: # iptables -A INPUT -p tcp --dport 80 -j DROP
+--		  # iptables -A INPUT -i eth1 -p tcp --dport 80 -j DROP
+--
+------------------------------------------------------------------------------------------
+Policy ID - Policy _id
+Enabled - enabled flag
+TargetIP - (Optional) target IP address. If empty will block port for all requests
+BeginTime - Time the Policy began to be applied to a service
+DownDelay - Time duration the Policy is applied to a service
+Frequency - Cron Frequency of how often the Policy is applied to a service
+
+
+------------------------------------------------------------------------------------------
+--
+-- Policy Event
+--
+--    Logs when a Policy was applied to a service
+--
+------------------------------------------------------------------------------------------
+Policy - Policy applied
+Service - service Policy applied to
+StartTime - Policy start time 
+EndTime -  Policy end time
+Duration - Time duration Policy was applied to service
+
+
+

@@ -1,0 +1,98 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snapshot Diff</title>
+    <link rel="stylesheet" href="stylesheets/foundation.css" />
+    <link rel="stylesheet" href="stylesheets/dbsnapshot.css" />
+    <style>
+    	.added{
+		    font-size: 16px;
+		    color: green;
+		    font-weight: bold;
+		    
+		}
+		.removed{
+		    font-size: 16px;
+		    color: red;
+		    font-weight: bold;
+		}
+    </style>
+    <script src="javascripts/vendor/jquery.js"></script>
+    <script src="javascripts/foundation/foundation.js"></script>
+    <script src="javascripts/foundation/foundation.reveal.js"></script>
+	<script type="text/javascript" src="javascripts/knockout-3.0.0.js"></script>
+  </head>
+  <body>
+ 
+  <div class="row"> 
+  	<div class="panel">
+		<h5>DB Snapshot :<%=id1%> - <%=id2%></h5> 
+		
+		<hr/>
+		<%
+		for(var i=0;i < tableDiffs.length; i++){
+			var table = tableDiffs[i];
+        %>
+        	<div class="row">
+        	<p>
+        		<h4><%=tableDiffs[i].tableName%></h4>
+        	<table>
+        	<tr><td>
+        <%
+			
+			for(var j=0; j < table.diffs.length; j++){
+				var diff = table.diffs[j];
+				
+				
+				%>
+				
+				<%
+					if(diff.added){
+						
+				%>	
+				<span class="added">
+				
+				<%
+					} // end if block
+					
+					var valueArr = diff.value.split('*END*');
+					for( var k=0; k < valueArr.length; k++){
+					
+						var val = valueArr[k];
+						
+				%>
+				
+					<%= val %>
+				
+				<%
+					}
+					if(diff.added || diff.removed){
+						
+				%>
+					</span>
+				<%
+					}
+				%>
+				
+				<%
+					break;
+				}
+        
+        %>
+        </tr></td>
+        </table>
+        </p>
+        </div>
+        <%
+			}
+			
+		%>
+		
+	</div>	
+  </div>
+
+
+  </body>
+</html>

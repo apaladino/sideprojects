@@ -1,0 +1,38 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="stylesheets/foundation.css" />
+    <script src="javascripts/vendor/modernizr.js"></script>
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="javascripts/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="row">
+<div class="medium-9 columns">
+	<h4><%= title %> - Login</h4>
+</div>
+</div>
+
+<div class="row">
+<div class="medium-6 columns">
+	<div class="panel">
+		<p class="lead">Please enter your username and password here.</p>
+	<br>
+	<form action="/login" method="post">
+        <label>Username:</label>
+        <input type="text" name="username"/>
+        <label>Password:</label>
+        <input type="password" name="password"/>
+        <input type="submit" value="Log In"/>
+    </form>
+	</div>
+</div>
+</div>
+
+
+</body>
+</html>
