@@ -24,19 +24,19 @@
 	
   	 <div class="large-3 medium-3 columns">
 			<div class="row">
-			<ul id="connections" class="pricing-table">
+			<ul id="services" class="pricing-table">
 			<li class="description">
-				<p>Connections </p>
-				<a href="#" data-reveal-id="addConnectionModal" class="radius button tiny">Add a connection</a>
+				<p>Services </p>
+				<a href="#" data-reveal-id="addServiceModal" class="radius button tiny">Add a service</a>
 			</li>
-			<span id="connectionLinks">
+			<span id="serviceLinks">
 			<% 
-				if(user.connections && user.connections.length > 0){
-					for(var i=0; i < user.connections.length; i++){
+				if(user.services && user.services.length > 0){
+					for(var i=0; i < user.services.length; i++){
 			%>
 				<li class="bullet-item">
-					<a id='<%=user.connections[i].name%>' href='#'>
-						<%= user.connections[i].name %>
+					<a id='<%=user.services[i].name%>' href='#'>
+						<%= user.services[i].name %>
 					</a>
 				</li>
 			<%
@@ -50,39 +50,45 @@
 		</div>
 		
 		<div class="large-9 medium 9 columns">
-			<div id="addConnectionSuccessMessage" data-alert class="alert-box success radius large-9 medium 9 columns">
-			  New Connection Created.
+			<div id="addServiceSuccessMessage" data-alert class="alert-box success radius large-9 medium 9 columns">
+			  New Service Created.
 			  <a href="#" class="close">&times;</a>
 			</div>
 			
 			<div id="workspace" class="panel">
-			<p>This is a simple tool to take and compare snapshots of an Oracle.</p>
-			<p>This will allow you to map out what tables are affected by a given application user flow.</p>
 			<p>
-				<h6>Steps</h6>
+			   This is a simple tool to perform targeted network degredation for
+			   a particular service. For each monitored service that you add, you 
+			   can define one or more network degredation policies which can be 
+			   applied at pre-defined intervals.			   
+			</p>
+			<p>
+				<h6>
+					Netork Degredation Policies:
+				</h6>
 				<ul>
-					<li>Create a DB connection</li>
-					<li>Take a snapshot</li>
-					<li>Perform an action in the application associated with the DB connection</li>
-					<li>Take another snapshot</li>
-					<li>select two snapshots and diff them to see what which tables have been affected</li>
+					<li>Disrupt Service - Stop service on a particular host for a period of time.</li>
+					<li>Block Incoming IP Address - Blocks incoming requests from a particular IP address.</li>
+					<li>Block Outgoing IP Address - Blocks outgoing requests to a particular IP address.</li>
+					<li>Block Incoming Port - Blocks incoming requests for a particular port.</li>
+					<li>Block Outgoing Port - Blocks outgoing requests for a particular port.</li>
 			</p>
 			</div>
 		</div>
 	</div>
 	
-	<div id="addConnectionModal" class="reveal-modal tiny" data-reveal>
-	  <h3>Add an Oracle connection.</h3>
-	  <p>Please enter the Oracle connection information</p>
+	<div id="addServiceModal" class="reveal-modal tiny" data-reveal>
+	  <h3>Add a service to monitor.</h3>
+	  <p>Please enter the service host information</p>
 	  <form>
-	  	  <label>Connection Name:</label>
-	  	  <input type="text" name="connectionName" data-bind="value: connectionName"/>
-	  	  <label>Url: &nbsp;jdbc:oracle:thin:@//server-address:1521/sid</label>
-	  	  <input type="text" name="url" data-bind="value: url"/>
-	      <label>Username:</label>
-	      <input type="text" name="username" data-bind="value: userName"/>
-	      <label>Password:</label>
-	      <input type="password" name="password" data-bind="value: password"/>
+	  	  <label>Service Title: descriptive name of service</label>
+	  	  <input type="text" name="serviceTitle" data-bind="value: serviceTitle"/>
+	  	  <label>HostName: host name or IP address</label>
+	  	  <input type="text" name="hostName" data-bind="value: hostName"/>
+	      <label>Start Command: linux full service start command (sudo /opt/ec/broker/bin/brokerctl start)</label>
+	      <input type="text" name="startCommand" data-bind="value: startCommand"/>
+	      <label>Start Command: linux full service start command (sudo /opt/ec/broker/bin/brokerctl start)</label>
+	      <input type="text" name="stopCommand" data-bind="value: stopCommand"/>
 	      <input type="button"	 data-bind="click: save" value="Save"/>
 	  </form>
 	  <a class="close-reveal-modal">&#215;</a>
@@ -91,15 +97,15 @@
 	
 	 <script>
 	    $(document).foundation();
-	    $('#addConnectionSuccessMessage').hide();
+	    $('#addServiceSuccessMessage').hide();
 	    
     	$(document).ready(function(){
     		
-    		$("#connectionLinks a").click(function() {
+    		$("#serviceLinks a").click(function() {
             	$.ajax({
 
 		    	     type: "GET",
-		    	     url: '/connection/workspace',
+		    	     hostName: '/connection/workspace',
 		    	     data: "id=" + $(this).attr("id"), 
 		    	     success: function(data) {
 		    	    	 $("#workspace").show();
@@ -114,33 +120,34 @@
 	 
 	 <script type='text/javascript'>
 	 /*<![CDATA[*/
-	 	var ConnectionModel = function(connections) {
+	 	var ServiceModel = function(services) {
 	     var self = this;
-	     self.connectionName = ko.observable("");
-	     self.url = ko.observable("");
-	     self.userName = ko.observable("");
-	     self.password = ko.observable("");
+	     self.serviceTitle = ko.observable("");
+	     self.hostName = ko.observable("");
+	     self.startCommand = ko.observable("");
+	     self.stopCommand = ko.observable("");
 	     self.save = function(form) {
 	    	 
-	    	 var connection = self.connectionName();
-	    	 var url = self.url();
-	    	 var userName = self.userName();
-	    	 var password = self.password();
+	    	 var serviceTitle = self.serviceTitle();
+	    	 var hostName = self.hostName();
+	    	 var startCommand = self.startCommand();
+	    	 var stopCommand = self.stopCommand();
 	    	 
-	    	 $.post("/connections", { connectionName: connection, url: url, 
-	    		 userName: userName, password: password}).done(
+	    	 $.post("/services", { serviceTitle: serviceTitle, hostName: hostName, 
+	    		 startCommand: startCommand,
+	    		 stopCommand: stopCommand}).done(
 	    		 function(data){
 	    			 var con = data;
-	    			 $('#connections').append('<li class="bullet-item">' + con.name + '</li>');
-	    			 $('#addConnectionModal').foundation('reveal','close');
-	    			 $('#addConnectionSuccessMessage').show().fadeOut(2600,function(){ $(this).remove(); });;
+	    			 $('#services').append('<li class="bullet-item">' + con.name + '</li>');
+	    			 $('#addServiceModal').foundation('reveal','close');
+	    			 $('#addServiceSuccessMessage').show().fadeOut(2600,function(){ $(this).remove(); });;
 	    		 });
 	         
 	     }; // end save function
 	 
 	 };
 	  
-	 ko.applyBindings(new ConnectionModel());
+	 ko.applyBindings(new ServiceModel());
 	  
 	 /*]]>*/
 	 </script>
