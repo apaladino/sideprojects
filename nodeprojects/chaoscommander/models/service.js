@@ -2,13 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var Service = new Schema({
+var ServiceSchema = new Schema({
+	_accountKey : { type: String, ref: 'Account' },
     title: String,
     host: String,
-    serviceName: String,
     startCommand: String,
-    stopCommand: String
+    stopCommand: String,
+    policies : [{ type: Schema.Types.ObjectId, ref: 'Policy' }]
 });
 
 
-module.export = mongoose.model('Service', Service);
+module.exports = mongoose.model('Service', ServiceSchema);

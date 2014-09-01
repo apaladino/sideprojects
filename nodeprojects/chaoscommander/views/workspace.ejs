@@ -31,12 +31,12 @@
 			</li>
 			<span id="serviceLinks">
 			<% 
-				if(user.services && user.services.length > 0){
-					for(var i=0; i < user.services.length; i++){
+				if(services && services.length > 0){
+					for(var i=0; i < services.length; i++){
 			%>
 				<li class="bullet-item">
-					<a id='<%=user.services[i].name%>' href='#'>
-						<%= user.services[i].name %>
+					<a id='<%=services[i].title%>' href='/services/workspace?id=<%=services[i]._id%>'>
+						<%= services[i].title %>
 					</a>
 				</li>
 			<%
@@ -55,7 +55,7 @@
 			  <a href="#" class="close">&times;</a>
 			</div>
 			
-			<div id="workspace" class="panel">
+			<div id="workspace" style="padding-left: 5px; padding-right: 5px; border: 1px solid #dddddd">
 			<p>
 			   This is a simple tool to perform targeted network degredation for
 			   a particular service. For each monitored service that you add, you 
@@ -102,11 +102,12 @@
     	$(document).ready(function(){
     		
     		$("#serviceLinks a").click(function() {
+    			
+    			console.log("making request: " + $(this).attr("href"));
             	$.ajax({
 
 		    	     type: "GET",
-		    	     hostName: '/connection/workspace',
-		    	     data: "id=" + $(this).attr("id"), 
+		    	     url: $(this).attr("href"),
 		    	     success: function(data) {
 		    	    	 $("#workspace").show();
 		    	         $('#workspace').html(data);

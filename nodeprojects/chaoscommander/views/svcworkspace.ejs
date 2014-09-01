@@ -1,0 +1,26 @@
+<div class="row" id="snapshotsDiv"> 
+	<div id="connWorkspaceErrMsg" class="alert-box alert radius" data-alert=""></div>
+	<div id="connWorkspaceSuccessMsg" class="alert-box success radius" data-alert=""></div>
+	<div id="connWorkspaceInfoMsg" class="alert-box radius" data-alert=""></div>
+	<% 
+		if( typeof service != "undefined"){
+			
+	%>
+		<%= JSON.stringify(service) %>
+		
+	<%
+		}
+	%>
+	
+	<script>
+	
+	$(document).ready(function(){
+		$('#connWorkspaceSuccessMsg').hide();
+		$('#connWorkspaceErrMsg').hide();
+		$('#connWorkspaceInfoMsg').hide();
+		
+	});
+
+	
+	</script>
+</div>

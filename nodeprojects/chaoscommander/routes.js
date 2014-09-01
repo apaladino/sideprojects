@@ -1,10 +1,11 @@
 var passport = require('passport');
 var Account = require('./models/account');
+var Service = require('./models/service');
+var Policy = require('./models/policy');
 var Connection = require('./models/connection');
 var fs = require('fs');
 var _exec = require('child_process').exec;
 var title = 'Chaos Commander';
-var Service = require('./models/service');
 
 module.exports = function(app) {
 
@@ -71,10 +72,30 @@ module.exports = function(app) {
 			return;
 		}
 
-		res.render('workspace', {
-			user : req.user,
-			'title' : title
-		});
+		console.log("test" + typeof req.user.services);
+		
+		if(typeof req.user.services != "undefined"){
+			Account
+			.findOne({ _id: req.user._id })
+			.populate('services')
+			.exec(function (err, account) {
+				console.log("Looking up user services");
+				res.render('workspace', {
+					user : req.user,
+					services : account.services,
+					'title' : title
+				});
+			});
+		}else{
+			res.render('workspace', {
+				user : req.user,
+				services : [],
+				'title' : title
+			});
+		}
+		
+		
+			
 	});
 
 	app.get('/login', function(req, res) {
@@ -100,21 +121,20 @@ module.exports = function(app) {
                 + JSON.stringify(req.body) + ", userkey: "
                 + JSON.stringify(req.user));
 
-        console.log("Service: " + Service);
-
         var serviceTitle = req.body.serviceTitle;
         var hostName = req.body.hostName;
-        var serviceName = req.body.serviceName;
         var startCommand = req.body.startCommand;
         var stopCommand = req.body.stopCommand;
-
+        var userKey = req.user._id;
+        
         var service = new Service({
-            _accountKey : req.user._id,
+            _accountKey : userKey,
             title : serviceTitle,
             host : hostName,
             startCommand : startCommand,
             stopCommand : stopCommand
         });
+       
         service.save(function(err) {
             if (err) {
                 console.log("unable to save service.");
@@ -130,24 +150,20 @@ module.exports = function(app) {
     app.get('/services/workspace', function(req, res) {
 
         try{
-            var connectionName = req.query.id;
-            var prefix = connectionName;
-            var snapshotsDir =  __dirname + '/snapshots/'
-            var dir = snapshotsDir + '/' + req.user.username + '/' + connectionName + '/';
-
-            // look up the snapshots for this connection
-            var files = fs.readdirSync( dir);
-            files.sort(function(a, b) {
-                return fs.statSync(dir + a).mtime.getTime()
-                        - fs.statSync(dir + b).mtime.getTime();
-            });
-
-            res.render('connworkspace', {
-                user : req.user,
-                'connectionid' : connectionName,
-                'filePrefix' : prefix,
-                'files' : files
-            });
+        	var serviceId = req.query.id;
+            console.log("Looking up service information for serviceId: " + serviceId);
+            
+            Service
+			.findOne({ _id: serviceId })
+			.populate('policies')
+			.exec(function (err, service) {
+				res.render('svcworkspace', {
+	                user : req.user,
+	                'serviceId' : serviceId,
+	                'service' : service
+	            });
+			});
+            
         }catch(err){
             console.log(err);
             res.send(err);
