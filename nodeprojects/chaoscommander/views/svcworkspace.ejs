@@ -1,4 +1,4 @@
-<div class="row" id="snapshotsDiv"> 
+<div> 
 	<div id="connWorkspaceErrMsg" class="alert-box alert radius" data-alert=""></div>
 	<div id="connWorkspaceSuccessMsg" class="alert-box success radius" data-alert=""></div>
 	<div id="connWorkspaceInfoMsg" class="alert-box radius" data-alert=""></div>
@@ -6,7 +6,62 @@
 		if( typeof service != "undefined"){
 			
 	%>
-		<%= JSON.stringify(service) %>
+			<fieldset style="margin-top:1%">
+				<legend><%=service.title%></legend>
+				<span class="right">
+	  	 			<a href="/logout">Delete Service</a>
+	  	 		</span>
+				<form>
+					<div class="row">
+						<span class="left">
+							<a href="/editstuff">Edit Settings</a>
+						</span>
+						<span class="left" style="margin-left:10%">
+				      		<a href="/logs">View Activity</a>
+				      		</span>
+					</div>
+				
+				</form>
+				
+				<div class="row">
+					<h5>Policies</h5>
+					<table>
+					<thead>
+						<tr>
+							<th width="200">Policy</th>
+							<th>Description</th>
+							<th>Enabled</th>
+							<th>Duration</th>
+							<th>Frequency</th>
+							<th>Delete Policy</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Policy 1</td>
+							<td>does bad stuff to your service</td>
+							<td><input type="checkbox"></td>
+							<td>120 Seconds</td>
+							<td>*** 0/5</td>
+							<td>
+								<input type="checkbox">
+							</td>
+						</tr>
+						<tr>
+						<td>Policy 2</td>
+						<td>does more bad stuff to your service</td>
+						<td><input type="checkbox"></td>
+						<td>120 Seconds</td>
+						<td>*** 0/5</td>
+						<td>
+							<input type="checkbox">
+						</td
+					</tr>
+					</tbody>
+				</table>
+				</div>
+				
+			</fieldset>
 		
 	<%
 		}
