@@ -1,7 +1,7 @@
 <div> 
-	<div id="connWorkspaceErrMsg" class="alert-box alert radius" data-alert=""></div>
-	<div id="connWorkspaceSuccessMsg" class="alert-box success radius" data-alert=""></div>
-	<div id="connWorkspaceInfoMsg" class="alert-box radius" data-alert=""></div>
+	<div id="svcWorkspaceErrMsg" class="alert-box alert radius" data-alert=""></div>
+	<div id="svcWorkspaceSuccessMsg" class="alert-box success radius" data-alert=""></div>
+	<div id="svcWorkspaceInfoMsg" class="alert-box radius" data-alert=""></div>
 	<% 
 		if( typeof service != "undefined"){
 			
@@ -9,18 +9,34 @@
 			<fieldset style="margin-top:1%">
 				<legend><%=service.title%></legend>
 				<span class="right">
-	  	 			<a href="/logout">Delete Service</a>
+	  	 			<a href="/services/delete?serviceId=<%=service._id%>"
+	  	 				onclick="return confirm('Are you sure?')">Delete Service</a>
 	  	 		</span>
 				<form>
 					<div class="row">
 						<span class="left">
-							<a href="/editstuff">Edit Settings</a>
+							<a href="#" data-reveal-id="editServiceDiv">Edit Settings</a>
+						</span>
+						<span class="left" style="margin-left:10%">
+							<a href="/addPolicy">Add Policy</a>
 						</span>
 						<span class="left" style="margin-left:10%">
 				      		<a href="/logs">View Activity</a>
-				      		</span>
+				      	</span>
+				      	
 					</div>
-				
+					<hr/>
+					<div class="row">
+							<% 
+								var serviceStatus = "Disabled";
+								if(service.enabled){
+									serviceStatus = 'Enabled';
+								}
+							%>
+							<br/>
+							<strong>Service Status:</strong> <%=serviceStatus%> 
+						
+					</div>
 				</form>
 				
 				<div class="row">
@@ -67,15 +83,83 @@
 		}
 	%>
 	
+	<div id="editServiceDiv" class="reveal-modal tiny" data-reveal>
+	  <h3>Edit Service Settings.</h3>
+	  <form>
+	  	  <label class="left">Enabled</label> &nbsp;&nbsp;
+	  	  <input type="checkbox" name="svcEnabled" data-bind="checked:enabled"/>
+	  	  <label style="margin-left:0px">Service Title: descriptive name of service</label>
+	  	  <input type="text" name="serviceTitle" data-bind="value: serviceTitle"/>
+	  	  <label>HostName: host name or IP address</label>
+	  	  <input type="text" name="hostName" data-bind="value: hostName"/>
+	      <label>Start Command: linux full service start command (sudo /opt/ec/broker/bin/brokerctl start)</label>
+	      <input type="text" name="startCommand" data-bind="value: startCommand"/>
+	      <label>Start Command: linux full service start command (sudo /opt/ec/broker/bin/brokerctl start)</label>
+	      <input type="text" name="stopCommand" data-bind="value: stopCommand"/>
+	      <input type="button"	 data-bind="click: save" value="Save"/>
+	  </form>
+	  <a class="close-reveal-modal">&#215;</a>
+	</div>
+	
 	<script>
-	
-	$(document).ready(function(){
-		$('#connWorkspaceSuccessMsg').hide();
-		$('#connWorkspaceErrMsg').hide();
-		$('#connWorkspaceInfoMsg').hide();
-		
-	});
-
-	
+		$(document).ready(function(){
+			$(document).foundation();
+			$('#svcWorkspaceSuccessMsg').hide();
+			$('#svcWorkspaceErrMsg').hide();
+			$('#svcWorkspaceInfoMsg').hide();
+			
+		});
 	</script>
+
+	<script type='text/javascript'>
+	 /*<![CDATA[*/
+	 	var EditServiceModel = function(services) {
+	     var self = this;
+	     self.serviceTitle = ko.observable("<%=service.title%>");
+	     self.hostName = ko.observable("<%=service.host%>");
+	     self.startCommand = ko.observable("<%=service.startCommand%>");
+	     self.stopCommand = ko.observable("<%=service.stopCommand%>");
+	     self.enabled = ko.observable(<%=service.enabled%>);
+	     self.save = function(form) {
+	    	 
+	    	 var serviceTitle = self.serviceTitle();
+	    	 var hostName = self.hostName();
+	    	 var startCommand = self.startCommand();
+	    	 var stopCommand = self.stopCommand();
+	    	 
+	    	 $.post("/services/settings", {
+	    		 serviceId: "<%=service._id%>",
+	    		 serviceTitle: serviceTitle, 
+	    		 hostName: hostName, 
+	    		 startCommand: startCommand,
+	    		 stopCommand: stopCommand,
+	    		 enabled: self.enabled()}).done(
+	    		 function(data){
+	    			if(typeof data != "undefined" && data.startsWith("ERROR:")){
+	    				$('#svcWorkspaceErrMsg').foundation('reveal','close');
+	    				$('#svcWorkspaceErrMsg').text(data).show().fadeOut(3600,function(){ $(this).remove(); });;
+	    		    	
+	    			}else{
+	    				$('#editServiceDiv').foundation('reveal','close');
+	    				$('#svcWorkspaceSuccessMsg')
+	    					.text(data)
+	    					.show()
+	    					.fadeOut(5000,function(){
+	    						$(this).remove();
+	    							location.reload();
+	    						});;
+	
+	    			}
+	    			
+	    		 });
+	         
+	     }; // end save function
+	 
+	 };
+	  
+	 ko.applyBindings(new EditServiceModel(), document.getElementById('editServiceDiv'));
+	  
+	 /*]]>*/
+	 </script>
+
 </div>

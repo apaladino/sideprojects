@@ -12,7 +12,7 @@
     <script src="javascripts/foundation/foundation.reveal.js"></script>
 	<script type="text/javascript" src="javascripts/knockout-3.0.0.js"></script>
   </head>
-  <body>
+  <body class="background">
  
   <div class="row"> 
   	 <div class="section.left-small">
@@ -141,7 +141,7 @@
 	    		 stopCommand: stopCommand}).done(
 	    		 function(data){
 	    			 var con = data;
-	    			 $('#services').append('<li class="bullet-item">' + con.name + '</li>');
+	    			 $('#services').append('<li class="bullet-item">' + con.title + '</li>');
 	    			 $('#addServiceModal').foundation('reveal','close');
 	    			 $('#addServiceSuccessMessage').show().fadeOut(2600,function(){ $(this).remove(); });;
 	    		 });
@@ -150,7 +150,7 @@
 	 
 	 };
 	  
-	 ko.applyBindings(new ServiceModel());
+	 ko.applyBindings(new ServiceModel(), document.getElementById('addServiceModal'));
 	  
 	 /*]]>*/
 	 </script>
