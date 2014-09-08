@@ -8,6 +8,7 @@ var ServiceSchema = new Schema({
     host: String,
     startCommand: String,
     stopCommand: String,
+    enabled: Boolean,
     policies : [{ type: Schema.Types.ObjectId, ref: 'Policy' }]
 });
 

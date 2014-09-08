@@ -72,8 +72,6 @@ module.exports = function(app) {
 			return;
 		}
 
-		console.log("test" + typeof req.user.services);
-		
 		if(typeof req.user.services != "undefined"){
 			Account
 			.findOne({ _id: req.user._id })
@@ -116,8 +114,39 @@ module.exports = function(app) {
 		res.redirect('/');
 	});
 
+	app.get('/services/delete', function(req, res){
+		console.log("Delte service request received: " +
+				JSON.stringify(req.query));
+		
+
+        try{
+        	var serviceId = req.query.serviceId;
+            console.log("Looking up service information for serviceId: " + serviceId);
+            
+            Service
+			.findOne({ _id: serviceId })
+			.populate('policies')
+			.remove(function (err, service) {
+				if(err){
+					console.log("Error deleting service. " + 
+							JSON.stringify(err));
+					
+				}
+				res.redirect('/workspace');
+			});
+           
+            
+        }catch(err){
+            console.log(err);
+            res.send(err);
+        }
+
+
+		
+	});
+	
     app.post('/services', function(req, res) {
-        console.log('Create service request revieved: '
+        console.log('Create service request received: '
                 + JSON.stringify(req.body) + ", userkey: "
                 + JSON.stringify(req.user));
 
@@ -132,7 +161,8 @@ module.exports = function(app) {
             title : serviceTitle,
             host : hostName,
             startCommand : startCommand,
-            stopCommand : stopCommand
+            stopCommand : stopCommand,
+            enabled : true
         });
        
         service.save(function(err) {
@@ -146,6 +176,37 @@ module.exports = function(app) {
         res.send(service);
 
     });
+    
+
+    app.post('/services/settings', function(req, res) {
+        console.log('Edit service settings request received: '
+                + JSON.stringify(req.body) + ", userkey: "
+                + JSON.stringify(req.user));
+
+        var serviceId = req.body.serviceId;
+        var serviceTitle = req.body.serviceTitle;
+        var hostName = req.body.hostName;
+        var startCommand = req.body.startCommand;
+        var stopCommand = req.body.stopCommand;
+        var enabled = req.body.enabled;
+        
+        Service.update({_id: serviceId}, {
+        	title: serviceTitle,
+        	host: hostName,
+        	startCommand: startCommand,
+        	stopCommand: stopCommand,
+        	enabled: enabled
+        }, function(err, numberAffected, rawResponse){
+        	if(err){
+        		console.log("Unable to update service settings: " + err);
+        		res.send("ERROR: " + err);
+        	}else{
+        		res.send("Service Settings Have Been Successfully Edited.");
+        	}
+        });
+        
+    });
+
 
     app.get('/services/workspace', function(req, res) {
 
@@ -157,6 +218,9 @@ module.exports = function(app) {
 			.findOne({ _id: serviceId })
 			.populate('policies')
 			.exec(function (err, service) {
+				if(typeof service.enabled == 'undefined'){
+					service.enabled=true;
+				}
 				res.render('svcworkspace', {
 	                user : req.user,
 	                'serviceId' : serviceId,
