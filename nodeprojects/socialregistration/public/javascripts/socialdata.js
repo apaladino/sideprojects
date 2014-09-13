@@ -2,6 +2,7 @@
     		
 var AddRegistrantModel = function() {
     			var self = this;
+    			self.id = ko.observable("");
     			self.firstName = ko.observable("");
     			self.lastName = ko.observable("");
     			self.email = ko.observable("");
@@ -10,7 +11,25 @@ var AddRegistrantModel = function() {
     			self.eventStartTime = ko.observable("");
     			self.eventEndTime = ko.observable("");
     			
+    			self.getRegistrantByID = function(form){
+    				$('#getRegistrantByIDResults').text("");
+    				
+    				$.ajax({
+    					url : '/registrant/' + self.id(),
+    			        type: 'GET',
+    			        success: function(data){
+    			        	$('#getRegistrantByIDResults').html(data);
+    			        },
+    			        error:function (xhr, ajaxOptions, thrownError){
+    			    		$('#getRegistrantByIDErrMsg').text(xhr.responseText)
+    			    			.show().fadeOut(3600,function(){ $(this).remove(); });
+    			        }
+    				});
+    			};
+    			
     			self.getRegistrantByEmail = function(form) {
+    				$('#getRegistrantResults').text("");
+    				
     				$.ajax({
     					url : '/registrant?email=' + self.email(),
     			        type: 'GET',

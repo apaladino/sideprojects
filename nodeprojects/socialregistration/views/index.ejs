@@ -46,6 +46,9 @@
     	
       		<div style="width:450px">
 		      	<h3>Add Registrant</h3>
+		      	<p>
+          		<em>(POSt /registrant )</em>
+          	</p>
 		    	<form>
 		    	    <div class="row">
 		    	      <div class="large-6 columns">
@@ -95,11 +98,32 @@
 			</div>
       	</div>
       	
-      	<div id="getRegistrantDiv" class="row panel columns" style="float: left; clear: right">
+
+      	<div id="getRegistrantByIDDiv" class="row panel columns" style="float: left; clear: right">
+      		<div id="getRegistrantByIDErrMsg" class="alert-box alert radius" data-alert=""></div>
+  		
+	      	<div class="large-12 columns">
+	          	<h3>Get Registrant By ID</h3>
+	          	<p>
+	          		<em>(GET /registrant/reg_id )</em>
+	          	</p>
+	        	<form>
+	        		<label>Please enter registrant ID</label>
+	        		<input type="text" data-bind="value: id"/>
+	        		<input type="button" value="Get Registrant" data-bind="click: getRegistrantByID"/>
+	        	</form>
+	    	</div>
+	    	<div id="getRegistrantByIDResults"></div>
+    	</div>
+    	
+      	<div id="getRegistrantByEmailDiv" class="row panel columns" style="float: left; clear: right">
       		<div id="getRegistrantByEmailErrMsg" class="alert-box alert radius" data-alert=""></div>
   		
-	      	<div style="max-width: 250px">
-	          	<h3>Get Registrant</h3>
+	      	<div class="large-12 columns">
+	          	<h3>Get Registrant By Email</h3>
+	          	<p>
+	          		<em>(GET /registrant?email=...)</em>
+	          	</p>
 	        	<form>
 	        		<label>Please enter registrant email</label>
 	        		<input type="text" data-bind="value: email"/>
@@ -115,7 +139,9 @@
 		<ul class="side-nav">
 			<li><div class="medium-6" style="border-bottom: 1px solid black; padding: 5px; widht:100%">API</div></li>
 			<li><a id="addRegistrantLink" href="#">Add Registrant</a></li>
-			<li><a id="getRegistrantLink" href="#">Get Registrant By Email</a></li>
+			<li><a id="getRegistrantByIDLink" href="#">Get Registrant By ID</a></li>
+			<li><a id="getRegistrantByEmailLink" href="#">Get Registrant By Email</a></li>
+			
 	    </ul>
     </div>
   </div>
@@ -126,20 +152,35 @@
   		$('#addRegistrantSuccessMsg').hide();
   		$('#addRegistrantErrMsg').hide();
   		$('#errorMsgDiv').hide();
-  		$('#getRegistrantDiv').hide();
+  		$('#getRegistrantByEmailDiv').hide();
   		$('#getRegistrantByEmailErrMsg').hide();
+  		$('#getRegistrantByIDDiv').hide();
+  		$('#getRegistrantByIDErrMsg').hide();
   	});
   	
   	$('#addRegistrantLink').click(function(){
   		$('#infoDiv').hide();
+  		$('#getRegistrantByIDDiv').hide();
+  		$('#getRegistrantByEmailDiv').hide();
   		$('#addRegistrantDiv').show();
   	});
   	
-  	$('#getRegistrantLink').click(function(){
+  	$('#getRegistrantByEmailLink').click(function(){
   		$('#infoDiv').hide();
-  		$('#getRegistrantDiv').show();
+  		$('#errorMsgDiv').hide();
+  		$('#addRegistrantDiv').hide();
+  		$('#getRegistrantByEmailDiv').show();
+  		$('#getRegistrantByIDDiv').hide();
   	});
   	
+  	$('#getRegistrantByIDLink').click(function(){
+  		$('#infoDiv').hide();
+  		$('#errorMsgDiv').hide();
+  		$('#addRegistrantDiv').hide();
+  		$('#getRegistrantByEmailDiv').hide();
+  		$('#getRegistrantByEmailErrMsg').hide();
+  		$('#getRegistrantByIDDiv').show();
+  	})
 
   </script>
 </body>

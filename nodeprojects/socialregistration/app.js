@@ -19,6 +19,7 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
@@ -35,6 +36,7 @@ mongoose.connect('mongodb://localhost/chaoscommanderdb');
 
 app.get('/', routes.index);
 app.post('/registrant', registrant.addRegistrant);
+app.get('/registrant/:reg_id', registrant.getRegistrantByID);
 app.get('/registrant', registrant.getRegistrant);
 
 http.createServer(app).listen(app.get('port'), function(){

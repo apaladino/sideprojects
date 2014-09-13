@@ -1,6 +1,31 @@
 var Registrant = require('../models/registrant');
 var Event = require('../models/event');
 
+exports.getRegistrantByID = function(req, res){
+	console.log("GET /registrant/reg_id " + req.params.reg_id);
+	
+	var regId = req.params.reg_id;
+	
+	Registrant.findOne({ '_id': regId })
+		.populate('events')
+		.exec(function (err, registrant) {
+		  if (err){
+			  res.send("Unexpected error: " + err);
+		  }
+		  
+		  console.log("registrant: " + JSON.stringify(registrant));
+		  
+		  if((!registrant) || typeof registrant == "undefined"){
+			  res.status(404);
+			  res.send("Error: Registrant: " + email + " not found.");
+		  }else{
+			  res.status(200);
+			  res.send(JSON.stringify(registrant));
+		  }
+		  
+		});
+}
+
 exports.getRegistrant = function(req, res){
 	
 	console.log("GET /registrant " + JSON.stringify(req.query));
@@ -8,7 +33,7 @@ exports.getRegistrant = function(req, res){
 	var email = req.query.email;
 	
 	Registrant.findOne({ 'email': email })
-		.populate('_event')
+		.populate('events')
 		.exec(function (err, registrant) {
 		  if (err){
 			  res.send("Unexpected error: " + err);
