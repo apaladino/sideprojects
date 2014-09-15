@@ -36,8 +36,11 @@ mongoose.connect('mongodb://localhost/chaoscommanderdb');
 
 app.get('/', routes.index);
 app.post('/registrant', registrant.addRegistrant);
+app.post('/registrant/linkedin', registrant.registerWithLinkedIn);
 app.get('/registrant/:reg_id', registrant.getRegistrantByID);
 app.get('/registrant', registrant.getRegistrant);
+app.get('/rest/linkedin/authenticate', registrant.authenticateLinkedInUser);
+app.get('/rest/linkedin/register', registrant.registerLinkedInUser);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

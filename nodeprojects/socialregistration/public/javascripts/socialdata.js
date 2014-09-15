@@ -1,5 +1,60 @@
 /*<![CDATA[*/
     		
+var RegisterWithLinkedInModel = function(){
+	var self = this;
+	self.eventId = ko.observable("");
+	self.eventTitle = ko.observable("");
+	self.eventStartTime = ko.observable("");
+	self.eventEndTime = ko.observable("");
+	
+	self.registerWithLinkedIn = function(){
+		
+  		
+		IN.UI.Authorize().params({"scope":["r_basicprofile", "r_emailaddress"]}).place();
+
+  		IN.Event.on(IN, 'auth', function () {
+  		IN.API.Profile("me")
+  		.fields("id,firstName,lastName,emailAddress,summary,industry,positions,picture-url")
+  		.result(function (me) {
+  		
+  		var profile = me.values[0];
+  		var firstName = profile.firstName;
+  		var lastName = profile.lastName;
+  		var email = profile.emailAddress;
+  		var pictureUrl = profile.pictureUrl;
+  		
+	  	$.ajax({
+			url : '/registrant/linkedin',
+			data: { eventId : self.eventId(),
+				eventTitle : self.eventTitle(),
+				eventStartTime : self.eventStartTime(),
+				eventEndTime : self.eventEndTime(),
+				firstName : firstName,
+				lastName : lastName,
+				email : email,
+				pictureUrl : pictureUrl,
+				profile: profile},
+		    type: 'POST',
+		    success: function(data){
+		        	if(data && data.lastIndexOf("Error:", 0) === 0){
+		        		var errMsg = data.substring(6);
+		        		$('#registerWithLinkedInErrMsg').text(errMsg).show().fadeOut(3600,function(){ $(this).remove(); });
+		        	}else{
+		        		$('#registerWithLinkedInResults').text(data).show().fadeOut(3600,function(){ 
+		        			$(this).remove();
+		        			$('#registerWithLinkedInDiv').fadeOut(2000, function(){
+		        				$('#infoDiv').show();
+		        			}); 
+		        			});
+		        	}
+		        }
+			});
+  		
+  		});
+  		});
+		
+	};
+};
 var AddRegistrantModel = function() {
     			var self = this;
     			self.id = ko.observable("");
@@ -75,7 +130,8 @@ var AddRegistrantModel = function() {
     		};
     		
 $(document).ready(function(){    		
-	ko.applyBindings(new AddRegistrantModel());
+	ko.applyBindings(new AddRegistrantModel(), addRegistrantsSpan);
+	ko.applyBindings(new RegisterWithLinkedInModel(), registerWithLinkedInDiv);
 	
 });
     	/*]]>*/

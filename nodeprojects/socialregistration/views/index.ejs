@@ -9,7 +9,11 @@
 	<script src="javascripts/jquery-1.4.2.min.js"></script>
 	<script src="javascripts/knockout-3.0.0.js"></script>
 	<script src="javascripts/socialdata.js"></script>
-</head>
+	<script type="text/javascript" src="https://platform.linkedin.com/in.js">
+	  api_key: 750c8k09ptha6k
+	</script>
+
+	</head>
 <body>
 	
 
@@ -39,115 +43,159 @@
 	      </p>
       	</div>
       	
-     
-      	<div id="addRegistrantDiv" class="row panel columns" style="float: left; clear: right">
-      		<div id="addRegistrantErrMsg" class="alert-box alert radius" data-alert=""></div>
-      		<div id="addRegistrantSuccessMsg" class="alert-box success radius" data-alert=""></div>
-    	
-      		<div style="width:450px">
-		      	<h3>Add Registrant</h3>
-		      	<p>
-          		<em>(POSt /registrant )</em>
-          	</p>
-		    	<form>
-		    	    <div class="row">
-		    	      <div class="large-6 columns">
-		    	      	<label>First Name</label>
-		    	        <input type="text" data-bind="value: firstName" placeholder="First Name">
-		    	      </div>
-		    	     <div class="large-6 columns">
-		    	      <label>Last Name</label>
-			    		<input type="text" data-bind="value: lastName" placeholder="Last Name">
-		    	      </div>
-		    	    </div>
-		    	    <div class="row">
-		    	      <div class="large-12 columns">
-		    	      	<label>Email Address</label>
-			    		<input type="text" data-bind="value: email"  placeholder="Email Address">
-		    	      </div>
-		    	    </div>
-		    	    <hr/>
-		    	    <h6>(Optional) Event</h6>
-		    	    <div class="row">
-		    	    	<div class="small-3 columns">
-		    	    		<label>Event ID</label>
-		    	    		<input type="text" data-bind="value: eventId" placeholder="Event ID">
-		    	    	</div>
-		    	    	<div class="small-9 columns">
-		    	    		<label>Event Title</label>
-		    	    		<input type="text" data-bind="value: eventTitle" placeholder="Event Title">
-		    	    	</div>
+        <div id="registerWithLinkedInDiv" class="row panel large-9 columns">
+        	<div id="registerWithLinkedInErrMsg" class="alert-box alert radius" data-alert=""></div>
+        	<div class="large-12 columns">
+        		<h3>Example Attendee - Register For an event with LinkedIn</h3>
+        		<form>
+        		<h6>(Optional) Event</h6>
+	    	    <div class="row">
+	    	    	<div class="small-3 columns">
+	    	    		<label>Event ID</label>
+	    	    		<input type="text" data-bind="value: eventId" placeholder="Event ID">
 	    	    	</div>
-	    	    	<div class="row">
-	    	    		<div class="small-4 columns">
-	    	    			<label>Start Date</label>
-	    	    			<input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
-	    	    		</div>
-	    	    		<div class="small-4 columns left">
-	    	    			<label>End Date</label>
-	    	    			<input type="text" data-bind="value: eventEndTime" placeholder="End Time">
-	    	    		</div>
+	    	    </div>
+	    	    <div class="row">
+	    	    	<div class="small-9 columns">
+	    	    		<label>Event Title</label>
+	    	    		<input type="text" data-bind="value: eventTitle" placeholder="Event Title">
 	    	    	</div>
+    	    	</div>
+    	    	<div class="row">
+    	    		<div class="small-4 columns">
+    	    			<label>Start Date</label>
+    	    			<input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
+    	    		</div>
+    	    		<div class="small-4 columns left">
+    	    			<label>End Date</label>
+    	    			<input type="text" data-bind="value: eventEndTime" placeholder="End Time">
+    	    		</div>
+    	    	</div>
+	    	    
 		    	    <div class="row">
 		    	      <div class="small-3 columns">
-		    	      <input type="button" value="Save" data-bind="click: addRegistrantSave"/>
+		    	      <input type="button" value="Register With Your Linked In Account" data-bind="click: registerWithLinkedIn"/>
 		    	      </div>
 		    	    </div>
-		    	    
-		    	</form>
-			</div>
-      	</div>
-      	
-
-      	<div id="getRegistrantByIDDiv" class="row panel columns" style="float: left; clear: right">
-      		<div id="getRegistrantByIDErrMsg" class="alert-box alert radius" data-alert=""></div>
-  		
-	      	<div class="large-12 columns">
-	          	<h3>Get Registrant By ID</h3>
-	          	<p>
-	          		<em>(GET /registrant/reg_id )</em>
+        		</form>
+        	</div>
+        	<div id="registerWithLinkedInResults"></div>
+        </div>
+        
+        <span id="addRegistrantsSpan">
+	      	<div id="addRegistrantDiv" class="row panel columns" style="float: left; clear: right">
+	      		<div id="addRegistrantErrMsg" class="alert-box alert radius" data-alert=""></div>
+	      		<div id="addRegistrantSuccessMsg" class="alert-box success radius" data-alert=""></div>
+	    	
+	      		<div style="width:450px">
+			      	<h3>Add Registrant</h3>
+			      	<p>
+	          		<em>(POSt /registrant )</em>
 	          	</p>
-	        	<form>
-	        		<label>Please enter registrant ID</label>
-	        		<input type="text" data-bind="value: id"/>
-	        		<input type="button" value="Get Registrant" data-bind="click: getRegistrantByID"/>
-	        	</form>
+			    	<form>
+			    	    <div class="row">
+			    	      <div class="large-6 columns">
+			    	      	<label>First Name</label>
+			    	        <input type="text" data-bind="value: firstName" placeholder="First Name">
+			    	      </div>
+			    	     <div class="large-6 columns">
+			    	      <label>Last Name</label>
+				    		<input type="text" data-bind="value: lastName" placeholder="Last Name">
+			    	      </div>
+			    	    </div>
+			    	    <div class="row">
+			    	      <div class="large-12 columns">
+			    	      	<label>Email Address</label>
+				    		<input type="text" data-bind="value: email"  placeholder="Email Address">
+			    	      </div>
+			    	    </div>
+			    	    <hr/>
+			    	    <h6>(Optional) Event</h6>
+			    	    <div class="row">
+			    	    	<div class="small-3 columns">
+			    	    		<label>Event ID</label>
+			    	    		<input type="text" data-bind="value: eventId" placeholder="Event ID">
+			    	    	</div>
+			    	    	<div class="small-9 columns">
+			    	    		<label>Event Title</label>
+			    	    		<input type="text" data-bind="value: eventTitle" placeholder="Event Title">
+			    	    	</div>
+		    	    	</div>
+		    	    	<div class="row">
+		    	    		<div class="small-4 columns">
+		    	    			<label>Start Date</label>
+		    	    			<input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
+		    	    		</div>
+		    	    		<div class="small-4 columns left">
+		    	    			<label>End Date</label>
+		    	    			<input type="text" data-bind="value: eventEndTime" placeholder="End Time">
+		    	    		</div>
+		    	    	</div>
+			    	    <div class="row">
+			    	      <div class="small-3 columns">
+			    	      <input type="button" value="Save" data-bind="click: addRegistrantSave"/>
+			    	      </div>
+			    	    </div>
+			    	    
+			    	</form>
+				</div>
+	      	</div>
+	      	
+	
+	      	<div id="getRegistrantByIDDiv" class="row panel columns" style="float: left; clear: right">
+	      		<div id="getRegistrantByIDErrMsg" class="alert-box alert radius" data-alert=""></div>
+	  		
+		      	<div class="large-12 columns">
+		          	<h3>Get Registrant By ID</h3>
+		          	<p>
+		          		<em>(GET /registrant/reg_id )</em>
+		          	</p>
+		        	<form>
+		        		<label>Please enter registrant ID</label>
+		        		<input type="text" data-bind="value: id"/>
+		        		<input type="button" value="Get Registrant" data-bind="click: getRegistrantByID"/>
+		        	</form>
+		    	</div>
+		    	<div id="getRegistrantByIDResults"></div>
 	    	</div>
-	    	<div id="getRegistrantByIDResults"></div>
-    	</div>
-    	
-      	<div id="getRegistrantByEmailDiv" class="row panel columns" style="float: left; clear: right">
-      		<div id="getRegistrantByEmailErrMsg" class="alert-box alert radius" data-alert=""></div>
-  		
-	      	<div class="large-12 columns">
-	          	<h3>Get Registrant By Email</h3>
-	          	<p>
-	          		<em>(GET /registrant?email=...)</em>
-	          	</p>
-	        	<form>
-	        		<label>Please enter registrant email</label>
-	        		<input type="text" data-bind="value: email"/>
-	        		<input type="button" value="Get Registrant" data-bind="click: getRegistrantByEmail"/>
-	        	</form>
+	    	
+	      	<div id="getRegistrantByEmailDiv" class="row panel columns" style="float: left; clear: right">
+	      		<div id="getRegistrantByEmailErrMsg" class="alert-box alert radius" data-alert=""></div>
+	  		
+		      	<div class="large-12 columns">
+		          	<h3>Get Registrant By Email</h3>
+		          	<p>
+		          		<em>(GET /registrant?email=...)</em>
+		          	</p>
+		        	<form>
+		        		<label>Please enter registrant email</label>
+		        		<input type="text" data-bind="value: email"/>
+		        		<input type="button" value="Get Registrant" data-bind="click: getRegistrantByEmail"/>
+		        	</form>
+		    	</div>
+		    	<div id="getRegistrantResults"></div>
 	    	</div>
-	    	<div id="getRegistrantResults"></div>
-    	</div>
-    </div>
-    
+	    </div>
+    </span>
     <!-- Nav Sidebar -->
     <div class="large-3 pull-9 columns">
 		<ul class="side-nav">
-			<li><div class="medium-6" style="border-bottom: 1px solid black; padding: 5px; widht:100%">API</div></li>
+			<li><div class="medium-6" style="border-bottom: 1px solid black; padding: 5px; widht:100%">API Methods</div></li>
 			<li><a id="addRegistrantLink" href="#">Add Registrant</a></li>
 			<li><a id="getRegistrantByIDLink" href="#">Get Registrant By ID</a></li>
 			<li><a id="getRegistrantByEmailLink" href="#">Get Registrant By Email</a></li>
-			
+			<li><div class="medium-6" style="border-bottom: 1px solid black; padding: 5px; widht:100%">Test Pages</div></li>
+			<li><a id="registerWithLinkedInLink" href="#">Register with Linkedin Account</a></li>
 	    </ul>
     </div>
   </div>
-    
+   
+  
+  
+
   <script type="text/javascript">
-  	$(document).ready(function(){
+  	function hideAll(){
+  		$('#infoDiv').hide();
   		$('#addRegistrantDiv').hide();
   		$('#addRegistrantSuccessMsg').hide();
   		$('#addRegistrantErrMsg').hide();
@@ -156,29 +204,32 @@
   		$('#getRegistrantByEmailErrMsg').hide();
   		$('#getRegistrantByIDDiv').hide();
   		$('#getRegistrantByIDErrMsg').hide();
+  		$('#registerWithLinkedInDiv').hide();
+  		$('#registerWithLinkedInErrMsg').hide();
+  	}
+  	$(document).ready(function(){
+  		hideAll();
+  		$('#infoDiv').show();  			
+  	});
+  	
+  	$('#registerWithLinkedInLink').click(function(){
+  		hideAll();
+  		$('#registerWithLinkedInDiv').show();
+  		
   	});
   	
   	$('#addRegistrantLink').click(function(){
-  		$('#infoDiv').hide();
-  		$('#getRegistrantByIDDiv').hide();
-  		$('#getRegistrantByEmailDiv').hide();
+  		hideAll();
   		$('#addRegistrantDiv').show();
   	});
   	
   	$('#getRegistrantByEmailLink').click(function(){
-  		$('#infoDiv').hide();
-  		$('#errorMsgDiv').hide();
-  		$('#addRegistrantDiv').hide();
+  		hideAll();
   		$('#getRegistrantByEmailDiv').show();
-  		$('#getRegistrantByIDDiv').hide();
   	});
   	
   	$('#getRegistrantByIDLink').click(function(){
-  		$('#infoDiv').hide();
-  		$('#errorMsgDiv').hide();
-  		$('#addRegistrantDiv').hide();
-  		$('#getRegistrantByEmailDiv').hide();
-  		$('#getRegistrantByEmailErrMsg').hide();
+  		hideAll();
   		$('#getRegistrantByIDDiv').show();
   	})
 

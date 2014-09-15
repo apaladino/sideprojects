@@ -10,7 +10,8 @@ var RegistrantSchema = new Schema({
     firstname: String,
     lastName: String,
     email: String,
-    events : [{ type: Schema.Types.ObjectId, ref: 'Event' }]
+    events : [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+    linkedInProfile : [{type: Schema.Types.ObjectId, ref: 'LinkedInProfile'}]
 });
 
 
