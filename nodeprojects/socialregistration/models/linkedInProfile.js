@@ -7,7 +7,12 @@ var Schema = mongoose.Schema;
 
 var LinkedInProfileSchema = new Schema({
 	_registrantKey : { type: String, ref: 'Registrant' },
-    profile: Object
+    emailAddress : String,
+    firstName : String,
+    lastName : String,
+    pictureUrl : String,
+    summary : String,
+    positions: [{type: Schema.Types.ObjectId, ref: 'LinkedInCompanyProfile'}]
 });
 
 

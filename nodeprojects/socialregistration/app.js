@@ -31,7 +31,7 @@ if ('development' == app.get('env')) {
 }
 
 //mongoose
-mongoose.connect('mongodb://localhost/chaoscommanderdb');
+mongoose.connect('mongodb://localhost/socialregdb');
 
 
 app.get('/', routes.index);

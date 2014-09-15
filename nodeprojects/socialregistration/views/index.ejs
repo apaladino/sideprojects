@@ -173,7 +173,26 @@
 		        		<input type="button" value="Get Registrant" data-bind="click: getRegistrantByEmail"/>
 		        	</form>
 		    	</div>
-		    	<div id="getRegistrantResults"></div>
+		    	<div id="getRegistrantResultsJSON"></div>
+                <div id="getRegistrantResults" class="row">
+                    <hr/>
+                    <h6>Retrieved Results</h6>
+                    <form>
+                        <div class="row" style="margin-left: 5px">
+                            <div class="small-2 columns">
+                                <img id="profilePic"/>
+                            </div>
+                            <div class="small-2 columns left">
+                                <label>firstName</label>
+                                <input type="text" id="firstNameTxt"/>
+                            </div>
+                            <div class="small-2 columns left">
+                                <label>lastName</label>
+                                <input type="text" id="lastNameTxt"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 	    	</div>
 	    </div>
     </span>
@@ -200,6 +219,7 @@
   		$('#addRegistrantSuccessMsg').hide();
   		$('#addRegistrantErrMsg').hide();
   		$('#errorMsgDiv').hide();
+        $('#getRegistrantResults').hide();
   		$('#getRegistrantByEmailDiv').hide();
   		$('#getRegistrantByEmailErrMsg').hide();
   		$('#getRegistrantByIDDiv').hide();

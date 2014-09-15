@@ -83,13 +83,17 @@ var AddRegistrantModel = function() {
     			};
     			
     			self.getRegistrantByEmail = function(form) {
-    				$('#getRegistrantResults').text("");
-    				
+
     				$.ajax({
     					url : '/registrant?email=' + self.email(),
     			        type: 'GET',
     			        success: function(data){
-    			        		$('#getRegistrantResults').html(data);
+                            var registrant = JSON.parse(data);
+                            $('#getRegistrantResultsJSON').html("<h5>JSON Response</h5> <br/>" + data);
+                            $('#firstNameTxt').val(registrant.firstname);
+                            $('#lastNameTxt').val(registrant.lastName);
+                            $('#profilePic').attr("src", registrant.linkedInProfile.pictureUrl);
+                            $('#getRegistrantResults').show();
     			        },
     			        error:function (xhr, ajaxOptions, thrownError){
     			    		$('#getRegistrantByEmailErrMsg').text(xhr.responseText)

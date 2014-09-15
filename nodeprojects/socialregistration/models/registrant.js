@@ -6,12 +6,11 @@ var Schema = mongoose.Schema;
 
 
 var RegistrantSchema = new Schema({
-	_registrantKey : { type: String, ref: 'Registrant' },
-    firstname: String,
+	firstname: String,
     lastName: String,
     email: String,
     events : [{ type: Schema.Types.ObjectId, ref: 'Event' }],
-    linkedInProfile : [{type: Schema.Types.ObjectId, ref: 'LinkedInProfile'}]
+    linkedInProfile : {type: Schema.Types.ObjectId, ref: 'LinkedInProfile'}
 });
 
 
