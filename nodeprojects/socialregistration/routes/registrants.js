@@ -62,6 +62,27 @@ exports.registerWithLinkedIn = function (req, res) {
                         newRegistrant.linkedInProfile = theirProfile;
 
                         if (eventId && eventTitle) {
+
+                            // look up the event so see if it exists already and if so
+                            // add the user to the event
+                            Event.findOne({'eventId':eventId}).exec(function(err, event){
+                                if(err){
+                                    handleError("Unable to look up event by eventId. Error: " + err, res);
+                                }
+
+                                if(event && typeof event != "undefined"){
+                                    // event already exists
+                                    event.registrants.push(registrant);
+                                    event.save(function(err){
+                                        handleError("Unable to add registrant to existing event. Error: " + err, res);
+
+                                        console.log("Added registrant: " + email + " to event: " + eventTitle);
+                                        res.send("Added registrant: " + email + " to event: " + eventTitle);
+                                        return;
+                                    });
+                                }
+                            });
+
                             // optional event information supplied.
                             var newEvent = createNewEvent(newRegistrant._id, eventId, eventTitle, eventStartTime,
                                     eventEndTime);
@@ -103,7 +124,26 @@ exports.registerWithLinkedIn = function (req, res) {
                         // this event
                         //
 
-                        // TODO: Event.findOne({ 'eventId' : eventId}).
+                        // look up the event so see if it exists already and if so
+                        // add the user to the event
+                        Event.findOne({'eventId':eventId}).exec(function(err, event){
+                            if(err){
+                                handleError("Unable to look up event by eventId. Error: " + err, res);
+                            }
+
+                            if(event && typeof event != "undefined"){
+                                // event already exists
+                                event.registrants.push(registrant);
+                                event.save(function(err){
+                                    handleError("Unable to add registrant to existing event. Error: " + err, res);
+
+                                    console.log("Added registrant: " + email + " to event: " + eventTitle);
+                                    res.send("Added registrant: " + email + " to event: " + eventTitle);
+                                    return;
+                                });
+                            }
+
+                        });
 
                         // optional event information supplied.
                         console.log("creating new event.");

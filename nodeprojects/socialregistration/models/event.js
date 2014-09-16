@@ -10,7 +10,8 @@ var EventSchema = new Schema({
     eventId: Number,
     eventTitle: String,
     startTime: Date,
-    endTime: Date
+    endTime: Date,
+    registrants: [{ type: Schema.Types.ObjectId, ref: 'Registrant' }]
 });
 
 
