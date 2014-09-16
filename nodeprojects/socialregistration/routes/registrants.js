@@ -8,81 +8,6 @@ var SECRET_KEY = 'ECInL187WE272dAa';
 var request = require('request');
 var regIncludes = 'events linkedInProfile';
 
-function createNewRegistrant(firstName, lastName, email) {
-    return new Registrant({
-        firstname: firstName,
-        lastName: lastName,
-        email: email
-    });
-}
-
-function createNewEvent(registrantKey, eventId, eventTitle, startTime, endTime) {
-    return new Event({
-        _registrantKey: registrantKey,
-        eventId: eventId,
-        eventTitle: eventTitle,
-        startTime: startTime,
-        endTime: endTime
-    });
-}
-
-function createNewLinkedInProfile(registrantKey, profile) {
-    return new LinkedInProfile({
-        _registrantKey: registrantKey,
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        emailAddress: profile.emailAddress,
-        pictureUrl: profile.pictureUrl,
-        industry: profile.industry,
-        summary: profile.summary
-    });
-}
-
-function createLinkedInPositions(profileKey, profile) {
-
-    var positions = profile.positions.values;
-    var linkedInPositions = [];
-
-    var companyIds = [];
-
-    for (var i = 0; i < positions.length; i++) {
-
-        // check for duplicate company id
-
-        console.log("Position: " + JSON.stringify(positions[i].company));
-
-        var companyProfile = new LinkedInCompanyProfile({
-            _profileKey: profileKey,
-            industry: positions[i].company.industry,
-            name: positions[i].company.name,
-            size: positions[i].company.size,
-            ticker: positions[i].company.ticker,
-            type: positions[i].company.type,
-            isCurrent: positions[i].isCurrent,
-            startDate: positions[i].startDate,
-            title: positions[i].title,
-            summary: positions[i].summary
-        });
-        console.log("Saving profile");
-
-        companyProfile.save(function (err) {
-            if (err) {
-                console.log("Unable to save company profile. " + err);
-                return;
-            }
-
-        });
-
-        console.log("company profile saved. " + JSON.stringify(companyProfile));
-        linkedInPositions.push(companyProfile);
-
-        break;
-
-    }
-
-    return linkedInPositions;
-}
-
 exports.registerWithLinkedIn = function (req, res) {
     console.log("POST '/registrant/linkedin " + JSON.stringify(req.body));
 
@@ -102,7 +27,8 @@ exports.registerWithLinkedIn = function (req, res) {
         'email': email
     }).populate(regIncludes).exec(function (err, registrant) {
                 if (err) {
-                    res.send("Unexpected error: " + err);
+                    handleError("Unexpected error: " + err, res);
+                    return;
                 }
 
                 if ((!registrant) || typeof registrant == "undefined") {
@@ -113,9 +39,7 @@ exports.registerWithLinkedIn = function (req, res) {
 
                     newRegistrant.save(function (err) {
                         if (err) {
-                            console.log("Error saving registrant. Error: " + err);
-
-                            res.send("Error: unable to save registrant: " + email + ".");
+                            handleError("Error: unable to save registrant: " + email + ".", res);
                             return;
                         }
 
@@ -123,8 +47,7 @@ exports.registerWithLinkedIn = function (req, res) {
                         var theirProfile = createNewLinkedInProfile(newRegistrant._id, profile);
                         theirProfile.save(function (err) {
                             if (err) {
-                                console.log("Unable to save linkedIn profile. Error: " + err);
-                                res.send("Error: Unable to persist LinkedIn profile.");
+                                handleError("Unable to save linkedIn profile. Error: " + err, res);
                                 return;
                             }
                         });
@@ -147,8 +70,7 @@ exports.registerWithLinkedIn = function (req, res) {
                             console.log("Creating new event. ");
                             newEvent.save(function (err) {
                                 if (err) {
-                                    console.log("Error saving new event for registrant " + email + ". Error: " + err);
-                                    res.send("Error: registrant saved, but unable to add event.");
+                                    handleError("Error saving new event for registrant " + email + ". Error: " + err, res);
                                     return;
                                 }
                             });
@@ -173,15 +95,7 @@ exports.registerWithLinkedIn = function (req, res) {
                     }
 
                     // check to see if user already has registered for this particular event
-                    var isRegistered = false;
-                    if (registrant.events && registrant.events.length > 0) {
-                        for (var i = 0; i < registrant.events.length; i++) {
-                            if (registrant.events[i].eventId === eventId) {
-                                isRegistered = true;
-                                break;
-                            }
-                        }
-                    }
+                    var isRegistered = isUserRegisteredForEvent(registrant, eventId)
 
                     if (!isRegistered) {
                         //
@@ -193,22 +107,14 @@ exports.registerWithLinkedIn = function (req, res) {
 
                         // optional event information supplied.
                         console.log("creating new event.");
-                        var newEvent = new Event({
-                            _registrantKey: registrant._key,
-                            eventId: eventId,
-                            eventTitle: eventTitle,
-                            startTime: eventStartTime,
-                            endTime: eventEndTime
-                        });
+                        var nnewEvent = createNewEvent(egistrant._key, eventId, eventTitle, eventStartTime, eventEndTime);
 
                         // save new event
                         newEvent.save(function (err) {
                             if (err) {
-                                console.log("Error saving new event for registrant " + email + ". Error: " + err);
-                                res.send("Error: registrant saved, but unable to add event.");
+                                handleError("Error saving new event for registrant " + email + ". Error: " + err, res);
                                 return;
                             }
-
                         });
 
                         registrant.events.push(newEvent);
@@ -218,10 +124,11 @@ exports.registerWithLinkedIn = function (req, res) {
                             _registrantKey: registrant._key,
                             profile: profile
                         });
+
                         theirProfile.save(function (err) {
                             if (err) {
-                                console.log("Error saving linked in profile. Error: " + err);
-                                res.send("Error: registrant saved, but unable to add linkedIn profile");
+                                handleError("Error: registrant saved, but unable to add linkedIn profile. Error: "
+                                        + err, res);
                                 return;
                             }
 
@@ -454,3 +361,100 @@ exports.addRegistrant = function (req, res) {
     });
 
 };
+
+
+//
+// HELPER METHODS
+//
+function createNewRegistrant(firstName, lastName, email) {
+    return new Registrant({
+        firstname: firstName,
+        lastName: lastName,
+        email: email
+    });
+}
+
+function createNewEvent(registrantKey, eventId, eventTitle, startTime, endTime) {
+    return new Event({
+        _registrantKey: registrantKey,
+        eventId: eventId,
+        eventTitle: eventTitle,
+        startTime: startTime,
+        endTime: endTime
+    });
+}
+
+function createNewLinkedInProfile(registrantKey, profile) {
+    return new LinkedInProfile({
+        _registrantKey: registrantKey,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        emailAddress: profile.emailAddress,
+        pictureUrl: profile.pictureUrl,
+        industry: profile.industry,
+        summary: profile.summary
+    });
+}
+
+function createLinkedInPositions(profileKey, profile) {
+
+    var positions = profile.positions.values;
+    var linkedInPositions = [];
+
+    var companyIds = [];
+
+    for (var i = 0; i < positions.length; i++) {
+
+        // check for duplicate company id
+
+        console.log("Position: " + JSON.stringify(positions[i].company));
+
+        var companyProfile = new LinkedInCompanyProfile({
+            _profileKey: profileKey,
+            industry: positions[i].company.industry,
+            name: positions[i].company.name,
+            size: positions[i].company.size,
+            ticker: positions[i].company.ticker,
+            type: positions[i].company.type,
+            isCurrent: positions[i].isCurrent,
+            startDate: positions[i].startDate,
+            title: positions[i].title,
+            summary: positions[i].summary
+        });
+        console.log("Saving profile");
+
+        companyProfile.save(function (err) {
+            if (err) {
+                console.log("Unable to save company profile. " + err);
+                return;
+            }
+
+        });
+
+        console.log("company profile saved. " + JSON.stringify(companyProfile));
+        linkedInPositions.push(companyProfile);
+
+        break;
+
+    }
+
+    return linkedInPositions;
+}
+
+function isUserRegisteredForEvent(registrant, eventId){
+    var isRegistered = false;
+    if (registrant.events && registrant.events.length > 0) {
+        for (var i = 0; i < registrant.events.length; i++) {
+            if (registrant.events[i].eventId === eventId) {
+                isRegistered = true;
+                break;
+            }
+        }
+    }
+    return isRegistered;
+}
+
+function handleError(msg, res){
+    console.log(msg);
+    res.send(msg);
+}
