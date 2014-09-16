@@ -6,6 +6,7 @@ var expectedState = 'AP2014Maine';
 var API_KEY = '750c8k09ptha6k';
 var SECRET_KEY = 'ECInL187WE272dAa';
 var request = require('request');
+var regIncludes = 'events linkedInProfile';
 
 function createNewRegistrant(firstName, lastName, email) {
     return new Registrant({
@@ -97,7 +98,9 @@ exports.registerWithLinkedIn = function (req, res) {
 
     res.send("event: " + eventId + "<br/>" + JSON.stringify(profile));
 
-    Registrant.findOne({'email': email    }).populate('events').exec(function (err, registrant) {
+    Registrant.findOne({
+        'email': email
+    }).populate(regIncludes).exec(function (err, registrant) {
                 if (err) {
                     res.send("Unexpected error: " + err);
                 }
@@ -144,8 +147,7 @@ exports.registerWithLinkedIn = function (req, res) {
                             console.log("Creating new event. ");
                             newEvent.save(function (err) {
                                 if (err) {
-                                    console.log("Error saving new event for registrant " + email + ". Error: " +
-                                            err);
+                                    console.log("Error saving new event for registrant " + email + ". Error: " + err);
                                     res.send("Error: registrant saved, but unable to add event.");
                                     return;
                                 }
@@ -162,7 +164,8 @@ exports.registerWithLinkedIn = function (req, res) {
                     });
 
                 } else {
-                    console.log("Registrant: " + email + " already exists");
+                    console.log("Registrant: " + email + " already exists. " +
+                            JSON.stringify(registrant.linkedInProfile));
 
                     if (!eventId) {
                         res.send("Error: User: " + email + " already exists.");
@@ -181,6 +184,13 @@ exports.registerWithLinkedIn = function (req, res) {
                     }
 
                     if (!isRegistered) {
+                        //
+                        // look for existing event with same eventId and associate new user with
+                        // this event
+                        //
+
+                        // TODO: Event.findOne({ 'eventId' : eventId}).
+
                         // optional event information supplied.
                         console.log("creating new event.");
                         var newEvent = new Event({
@@ -215,11 +225,18 @@ exports.registerWithLinkedIn = function (req, res) {
                                 return;
                             }
 
+                            console.log("Event created successfully.");
+
+                            if (!registrant.linkedInProfile && theirProfile) {
+                                console.log("Linked in profile is missing from user. Updating their linkedIn profile");
+                                registrant.linkedInProfile = theirProfile;
+                            }
+
+                            registrant.save();
+                            res.send("Registrant: " + email + " successfully registered.");
+
                         });
-                        registrant.linkedInProfile = theirProfile;
-                        registrant.save();
-                        res.send("Registrant: " + email + " successfully registered.");
-                        return;
+
                     } else {
                         res.send("User " + email + " already registered for this event.");
                         return;
@@ -294,7 +311,7 @@ exports.getRegistrantByID = function (req, res) {
 
     Registrant.findOne({
         '_id': regId
-    }).populate('events').exec(function (err, registrant) {
+    }).populate(regIncludes).exec(function (err, registrant) {
                 if (err) {
                     res.send("Unexpected error: " + err);
                 }
@@ -320,7 +337,7 @@ exports.getRegistrant = function (req, res) {
 
     Registrant.findOne({
         'email': email
-    }).populate('events linkedInProfile').exec(function (err, registrant) {
+    }).populate(regIncludes).exec(function (err, registrant) {
                 if (err) {
                     res.send("Unexpected error: " + err);
                 }
@@ -380,61 +397,60 @@ exports.addRegistrant = function (req, res) {
 
     // look up registrant by email.
     Registrant.findOne({
-                'email': email
-            }, function (err, registrant) {
+        'email': email
+    }, function (err, registrant) {
+        if (err) {
+            res.send("Unexpected error: " + err);
+        }
+
+        console.log("registrant: " + JSON.stringify(registrant));
+
+        if ((!registrant) || typeof registrant == "undefined") {
+            // not found
+            console.log("Registrant: " + email + " not found. Creating new Registrant Schema.");
+
+            var newRegistrant = new Registrant({
+                firstname: firstName,
+                lastName: lastName,
+                email: email
+            });
+
+            newRegistrant.save(function (err) {
                 if (err) {
-                    res.send("Unexpected error: " + err);
-                }
-
-                console.log("registrant: " + JSON.stringify(registrant));
-
-                if ((!registrant) || typeof registrant == "undefined") {
-                    // not found
-                    console.log("Registrant: " + email + " not found. Creating new Registrant Schema.");
-
-                    var newRegistrant = new Registrant({
-                        firstname: firstName,
-                        lastName: lastName,
-                        email: email
-                    });
-
-                    newRegistrant.save(function (err) {
-                                if (err) {
-                                    console.log("Error saving registrant. Error: " + err);
-                                    res.send("Error: unable to save registrant: " + email + ".");
-                                    return;
-                                }
-                            });
-
-                    if (eventId) {
-                        // optional event information supplied.
-                        var newEvent = new Event({
-                            _registrantKey: newRegistrant._key,
-                            eventId: eventId,
-                            eventTitle: eventTitle,
-                            startTime: eventStartTime,
-                            endTime: eventEndTime
-                        });
-
-                        newEvent.save(function (err) {
-                                    if (err) {
-                                        console.log("Error saving new event for registrant " + email + ". Error: " +
-                                                        err);
-                                        res.send("Error: registrant saved, but unable to add event.");
-                                        return;
-                                    }
-                                });
-
-                        newRegistrant.events.push(newEvent);
-                        newRegistrant.save();
-
-                    }
-
-                    res.send("Registrant " + email + " successfully added.");
-                } else {
-                    console.log("Registrant: " + email + " already exists");
-                    res.send("Error: User: " + email + " already exists.");
+                    console.log("Error saving registrant. Error: " + err);
+                    res.send("Error: unable to save registrant: " + email + ".");
+                    return;
                 }
             });
+
+            if (eventId) {
+                // optional event information supplied.
+                var newEvent = new Event({
+                    _registrantKey: newRegistrant._key,
+                    eventId: eventId,
+                    eventTitle: eventTitle,
+                    startTime: eventStartTime,
+                    endTime: eventEndTime
+                });
+
+                newEvent.save(function (err) {
+                    if (err) {
+                        console.log("Error saving new event for registrant " + email + ". Error: " + err);
+                        res.send("Error: registrant saved, but unable to add event.");
+                        return;
+                    }
+                });
+
+                newRegistrant.events.push(newEvent);
+                newRegistrant.save();
+
+            }
+
+            res.send("Registrant " + email + " successfully added.");
+        } else {
+            console.log("Registrant: " + email + " already exists");
+            res.send("Error: User: " + email + " already exists.");
+        }
+    });
 
 };
