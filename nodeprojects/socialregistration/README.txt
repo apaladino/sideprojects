@@ -27,4 +27,21 @@ https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=7
 https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code=AQRLyuM7UVMGNszK2s1jL7JSh_h7vRoJutVgxEjhBbFAU822Tmfh-GKz0L29UnJdrVGyj8PgDDFTIOc-RY5KUm1ooBMxRQwu8F8QS9aofWSLKulsi_Q&redirect_uri=http://localhost:8000/rest/linkedin/register&client_id=750c8k09ptha6k&client_secret=ECInL187WE272dAa
 
 
-Error: 4748:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:766:
+
+## LinkedIn accounts
+#           andyp.g2w.0902.1@aol.com/secret11
+
+
+
+
+### TWITTER
+
+-- api console
+https://dev.twitter.com/rest/tools/console
+
+-- get user profile image
+https://api.twitter.com/1.1/statuses/user_timeline.json
+
+-- account settings
+https://api.twitter.com/1.1/account/settings.json
+

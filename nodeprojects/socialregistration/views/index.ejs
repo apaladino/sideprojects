@@ -43,43 +43,48 @@
 	      </p>
       	</div>
       	
-        <div id="registerWithLinkedInDiv" class="row panel large-9 columns">
-        	<div id="registerWithLinkedInErrMsg" class="alert-box alert radius" data-alert=""></div>
+        <div id="socialRegistrationDiv" class="row panel large-9 columns">
+        	<div id="socialRegistrationErrMsg" class="alert-box alert radius" data-alert=""></div>
         	<div class="large-12 columns">
-        		<h3>Example Attendee - Register For an event with LinkedIn</h3>
+        		<h3>Example Attendee - Register For an event with Social Network Login</h3>
         		<form>
-        		<h6>(Optional) Event</h6>
-	    	    <div class="row">
-	    	    	<div class="small-3 columns">
-	    	    		<label>Event ID</label>
-	    	    		<input type="text" data-bind="value: eventId" placeholder="Event ID">
-	    	    	</div>
-	    	    </div>
-	    	    <div class="row">
-	    	    	<div class="small-9 columns">
-	    	    		<label>Event Title</label>
-	    	    		<input type="text" data-bind="value: eventTitle" placeholder="Event Title">
-	    	    	</div>
-    	    	</div>
-    	    	<div class="row">
-    	    		<div class="small-4 columns">
-    	    			<label>Start Date</label>
-    	    			<input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
-    	    		</div>
-    	    		<div class="small-4 columns left">
-    	    			<label>End Date</label>
-    	    			<input type="text" data-bind="value: eventEndTime" placeholder="End Time">
-    	    		</div>
-    	    	</div>
-	    	    
-		    	    <div class="row">
-		    	      <div class="small-3 columns">
-		    	      <input type="button" value="Register With Your Linked In Account" data-bind="click: registerWithLinkedIn"/>
-		    	      </div>
-		    	    </div>
+                    <h6>(Optional) Event</h6>
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <label>Event ID</label>
+                            <input type="text" data-bind="value: eventId" placeholder="Event ID">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-9 columns">
+                            <label>Event Title</label>
+                            <input type="text" data-bind="value: eventTitle" placeholder="Event Title">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-4 columns">
+                            <label>Start Date</label>
+                            <input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
+                        </div>
+                        <div class="small-4 columns left">
+                            <label>End Date</label>
+                            <input type="text" data-bind="value: eventEndTime" placeholder="End Time">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-3 columns left" style="margin-right: 10px">
+                        <input type="button" value="Register With Your Linked In Account" data-bind="click: registerWithLinkedIn"/>
+                        </div>
+
+                        <div class="small-3 columns left" style="margin-right: 10px">
+                            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                            </fb:login-button>
+                        </div>
+                    </div>
         		</form>
         	</div>
-        	<div id="registerWithLinkedInResults"></div>
+        	<div id="socialRegistrationResults"></div>
         </div>
         
         <span id="addRegistrantsSpan">
@@ -204,7 +209,7 @@
 			<li><a id="getRegistrantByIDLink" href="#">Get Registrant By ID</a></li>
 			<li><a id="getRegistrantByEmailLink" href="#">Get Registrant By Email</a></li>
 			<li><div class="medium-6" style="border-bottom: 1px solid black; padding: 5px; widht:100%">Test Pages</div></li>
-			<li><a id="registerWithLinkedInLink" href="#">Register with Linkedin Account</a></li>
+			<li><a id="registerWithLinkedInLink" href="#">Social Registration Test Page</a></li>
 	    </ul>
     </div>
   </div>
@@ -224,8 +229,8 @@
   		$('#getRegistrantByEmailErrMsg').hide();
   		$('#getRegistrantByIDDiv').hide();
   		$('#getRegistrantByIDErrMsg').hide();
-  		$('#registerWithLinkedInDiv').hide();
-  		$('#registerWithLinkedInErrMsg').hide();
+  		$('#socialRegistrationDiv').hide();
+  		$('#socialRegistrationErrMsg').hide();
   	}
   	$(document).ready(function(){
   		hideAll();
@@ -234,7 +239,7 @@
   	
   	$('#registerWithLinkedInLink').click(function(){
   		hideAll();
-  		$('#registerWithLinkedInDiv').show();
+  		$('#socialRegistrationDiv').show();
   		
   	});
   	
@@ -254,5 +259,9 @@
   	})
 
   </script>
+
+  <div id="status">
+  </div>
+
 </body>
 </html>
