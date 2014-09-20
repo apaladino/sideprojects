@@ -33,15 +33,5 @@ https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&co
 
 
 
-
-### TWITTER
-
--- api console
-https://dev.twitter.com/rest/tools/console
-
--- get user profile image
-https://api.twitter.com/1.1/statuses/user_timeline.json
-
--- account settings
-https://api.twitter.com/1.1/account/settings.json
-
+### Facebook
+https://developers.facebook.com/docs/graph-api/reference/v2.1/user

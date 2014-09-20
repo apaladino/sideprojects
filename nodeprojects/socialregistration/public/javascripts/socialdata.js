@@ -7,26 +7,49 @@ var RegisterWithLinkedInModel = function(){
 	self.eventStartTime = ko.observable("");
 	self.eventEndTime = ko.observable("");
 
-    self.registerWithTwitter = function(){
-        $.get( "/registrant/twitter", function( data ) {
-            if(data && data.lastIndexOf("Error:", 0) === 0){
-                var errMsg = data.substring(6);
-                $('#socialRegistrationErrMsg').text(errMsg).show().fadeOut(3600,function(){ $(this).remove(); });
-            }else{
-                $('#socialRegistrationResults').text(data).show().fadeOut(3600,function(){
+    self.registerWithFacebook = function(){
+
+        var eventInfo = new Object();
+        eventInfo.eventId = self.eventId();
+        eventInfo.eventTitle = self.eventTitle();
+        eventInfo.eventStartTime = self.eventStartTime();
+        eventInfo.eventEndTime = self.eventEndTime();
+
+        FB.init({
+            appId      : '747022911975099',
+            cookie     : true,  // enable cookies to allow the server to access
+            // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.1' // use version 2.1
+        });
+
+       FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    fbRegister(eventInfo);
+            } else if (response.status === 'not_authorized') {
+                $('#socialRegistrationResults').text("User declined authorization.").show().fadeOut(3600,function(){
                     $(this).remove();
                     $('#socialRegistrationDiv').fadeOut(2000, function(){
                         $('#infoDiv').show();
                     });
                 });
+            } else {
+                
+                FB.login(function(response){
+                     fbRegister(eventInfo);
+                });
             }
         });
+
+
+
     };
 
 	self.registerWithLinkedIn = function(){
 		
   		
-		IN.UI.Authorize().params({"scope":["r_basicprofile", "r_emailaddress"]}).place();
+		IN.UI.Authorize().params({"scope":["r_basicprofile", "r_emailaddress", "user_education_history"]}).place();
 
   		IN.Event.on(IN, 'auth', function () {
   		IN.API.Profile("me")
@@ -155,28 +178,6 @@ $(document).ready(function(){
 	
 });
 
-// This is called with the results from from FB.getLoginStatus().
-function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-        // Logged into your app and Facebook.
-        testAPI();
-    } else if (response.status === 'not_authorized') {
-        // The person is logged into Facebook, but not your app.
-        document.getElementById('status').innerHTML = 'Please log ' +
-                'into this app.';
-    } else {
-        // The person is not logged into Facebook, so we're not sure if
-        // they are logged into this app or not.
-        document.getElementById('status').innerHTML = 'Please log ' +
-                'into Facebook.';
-    }
-}
 
 // This function is called when someone finishes with the Login
 // Button.  See the onlogin handler attached to it in the sample
@@ -187,32 +188,6 @@ function checkLoginState() {
     });
 }
 
-window.fbAsyncInit = function() {
-    FB.init({
-        appId      : '747022911975099',
-        cookie     : true,  // enable cookies to allow the server to access
-        // the session
-        xfbml      : true,  // parse social plugins on this page
-        version    : 'v2.1' // use version 2.1
-    });
-
-    // Now that we've initialized the JavaScript SDK, we call
-    // FB.getLoginStatus().  This function gets the state of the
-    // person visiting this page and can return one of three states to
-    // the callback you provide.  They can be:
-    //
-    // 1. Logged into your app ('connected')
-    // 2. Logged into Facebook, but not your app ('not_authorized')
-    // 3. Not logged into Facebook and can't tell if they are logged into
-    //    your app or not.
-    //
-    // These three cases are handled in the callback function.
-
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-    });
-
-};
 
 // Load the SDK asynchronously
 (function(d, s, id) {
@@ -224,12 +199,48 @@ window.fbAsyncInit = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 
-function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
+function fbRegister(eventInfo) {
+    var fields='first_name,last_name, about, age_range, bio, birthday, ' +
+            'education, email, link, locale, location, political, timezone, work';
+    var results = [];
+
+    FB.api('/me', { fields: fields}, function(response) {
         console.log('Successful login for: ' + response.name);
-        document.getElementById('status').innerHTML =
-                'Thanks for logging in, ' + response.name + '!';
+        getFbProfilePic(response, eventInfo);
     });
+
+}
+
+function getFbProfilePic(fbProfile, eventInfo){
+    FB.api('/me/picture', function(response) {
+
+            $.ajax({
+            			url : '/registrant/facebook',
+            			data: { eventInfo : eventInfo,
+            				fbProfile : fbProfile,
+            				fbPicture : response},
+            		    type: 'POST',
+            		    success: function(data){
+            		        	if(data && data.lastIndexOf("Error:", 0) === 0){
+            		        		var errMsg = data.substring(6);
+            		        		$('#socialRegistrationErrMsg').text(errMsg).show().fadeOut(3600,function(){ $(this).remove(); });
+            		        	}else{
+            		        		$('#socialRegistrationResults').text(data).show()/*.fadeOut(3600,function(){
+            		        			$(this).remove();
+            		        			$('#socialRegistrationDiv').fadeOut(2000, function(){
+            		        				$('#infoDiv').show();
+            		        			});
+            		        			})*/;
+            		        	}
+            		        },
+            		    error: function(data){
+            		        var errMsg = "Unexpected Error Occurred.";
+            		        $('#socialRegistrationErrMsg').text(errMsg).show().fadeOut(4600,function(){ $(this).remove(); });
+            		    }
+            			});
+
+
+        });
+
 }
     	/*]]>*/
