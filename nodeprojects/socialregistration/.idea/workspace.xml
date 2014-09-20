@@ -10,6 +10,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/registrants.js" afterPath="$PROJECT_DIR$/routes/registrants.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/socialdata.js" afterPath="$PROJECT_DIR$/public/javascripts/socialdata.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/socialregistration.iml" afterPath="$PROJECT_DIR$/socialregistration.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -197,7 +198,6 @@
         <option value="$PROJECT_DIR$/models/linkedInProfile.js" />
         <option value="$PROJECT_DIR$/models/registrant.js" />
         <option value="$PROJECT_DIR$/models/event.js" />
-        <option value="$PROJECT_DIR$/routes/registrants.js" />
         <option value="$PROJECT_DIR$/routes/twitter_registrant.js" />
         <option value="$PROJECT_DIR$/README.txt" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
@@ -205,6 +205,7 @@
         <option value="$PROJECT_DIR$/models/facebookProfile.js" />
         <option value="$PROJECT_DIR$/public/javascripts/socialdata.js" />
         <option value="$PROJECT_DIR$/routes/fbregistrant.js" />
+        <option value="$PROJECT_DIR$/routes/registrants.js" />
       </list>
     </option>
   </component>

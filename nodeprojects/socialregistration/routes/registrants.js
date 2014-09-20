@@ -11,15 +11,15 @@ var regIncludes = 'events linkedInProfile';
 exports.registerWithLinkedIn = function (req, res) {
     console.log("POST '/registrant/linkedin " + JSON.stringify(req.body));
 
-    var eventId = req.body.eventId;
-    var eventTitle = req.body.eventTitle;
-    var eventStartTime = req.body.eventStartTime;
-    var eventEndTime = req.body.eventEndTime;
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
-    var email = req.body.email;
-    var pictureUrl = req.body.pictureUrl;
-    var profile = req.body.profile;
+        var eventId = req.body.eventId;
+        var eventTitle = req.body.eventTitle;
+        var eventStartTime = req.body.eventStartTime;
+        var eventEndTime = req.body.eventEndTime;
+        var firstName = req.body.firstName;
+        var lastName = req.body.lastName;
+        var email = req.body.email;
+        var pictureUrl = req.body.pictureUrl;
+        var profile = req.body.profile;
 
     res.send("event: " + eventId + "<br/>" + JSON.stringify(profile));
 
