@@ -27,24 +27,13 @@ var RegisterWithLinkedInModel = function(){
             if (response.status === 'connected') {
                     // Logged into your app and Facebook.
                     fbRegister(eventInfo);
-            } /*else if (response.status === 'not_authorized') {
-
-                $('#socialRegistrationResults').text("User declined authorization.").show().fadeOut(3600,function(){
-                    $(this).remove();
-                    $('#socialRegistrationDiv').fadeOut(2000, function(){
-                        $('#infoDiv').show();
-                    });
-                });
-            } */else {
+            } else {
                 
                 FB.login(function(response){
                      fbRegister(eventInfo);
                 });
             }
         });
-
-
-
     };
 
 	self.registerWithLinkedIn = function(){
@@ -130,9 +119,37 @@ var AddRegistrantModel = function() {
     			        success: function(data){
                             var registrant = JSON.parse(data);
                             $('#getRegistrantResultsJSON').html("<h5>JSON Response</h5> <br/>" + data);
-                            $('#firstNameTxt').val(registrant.firstname);
-                            $('#lastNameTxt').val(registrant.lastName);
-                            $('#profilePic').attr("src", registrant.linkedInProfile.pictureUrl);
+                            $('#fullNameTxt').text(registrant.firstname + " " + registrant.lastName);
+                            $('#fbFirstName').text(registrant.facebookProfile.firstName);
+                            $('#fbEmail').text(registrant.facebookProfile.emailAddress);
+                            $('#fbLink').text(registrant.facebookProfile.fbLink);
+                            $('#fbAgeRange').text(registrant.facebookProfile.ageRange);
+
+                            if(registrant.linkedInProfile){
+                                $('#profilePic').attr("src", registrant.linkedInProfile.pictureUrl);
+                            }else {
+                                if(registrant.facebookProfile){
+                                    $('#profilePic').attr("src", registrant.facebookProfile.pictureUrl);
+                                }
+                            }
+
+                            // show events
+                            if(registrant.events && registrant.events.length > 0){
+                                 $('#eventsTable').append('<tr><th>Title</th><th>Start Time</th><th>End Time</th><th>Num Registrants</th>/tr>');
+
+                                 for(var i=0; i < registrant.events.length; i++){
+                                    var event = registrant.events[i];
+                                    var numRegistrants = 0;
+                                    if(event.registrants){
+                                        numRegistrants = event.registrants.length;
+                                    }
+                                    $('#eventsTable').append('<tr><th>'+event.eventTitle+'</th><th>'+
+                                        event.startTime+'</th><th>'+event.endTime+
+                                        '</th><th>'+numRegistrants +'</th>/tr>');
+
+                                 }
+                            }
+                            //$("#header ul").append('<li><a href="/user/messages"><span class="tab">Message Center</span></a></li>');
                             $('#getRegistrantResults').show();
     			        },
     			        error:function (xhr, ajaxOptions, thrownError){
@@ -180,9 +197,6 @@ $(document).ready(function(){
 });
 
 
-// This function is called when someone finishes with the Login
-// Button.  See the onlogin handler attached to it in the sample
-// code below.
 function checkLoginState() {
     FB.getLoginStatus(function(response) {
         statusChangeCallback(response);

@@ -111,7 +111,7 @@ exports.getRegistrant = function (req, res) {
                     res.send("Error: Registrant: " + email + " not found.");
                 } else {
                     res.status(200);
-                    res.send(JSON.stringify(registrant));
+                    res.send(JSON.stringify(registrant, undefined, 2));
                 }
 
             });

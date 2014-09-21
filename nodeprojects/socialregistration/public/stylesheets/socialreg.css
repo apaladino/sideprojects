@@ -1,0 +1,11 @@
+.leftHeader{
+margin-left:5px;
+font-weight:bold;
+float:left;
+clear:both
+}
+
+.leftCol{
+float: left;
+clear: left;
+}

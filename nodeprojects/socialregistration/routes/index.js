@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Social Data Service' });
+  res.render('index', { title: 'Social Event Service' });
 };

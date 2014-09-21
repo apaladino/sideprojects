@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
     <link rel="stylesheet" href="stylesheets/foundation.css" />
+    <link rel="stylesheet" href="stylesheets/socialreg.css" />
     <script src="javascripts/vendor/modernizr.js"></script>
 	<script src="javascripts/jquery-1.4.2.min.js"></script>
 	<script src="javascripts/knockout-3.0.0.js"></script>
@@ -162,10 +163,10 @@
 		        		<input type="button" value="Get Registrant" data-bind="click: getRegistrantByID"/>
 		        	</form>
 		    	</div>
-		    	<div id="getRegistrantByIDResults"></div>
+		    	<div id="getRegistrantByIDResults" style="position:inline; max-width:800px"></div>
 	    	</div>
 	    	
-	      	<div id="getRegistrantByEmailDiv" class="row panel columns" style="float: left; clear: right">
+	      	<div id="getRegistrantByEmailDiv" class="row panel columns" style="float: left; clear: right; max-width: 800px">
 	      		<div id="getRegistrantByEmailErrMsg" class="alert-box alert radius" data-alert=""></div>
 	  		
 		      	<div class="large-12 columns">
@@ -179,25 +180,98 @@
 		        		<input type="button" value="Get Registrant" data-bind="click: getRegistrantByEmail"/>
 		        	</form>
 		    	</div>
-		    	<div id="getRegistrantResultsJSON"></div>
-                <div id="getRegistrantResults" class="row">
-                    <hr/>
-                    <h6>Retrieved Results</h6>
-                    <form>
-                        <div class="row" style="margin-left: 5px">
-                            <div class="small-2 columns">
-                                <img id="profilePic"/>
+		    	 <span id="getRegistrantResultsJSON" style="position:inline; max-width:800px"></span>
+                 <hr/>
+                 <br/>
+		    	<div id="getRegistrantResults" class="panel" style="background: white">
+
+                    <h4>Retrieved Results</h4>
+                        <div class="row" style="margin-left: 5px; margin-bottom: 10px">
+                           <div class="large-9 columns">
+                             <div class="large-6 columns">
+                                <img id="profilePic"/> &nbsp;
+                                <span id="fullNameTxt"/> &nbsp;
+                             </div>
+                           </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="row" style="margin-bottom: 10px">
+                            <div class="leftHeader">
+                                Linked In Profile :
                             </div>
-                            <div class="small-2 columns left">
-                                <label>firstName</label>
-                                <input type="text" id="firstNameTxt"/>
-                            </div>
-                            <div class="small-2 columns left">
-                                <label>lastName</label>
-                                <input type="text" id="lastNameTxt"/>
+                            <div class="small-10 columns leftColumn">
+
                             </div>
                         </div>
-                    </form>
+                        <div class="row" style="margin-bottom: 10px">
+                            <div class="leftHeader">
+                                Facebook Profile :
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-10 columns leftColumn">
+                                <div class="leftHeader">
+                                    First Name:
+                                </div>
+                                <div class="small-2 columns leftColumn">
+                                    <span id="fbFirstName"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-10 columns leftColumn">
+                                <div class="leftHeader">
+                                    Last Name:
+                                </div>
+                                <div class="small-2 columns leftColumn">
+                                    <span id="fbLastName"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-10 columns leftColumn">
+                                <div class="leftHeader">
+                                    Email Address:
+                                </div>
+                                <div class="small-2 columns leftColumn">
+                                    <span id="fbEmail"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 columns leftColumn">
+                                <div class="leftHeader">
+                                    Link:
+                                </div>
+                                <div class="small-12 columns leftColumn">
+                                    <span id="fbLink"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-10 columns leftColumn">
+                                <div class="leftHeader">
+                                    Age Range
+                                </div>
+                                <div class="small-2 columns leftColumn">
+                                    <span id="fbAgeRange"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                         <div class="row" style="margin-bottom: 10px">
+                            <div class="leftHeader">
+                                Events:
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-6 columns leftColumn">
+                                <table id="eventsTable">
+
+                                </table>
+                            </div>
+                        </div>
                 </div>
 	    	</div>
 	    </div>
