@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var registrant = require('./routes/registrants');
 var fbregistrant = require('./routes/fbregistrant');
+var linkedInRegistrant = require('./routes/linkedInRegistrant');
 var http = require('http');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -37,7 +38,7 @@ mongoose.connect('mongodb://localhost/socialregdb');
 
 app.get('/', routes.index);
 app.post('/registrant', registrant.addRegistrant);
-app.post('/registrant/linkedin', registrant.registerWithLinkedIn);
+app.post('/registrant/linkedin', linkedInRegistrant.registerWithLinkedIn);
 app.post('/registrant/facebook', fbregistrant.registerWithFacebook);
 app.get('/registrant/:reg_id', registrant.getRegistrantByID);
 app.get('/registrant', registrant.getRegistrant);

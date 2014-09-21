@@ -27,14 +27,15 @@ var RegisterWithLinkedInModel = function(){
             if (response.status === 'connected') {
                     // Logged into your app and Facebook.
                     fbRegister(eventInfo);
-            } else if (response.status === 'not_authorized') {
+            } /*else if (response.status === 'not_authorized') {
+
                 $('#socialRegistrationResults').text("User declined authorization.").show().fadeOut(3600,function(){
                     $(this).remove();
                     $('#socialRegistrationDiv').fadeOut(2000, function(){
                         $('#infoDiv').show();
                     });
                 });
-            } else {
+            } */else {
                 
                 FB.login(function(response){
                      fbRegister(eventInfo);
