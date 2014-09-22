@@ -7,51 +7,26 @@ var RegisterWithLinkedInModel = function(){
 	self.eventStartTime = ko.observable("");
 	self.eventEndTime = ko.observable("");
 
-    self.registerWithFacebook = function(){
+  	self.registerWithLinkedIn = function(){
 
-        var eventInfo = new Object();
-        eventInfo.eventId = self.eventId();
-        eventInfo.eventTitle = self.eventTitle();
-        eventInfo.eventStartTime = self.eventStartTime();
-        eventInfo.eventEndTime = self.eventEndTime();
 
-        FB.init({
-            appId      : '747022911975099',
-            cookie     : true,  // enable cookies to allow the server to access
-            // the session
-            xfbml      : true,  // parse social plugins on this page
-            version    : 'v2.1' // use version 2.1
-        });
-
-       FB.getLoginStatus(function(response) {
-            if (response.status === 'connected') {
-                    // Logged into your app and Facebook.
-                    fbRegister(eventInfo);
-            } else {
-                
-                FB.login(function(response){
-                     fbRegister(eventInfo);
-                });
-            }
-        });
-    };
-
-	self.registerWithLinkedIn = function(){
-		
-  		
-		IN.UI.Authorize().params({"scope":["r_basicprofile", "r_emailaddress", "user_education_history"]}).place();
+		IN.UI.Authorize().params({"scope":["r_basicprofile", "r_emailaddress"]}).place();
 
   		IN.Event.on(IN, 'auth', function () {
+  		console.log("auth");
+
   		IN.API.Profile("me")
   		.fields("id,firstName,lastName,emailAddress,summary,industry,positions,picture-url")
   		.result(function (me) {
-  		
+        console.log("--" + JSON.stringify(me));
+
   		var profile = me.values[0];
   		var firstName = profile.firstName;
   		var lastName = profile.lastName;
   		var email = profile.emailAddress;
   		var pictureUrl = profile.pictureUrl;
-  		
+        console.log("redirecting to /registrant/linkedin");
+
 	  	$.ajax({
 			url : '/registrant/linkedin',
 			data: { eventId : self.eventId(),
@@ -73,16 +48,45 @@ var RegisterWithLinkedInModel = function(){
 		        			$(this).remove();
 		        			$('#socialRegistrationDiv').fadeOut(2000, function(){
 		        				$('#infoDiv').show();
-		        			}); 
+		        			});
 		        			});
 		        	}
 		        }
 			});
-  		
+
   		});
   		});
-		
-	};
+
+	}
+
+	self.registerWithFacebook = function(){
+
+        var eventInfo = new Object();
+        eventInfo.eventId = self.eventId();
+        eventInfo.eventTitle = self.eventTitle();
+        eventInfo.eventStartTime = self.eventStartTime();
+        eventInfo.eventEndTime = self.eventEndTime();
+
+        FB.init({
+            appId      : '747022911975099',
+            cookie     : true,  // enable cookies to allow the server to access
+            // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.1' // use version 2.1
+        });
+
+       FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    fbRegister(eventInfo);
+            } else {
+
+                FB.login(function(response){
+                     fbRegister(eventInfo);
+                });
+            }
+        });
+    }
 };
 var AddRegistrantModel = function() {
     			var self = this;
@@ -119,14 +123,45 @@ var AddRegistrantModel = function() {
     			        success: function(data){
                             var registrant = JSON.parse(data);
                             $('#getRegistrantResultsJSON').html("<h5>JSON Response</h5> <br/>" + data);
-                            $('#fullNameTxt').text(registrant.firstname + " " + registrant.lastName);
-                            $('#fbFirstName').text(registrant.facebookProfile.firstName);
-                            $('#fbEmail').text(registrant.facebookProfile.emailAddress);
-                            $('#fbLink').text(registrant.facebookProfile.fbLink);
-                            $('#fbAgeRange').text(registrant.facebookProfile.ageRange);
+
+                            if(registrant.facebookProfile){
+                                $('#facebookDetails').show();
+                                 $('#fullNameTxt').text(registrant.firstname + " " + registrant.lastName);
+                                 $('#fbFirstName').text(registrant.facebookProfile.firstName);
+                                 $('#fbEmail').text(registrant.facebookProfile.emailAddress);
+                                 $('#fbLink').text(registrant.facebookProfile.fbLink);
+                                 $('#fbAgeRange').text(registrant.facebookProfile.ageRange);
+                            }else{
+                                $('#facebookDetails').hide();
+                            }
 
                             if(registrant.linkedInProfile){
                                 $('#profilePic').attr("src", registrant.linkedInProfile.pictureUrl);
+                                $('#fullNameTxt').text(registrant.firstname + " " + registrant.lastName);
+                                $('#lnFirstName').text(registrant.linkedInProfile.firstName);
+                                $('#lnLastName').text(registrant.linkedInProfile.lastName);
+                                $('#lnEmail').text(registrant.linkedInProfile.emailAddress);
+                                $('#lnSummary').text(registrant.linkedInProfile.summary);
+
+                                if(registrant.linkedInProfile.positions
+                                    && registrant.linkedInProfile.positions.length > 0){
+
+                                    $('#lnPositionsTable')
+                                        .append('<tr><th>Name</th><th>Title</th><th>Industry</th><th>Size</th><th>Type</th>/tr>');
+
+                                    var positions = registrant.linkedInProfile.positions;
+
+                                    for(var i=0; i < positions.length; i++){
+                                        $('#lnPositionsTable')
+                                           .append('<tr><th>'+positions[i].name+
+                                           '</th><th>'+positions[i].title+
+                                           '</th><th>'+positions[i].industry+
+                                           '</th><th>'+positions[i].size+
+                                           '</th><th>'+positions[i].type+
+                                           '</th>/tr>');
+
+                                    }
+                                }
                             }else {
                                 if(registrant.facebookProfile){
                                     $('#profilePic').attr("src", registrant.facebookProfile.pictureUrl);
@@ -193,7 +228,7 @@ var AddRegistrantModel = function() {
 $(document).ready(function(){    		
 	ko.applyBindings(new AddRegistrantModel(), addRegistrantsSpan);
 	ko.applyBindings(new RegisterWithLinkedInModel(), socialRegistrationDiv);
-	
+
 });
 
 

@@ -1,5 +1,7 @@
 var Registrant = require('../../models/registrant');
 var Event = require('../../models/event');
+var LinkedInProfile = require('../../models/linkedInProfile');
+var LinkedInCompanyProfile = require('../../models/linkedInCompanyProfile');
 var FacebookProfile = require('../../models/facebookProfile');
 
 

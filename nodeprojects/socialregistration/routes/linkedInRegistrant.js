@@ -56,7 +56,7 @@ exports.registerWithLinkedIn = function (req, res) {
                         console.log("Created new Profile " + JSON.stringify(theirProfile));
 
                         // linkedIn profile saved, add company profiles
-                        var positions = createLinkedInPositions(theirProfile._id, profile);
+                        var positions = registrantService.createLinkedInPositions(theirProfile._id, profile);
                         console.log("positions created: " + JSON.stringify(positions));
                         theirProfile.positions = positions;
                         theirProfile.save();
@@ -88,8 +88,10 @@ exports.registerWithLinkedIn = function (req, res) {
                             var newEvent = registrantService.createNewEvent(newRegistrant._id, eventId, eventTitle, eventStartTime,
                                     eventEndTime);
 
+                            newEvent.registrants.push(newRegistrant);
                             // save new event
                             console.log("Creating new event. ");
+
                             newEvent.save(function (err) {
                                 if (err) {
                                     handleError("Error saving new event for registrant " + email + ". Error: " + err, res);
@@ -148,8 +150,8 @@ exports.registerWithLinkedIn = function (req, res) {
 
                         // optional event information supplied.
                         console.log("creating new event.");
-                        var nnewEvent = registrantService.createNewEvent(egistrant._key, eventId, eventTitle, eventStartTime, eventEndTime);
-
+                        var newEvent = registrantService.createNewEvent(registrant._key, eventId, eventTitle, eventStartTime, eventEndTime);
+                        newEvent.registrants.push(registrant);
                         // save new event
                         newEvent.save(function (err) {
                             if (err) {

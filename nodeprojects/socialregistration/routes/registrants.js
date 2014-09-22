@@ -73,7 +73,10 @@ exports.getRegistrantByID = function (req, res) {
 
     Registrant.findOne({
         '_id': regId
-    }).populate(regIncludes).exec(function (err, registrant) {
+    }).populate("events")
+    .populate("linkedInProfile")
+    .populate("positions")
+    .populate("facebookProfile").exec(function (err, registrant) {
                 if (err) {
                     res.send("Unexpected error: " + err);
                 }
@@ -84,10 +87,24 @@ exports.getRegistrantByID = function (req, res) {
                     res.status(404);
                     res.send("Error: Registrant: " + email + " not found.");
                 } else {
-                    res.status(200);
-                    res.send(JSON.stringify(registrant));
-                }
 
+                    if(registrant.linkedInProfile && registrant.linkedInProfile.positions){
+                        var linkedInProfile = LinkedInProfile.findOne({'_id' : registrant.linkedInProfile._id})
+                        .populate("positions").exec(function (err, profile){
+                            if(err){
+                                console.log("Unable to retreive linkedIn profile.");
+                                return;
+                            }
+                            console.log("Looked up user linked in profile. " + JSON.stringify(profile));
+                            registrant.linkedInProfile = profile;
+                            res.status(200);
+                            res.send(JSON.stringify(registrant));
+                        });
+                    }else{
+                        res.status(200);
+                        res.send(JSON.stringify(registrant));
+                    }
+                }
             });
 }
 
@@ -99,7 +116,8 @@ exports.getRegistrant = function (req, res) {
 
     Registrant.findOne({
         'email': email
-    }).populate(regIncludes).exec(function (err, registrant) {
+    }).populate(regIncludes)
+    .populate("positions").exec(function (err, registrant) {
                 if (err) {
                     res.send("Unexpected error: " + err);
                 }
@@ -110,8 +128,22 @@ exports.getRegistrant = function (req, res) {
                     res.status(404);
                     res.send("Error: Registrant: " + email + " not found.");
                 } else {
-                    res.status(200);
-                    res.send(JSON.stringify(registrant, undefined, 2));
+                     if(registrant.linkedInProfile && registrant.linkedInProfile.positions){
+                        var linkedInProfile = LinkedInProfile.findOne({'_id' : registrant.linkedInProfile._id})
+                        .populate("positions").exec(function (err, profile){
+                            if(err){
+                                console.log("Unable to retreive linkedIn profile.");
+                                return;
+                            }
+                            console.log("Looked up user linked in profile. " + JSON.stringify(profile));
+                            registrant.linkedInProfile = profile;
+                            res.status(200);
+                            res.send(JSON.stringify(registrant));
+                        });
+                    }else{
+                        res.status(200);
+                        res.send(JSON.stringify(registrant));
+                    }
                 }
 
             });

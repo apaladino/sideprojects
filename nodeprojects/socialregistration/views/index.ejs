@@ -9,10 +9,11 @@
     <script src="javascripts/vendor/modernizr.js"></script>
 	<script src="javascripts/jquery-1.4.2.min.js"></script>
 	<script src="javascripts/knockout-3.0.0.js"></script>
-	<script src="javascripts/socialdata.js"></script>
 	<script type="text/javascript" src="https://platform.linkedin.com/in.js">
-	  api_key: 750c8k09ptha6k
-	</script>
+      api_key : 750c8k09ptha6k
+    </script>
+	<script src="javascripts/socialdata.js"></script>
+
 
 	</head>
 <body>
@@ -200,62 +201,117 @@
                             <div class="leftHeader">
                                 Linked In Profile :
                             </div>
-                            <div class="small-10 columns leftColumn">
+                            <div id="linkedInDetails" class="small-10 columns leftColumn">
+                                <div class="row">
+                                    <div class="small-10 columns leftColumn">
+                                        <div class="leftHeader">
+                                            First Name:
+                                        </div>
+                                        <div class="small-2 columns leftColumn">
+                                            <span id="lnFirstName"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="small-10 columns leftColumn">
+                                        <div class="leftHeader">
+                                            Last Name:
+                                        </div>
+                                        <div class="small-2 columns leftColumn">
+                                            <span id="lnLastName"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="small-10 columns leftColumn">
+                                        <div class="leftHeader">
+                                            Email Address:
+                                        </div>
+                                        <div class="small-2 columns leftColumn">
+                                            <span id="lnEmail"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="row">
+                                    <div class="small-10 columns leftColumn">
+                                        <div class="leftHeader">
+                                            Summary:
+                                        </div>
+                                        <div class="large-20 columns leftColumn">
+                                            <span id="lnSummary"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="small-10 columns leftColumn">
+                                        <div class="leftHeader">
+                                            Positions:
+                                        </div>
+                                        <div class="large-20 columns leftColumn">
+                                            <table id="lnPositionsTable">
 
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <!--  #### FACEBOOK ### -->
                         <div class="row" style="margin-bottom: 10px">
                             <div class="leftHeader">
                                 Facebook Profile :
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="small-10 columns leftColumn">
-                                <div class="leftHeader">
-                                    First Name:
-                                </div>
-                                <div class="small-2 columns leftColumn">
-                                    <span id="fbFirstName"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-10 columns leftColumn">
-                                <div class="leftHeader">
-                                    Last Name:
-                                </div>
-                                <div class="small-2 columns leftColumn">
-                                    <span id="fbLastName"/>
+                        <div id="facebookDetails">
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        First Name:
+                                    </div>
+                                    <div class="small-2 columns leftColumn">
+                                        <span id="fbFirstName"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-10 columns leftColumn">
-                                <div class="leftHeader">
-                                    Email Address:
-                                </div>
-                                <div class="small-2 columns leftColumn">
-                                    <span id="fbEmail"/>
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        Last Name:
+                                    </div>
+                                    <div class="small-2 columns leftColumn">
+                                        <span id="fbLastName"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-12 columns leftColumn">
-                                <div class="leftHeader">
-                                    Link:
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        Email Address:
+                                    </div>
+                                    <div class="small-2 columns leftColumn">
+                                        <span id="fbEmail"/>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="small-12 columns leftColumn">
-                                    <span id="fbLink"/>
+                                    <div class="leftHeader">
+                                        Link:
+                                    </div>
+                                    <div class="small-12 columns leftColumn">
+                                        <span id="fbLink"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-10 columns leftColumn">
-                                <div class="leftHeader">
-                                    Age Range
-                                </div>
-                                <div class="small-2 columns leftColumn">
-                                    <span id="fbAgeRange"/>
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        Age Range
+                                    </div>
+                                    <div class="small-2 columns leftColumn">
+                                        <span id="fbAgeRange"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
