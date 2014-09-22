@@ -1,3 +1,36 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300);
+.ssbtn {
+    font-family: "Open Sans";
+    color: rgba(255,255,255,.7) !important;
+    font-size: 14px; /*text-align: center;*/
+    padding: 15px 25px 15px 80px;
+    border-radius: 3px;
+    border: none;
+    text-decoration: none;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    position: relative;
+    display: inline-block;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    transition: 0.5s;
+    width:300px;
+}
+.ssbtn:before { Content: ""; height: 100%; width: 1px; background-color: rgba(255,255,255,.25); display: block; position: absolute; top: 0; left: 55px; }
+.ssbtn.facebook { background-color: #425f9c; background-image: url('../images/facebook.png'); border-bottom: 3px solid #324e88 !important; }
+.ssbtn.facebook:before { background-color: #324e88; }
+.ssbtn.linkedin { background-color: #007bb6; background-image: url('../images/linkedin.png'); border-bottom: 3px solid #324e88 !important; }
+.ssbtn.linkedin:before { background-color: #324e88; }
+.ssbtn.google { background-color: #dd4b39;; background-image: url('../images/google.png'); border-bottom: 3px solid #dd4b39; !important; }
+.ssbtn.google:before { background-color: #3272dc; }
+.ssbtn.googleplus { background-color: #dd4b39; background-image: url('../images/google.png'); border-bottom: 3px solid #c23928 !important; }
+.ssbtn.googleplus:before { background-color: #c23928; }
+.ssbtn.instagram { background-color: #5b493a; background-image: url('../images/instagram.png'); border-bottom: 3px solid #4c3b2d !important; }
+.ssbtn.instagram:before { background-color: #4c3b2d; }
+.ssbtn.pinterest { background-color: #ce2d33; background-image: url('../images/pinterest.png'); border-bottom: 3px solid #aa1d23 !important; }
+.ssbtn.pinterest:before { background-color: #aa1d23; }
+.ssbtn:hover { color: #fff !important; }
+
 .leftHeader{
 margin-left:5px;
 font-weight:bold;
