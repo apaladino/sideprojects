@@ -131,7 +131,7 @@ exports.registerWithFacebook = function(req, res){
             });
 
         } else {
-            console.log("Registrant: " + email + " already exists. " +
+            console.log("Registrant already exists. " +
                     JSON.stringify(registrant.facebookProfile));
 
             if (!eventId) {
@@ -173,6 +173,7 @@ exports.registerWithFacebook = function(req, res){
                 // optional event information supplied.
                 console.log("creating new event.");
                 var newEvent = registrantService.createNewEvent(registrant._key, eventId, eventTitle, eventStartTime, eventEndTime);
+                newEvent.registrants.push(registrant);
 
                 // save new event
                 newEvent.save(function (err) {
@@ -185,6 +186,10 @@ exports.registerWithFacebook = function(req, res){
                 registrant.events.push(newEvent);
 
                 // add facebook profile
+                console.log("** " + typeof registrant.facebookProfile + "  " + JSON.stringify(registrant.facebookProfile, undefined, 2));
+
+                console.log("creating facebook profile.");
+
                 var theirProfile =  registrantService.createNewFacebookProfile(firstName, lastName, email, fbLink,
                             locale, timezone, pictureUrl, ageRange);
 
@@ -195,17 +200,18 @@ exports.registerWithFacebook = function(req, res){
                         return;
                     }
 
-                    console.log("Event created successfully.");
+                console.log("Event created successfully.");
 
-                    if (!registrant.facebookProfile && theirProfile) {
-                        console.log("Linked in profile is missing from user. Updating their linkedIn profile");
+                });
+
+                console.log("Checking to see if their facebook profile exists")
+                 if (!registrant.facebookProfile && theirProfile) {
+                        console.log("Facebook profile is missing from user. Updating their facebook profile");
                         registrant.facebookProfile = theirProfile;
-                    }
+                 }
 
                     registrant.save();
                     res.send("Registrant: " + email + " successfully registered.");
-
-                });
 
             } else {
                 res.send("User " + email + " already registered for this event.");

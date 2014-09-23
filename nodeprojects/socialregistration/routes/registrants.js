@@ -3,11 +3,12 @@ var Event = require('../models/event');
 var registrantService = require('../models/service/registrantService');
 var LinkedInProfile = require('../models/linkedInProfile');
 var LinkedInCompanyProfile = require('../models/linkedInCompanyProfile');
+var FacebookProfile = require('../models/facebookProfile');
 var expectedState = 'AP2014Maine';
 var API_KEY = '750c8k09ptha6k';
 var SECRET_KEY = 'ECInL187WE272dAa';
 var request = require('request');
-var regIncludes = 'events linkedInProfile facebookProfile';
+var regIncludes = 'events facebookProfile linkedInProfile';
 
 exports.registerLinkedInUser = function (req, res) {
     res.send("registerLinkedInUser: " + JSON.stringify(req.query));
@@ -116,8 +117,8 @@ exports.getRegistrant = function (req, res) {
 
     Registrant.findOne({
         'email': email
-    }).populate(regIncludes)
-    .populate("positions").exec(function (err, registrant) {
+    }).populate("events facebookProfile linkedInProfile")
+    .exec(function (err, registrant) {
                 if (err) {
                     res.send("Unexpected error: " + err);
                 }
@@ -128,15 +129,18 @@ exports.getRegistrant = function (req, res) {
                     res.status(404);
                     res.send("Error: Registrant: " + email + " not found.");
                 } else {
+
                      if(registrant.linkedInProfile && registrant.linkedInProfile.positions){
+
+
                         var linkedInProfile = LinkedInProfile.findOne({'_id' : registrant.linkedInProfile._id})
-                        .populate("positions").exec(function (err, profile){
+                        .populate("positions").exec(function (err, lnProfile){
                             if(err){
                                 console.log("Unable to retreive linkedIn profile.");
                                 return;
                             }
-                            console.log("Looked up user linked in profile. " + JSON.stringify(profile));
-                            registrant.linkedInProfile = profile;
+                            registrant.linkedInProfile = lnProfile;
+                            registrant.save();
                             res.status(200);
                             res.send(JSON.stringify(registrant));
                         });
