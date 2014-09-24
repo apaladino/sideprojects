@@ -1,0 +1,128 @@
+<!--
+    View for add registrant link
+ -->
+
+<div id="addRegistrantErrMsg" class="alert-box alert radius" data-alert=""></div>
+<div id="addRegistrantSuccessMsg" class="alert-box success radius" data-alert=""></div>
+
+<div style="width:450px">
+    <h3>Add Registrant</h3>
+
+    <p>
+        <em>(POSt /registrant )</em>
+    </p>
+
+    <form>
+        <div class="row">
+            <div class="large-6 columns">
+                <label>First Name</label>
+                <input type="text" data-bind="value: firstName" placeholder="First Name">
+            </div>
+            <div class="large-6 columns">
+                <label>Last Name</label>
+                <input type="text" data-bind="value: lastName" placeholder="Last Name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Email Address</label>
+                <input type="text" data-bind="value: email" placeholder="Email Address">
+            </div>
+        </div>
+        <hr/>
+        <h6>(Optional) Event</h6>
+
+        <div class="row">
+            <div class="small-3 columns">
+                <label>Event ID</label>
+                <input type="text" data-bind="value: eventId" placeholder="Event ID">
+            </div>
+            <div class="small-9 columns">
+                <label>Event Title</label>
+                <input type="text" data-bind="value: eventTitle" placeholder="Event Title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-4 columns">
+                <label>Start Date</label>
+                <input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
+            </div>
+            <div class="small-4 columns left">
+                <label>End Date</label>
+                <input type="text" data-bind="value: eventEndTime" placeholder="End Time">
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-3 columns">
+                <input type="button" value="Save" data-bind="click: addRegistrantSave"/>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript">
+
+var AddRegistrantModel = function() {
+    			var self = this;
+    			self.id = ko.observable("");
+    			self.firstName = ko.observable("");
+    			self.lastName = ko.observable("");
+    			self.email = ko.observable("");
+    			self.eventId = ko.observable("");
+    			self.eventTitle = ko.observable("");
+    			self.eventStartTime = ko.observable("");
+    			self.eventEndTime = ko.observable("");
+
+    			self.getRegistrantByID = function(form){
+    				$('#getRegistrantByIDResults').text("");
+
+    				$.ajax({
+    					url : '/registrant/' + self.id(),
+    			        type: 'GET',
+    			        success: function(data){
+    			        	$('#getRegistrantByIDResults').html(data);
+    			        },
+    			        error:function (xhr, ajaxOptions, thrownError){
+    			    		$('#getRegistrantByIDErrMsg').text(xhr.responseText)
+    			    			.show().fadeOut(3600,function(){ $(this).remove(); });
+    			        }
+    				});
+    			};
+
+    			self.addRegistrantSave = function(){
+
+    				$.ajax({
+    					url : '/registrant/',
+    					data: {firstName: self.firstName(),
+    						lastName: self.lastName(),
+    						email: self.email(),
+    						eventId: self.eventId(),
+    						eventTitle: self.eventTitle(),
+    						eventStartTime: self.eventStartTime(),
+    						eventEndTime: self.eventEndTime()},
+    			        type: 'POST',
+    			        success: function(data){
+    			        	if(data && data.lastIndexOf("Error:", 0) === 0){
+    			        		var errMsg = data.substring(6);
+    			        		$('#addRegistrantErrMsg').text(errMsg).show().fadeOut(3600,function(){ $(this).remove(); });
+    			        	}else{
+    			        		$('#addRegistrantSuccessMsg').text(data).show().fadeOut(3600,function(){
+    			        			$(this).remove();
+    			        			$('#addRegistrantDiv').fadeOut(2000, function(){
+    			        				$('#infoDiv').show();
+    			        			});
+    			        			});
+    			        	}
+
+    			        }
+    				});
+    			}
+
+    		};
+
+$(document).ready(function(){
+	ko.applyBindings(new AddRegistrantModel(), addRegistrantDiv);
+});
+
+</script>

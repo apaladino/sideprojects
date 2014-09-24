@@ -1,5 +1,88 @@
 /*<![CDATA[*/
-    		
+
+var loadAddRegistrantView = function(){
+    $.ajax({
+        url : '/views/addRegistrant',
+        type : 'GET',
+        success : function(data){
+            $('#workspaceTitle').text("Add Registrant");
+            $('#addRegistrantDiv').html(data).show();
+        },
+        error : function(data){
+            genErrorMessage("Unexpected Error Retrieving View");
+        }
+    });
+};
+var loadCreateEventView = function(){
+    $.ajax({
+        url : '/views/createEvent',
+        type: 'GET',
+        success: function(data){
+            $('#workspaceTitle').text("Create Event");
+            $('#createEventDiv').html(data);
+            $('#createEventDiv').show();
+            },
+        error: function(data){
+            alert("error");
+            genErrorMessage('Unexpected Error Retrieving View');
+        }
+    });
+};
+
+var loadSocialRegistrationView = function(){
+
+    $.ajax({
+        url : '/views/socialRegistration',
+        type : 'GET',
+        success : function(data){
+            $('#workspaceTitle').text("Register For An Event");
+            $('#socialRegistrationDiv').html(data).show();
+        },
+        error : function(data){
+            genErrorMessage("Unexpected Error Retrieving View");
+        }
+    })
+};
+
+var loadGetRegistrantByEmailView = function(){
+    $.ajax({
+        url : '/views/getRegistrantByEmail',
+        type : 'GET',
+        success : function(data){
+            $('#workspaceTitle').text("Get Registrant By Email Address");
+            $('#getRegistrantByEmailDiv').html(data).show();
+        },
+        error : function(data){
+            genErrorMessage("Unexpected Error Retrieving View");
+        }
+    });
+};
+
+var loadGetRegistrantByIDView = function(){
+    $.ajax({
+        url : '/views/getRegistrantByID',
+        type : 'GET',
+        success : function(data){
+            $('#workspaceTitle').text("Get Registrant By ID");
+            $('#getRegistrantByIDDiv').html(data).show();
+        },
+        error : function(){
+            genErrorMessage("Unexpected Error Retrieving View");
+        }
+    });
+};
+
+var genErrorMessage = function(msg){
+     var errMsg = '<div class="message-banner error-banner">' +
+                     '<div class="banner-content">' +
+                        '<p><strong>'+msg+'</strong>' +
+                     '</div>' +
+                   '</div>';
+     $('#errorMsgDiv').html(errMsg).show().fadeOut(3600, function(){
+                     $(this).html("").hide();
+                 });
+};
+
 var RegisterWithLinkedInModel = function(){
 	var self = this;
 	self.eventId = ko.observable("");
@@ -88,6 +171,9 @@ var RegisterWithLinkedInModel = function(){
         });
     }
 };
+
+
+
 var AddRegistrantModel = function() {
     			var self = this;
     			self.id = ko.observable("");
@@ -98,10 +184,10 @@ var AddRegistrantModel = function() {
     			self.eventTitle = ko.observable("");
     			self.eventStartTime = ko.observable("");
     			self.eventEndTime = ko.observable("");
-    			
+
     			self.getRegistrantByID = function(form){
     				$('#getRegistrantByIDResults').text("");
-    				
+
     				$.ajax({
     					url : '/registrant/' + self.id(),
     			        type: 'GET',
@@ -114,88 +200,9 @@ var AddRegistrantModel = function() {
     			        }
     				});
     			};
-    			
-    			self.getRegistrantByEmail = function(form) {
 
-    				$.ajax({
-    					url : '/registrant?email=' + self.email(),
-    			        type: 'GET',
-    			        success: function(data){
-                            var registrant = JSON.parse(data);
-                            $('#getRegistrantResultsJSON').html("<h5>JSON Response</h5> <br/>" + data);
-
-                            if(registrant.facebookProfile){
-                                $('#facebookDetails').show();
-                                 $('#fullNameTxt').text(registrant.firstname + " " + registrant.lastName);
-                                 $('#fbFirstName').text(registrant.facebookProfile.firstName);
-                                 $('#fbEmail').text(registrant.facebookProfile.emailAddress);
-                                 $('#fbLink').text(registrant.facebookProfile.fbLink);
-                                 $('#fbAgeRange').text(registrant.facebookProfile.ageRange);
-                            }else{
-                                $('#facebookDetails').hide();
-                            }
-
-                            if(registrant.linkedInProfile){
-                                $('#profilePic').attr("src", registrant.linkedInProfile.pictureUrl);
-                                $('#fullNameTxt').text(registrant.firstname + " " + registrant.lastName);
-                                $('#lnFirstName').text(registrant.linkedInProfile.firstName);
-                                $('#lnLastName').text(registrant.linkedInProfile.lastName);
-                                $('#lnEmail').text(registrant.linkedInProfile.emailAddress);
-                                $('#lnSummary').text(registrant.linkedInProfile.summary);
-
-                                if(registrant.linkedInProfile.positions
-                                    && registrant.linkedInProfile.positions.length > 0){
-
-                                    $('#lnPositionsTable')
-                                        .append('<tr><th>Name</th><th>Title</th><th>Industry</th><th>Size</th><th>Type</th>/tr>');
-
-                                    var positions = registrant.linkedInProfile.positions;
-
-                                    for(var i=0; i < positions.length; i++){
-                                        $('#lnPositionsTable')
-                                           .append('<tr><th>'+positions[i].name+
-                                           '</th><th>'+positions[i].title+
-                                           '</th><th>'+positions[i].industry+
-                                           '</th><th>'+positions[i].size+
-                                           '</th><th>'+positions[i].type+
-                                           '</th>/tr>');
-
-                                    }
-                                }
-                            }else {
-                                if(registrant.facebookProfile){
-                                    $('#profilePic').attr("src", registrant.facebookProfile.pictureUrl);
-                                }
-                            }
-
-                            // show events
-                            if(registrant.events && registrant.events.length > 0){
-                                 $('#eventsTable').append('<tr><th>Title</th><th>Start Time</th><th>End Time</th><th>Num Registrants</th>/tr>');
-
-                                 for(var i=0; i < registrant.events.length; i++){
-                                    var event = registrant.events[i];
-                                    var numRegistrants = 0;
-                                    if(event.registrants){
-                                        numRegistrants = event.registrants.length;
-                                    }
-                                    $('#eventsTable').append('<tr><th>'+event.eventTitle+'</th><th>'+
-                                        event.startTime+'</th><th>'+event.endTime+
-                                        '</th><th>'+numRegistrants +'</th>/tr>');
-
-                                 }
-                            }
-                            //$("#header ul").append('<li><a href="/user/messages"><span class="tab">Message Center</span></a></li>');
-                            $('#getRegistrantResults').show();
-    			        },
-    			        error:function (xhr, ajaxOptions, thrownError){
-    			    		$('#getRegistrantByEmailErrMsg').text(xhr.responseText)
-    			    			.show().fadeOut(3600,function(){ $(this).remove(); });
-    			        }
-    				});
-    			};
-    			
     			self.addRegistrantSave = function(){
-    				
+
     				$.ajax({
     					url : '/registrant/',
     					data: {firstName: self.firstName(),
@@ -211,27 +218,20 @@ var AddRegistrantModel = function() {
     			        		var errMsg = data.substring(6);
     			        		$('#addRegistrantErrMsg').text(errMsg).show().fadeOut(3600,function(){ $(this).remove(); });
     			        	}else{
-    			        		$('#addRegistrantSuccessMsg').text(data).show().fadeOut(3600,function(){ 
+    			        		$('#addRegistrantSuccessMsg').text(data).show().fadeOut(3600,function(){
     			        			$(this).remove();
     			        			$('#addRegistrantDiv').fadeOut(2000, function(){
     			        				$('#infoDiv').show();
-    			        			}); 
+    			        			});
     			        			});
     			        	}
-    			        	 
+
     			        }
     				});
     			}
-    			
+
     		};
     		
-$(document).ready(function(){    		
-	ko.applyBindings(new AddRegistrantModel(), addRegistrantsSpan);
-	ko.applyBindings(new RegisterWithLinkedInModel(), socialRegistrationDiv);
-
-});
-
-
 function checkLoginState() {
     FB.getLoginStatus(function(response) {
         statusChangeCallback(response);
@@ -291,6 +291,11 @@ function getFbProfilePic(fbProfile, eventInfo){
 
 
         });
+
+$(document).ready(function(){
+	ko.applyBindings(new RegisterWithLinkedInModel(), socialRegistrationDiv);
+
+});
 
 }
     	/*]]>*/

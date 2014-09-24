@@ -1,0 +1,52 @@
+<!--
+       Social Registration View
+ -->
+<div id="socialRegistrationErrMsg" class="alert-box alert radius" data-alert=""></div>
+<div class="large-12 columns">
+    <h3>Example Attendee - Register For an event with Social Network Login</h3>
+    <form>
+        <h6>(Optional) Event</h6>
+
+        <div class="row">
+            <div class="small-3 columns">
+                <label>Event ID</label>
+                <input type="text" data-bind="value: eventId" placeholder="Event ID">
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-9 columns">
+                <label>Event Title</label>
+                <input type="text" data-bind="value: eventTitle" placeholder="Event Title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-4 columns">
+                <label>Start Date</label>
+                <input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
+            </div>
+            <div class="small-4 columns left">
+                <label>End Date</label>
+                <input type="text" data-bind="value: eventEndTime" placeholder="End Time">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="small-6 columns">
+                <a href="#" data-bind="click: registerWithLinkedIn" class="ssbtn linkedin pull-left">
+                    Sign up with LinkedIn
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-6 columns left">
+                <a href="#" data-bind="click: registerWithFacebook" class="ssbtn facebook pull-left">Sign up with Facebook</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-6 columns left">
+                <a href="#" class="ssbtn google pull-left">Sign up with Google Plus</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="socialRegistrationResults"></div>

@@ -1,0 +1,58 @@
+<script type="text/javascript">
+     $( document ).ready( function() {
+        var mindate = new Date();
+        $( "#startDate" ).COLCalendar( { minDate: mindate } );
+    } );
+</script>
+
+<div style="width:450px">
+    <h3>Create A New Event</h3>
+    <p>
+        <em>(POST /event )</em>
+    </p>
+    <div class="form-row">
+        <div class="form-row-column column-24">
+            <label for="title">Training Title</label>
+            <input id="title" type="text" title="New Training" maxlength="128" class="count">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-row-column column-24">
+            <label for="trainingDesc">Training Description</label>
+            <textarea id="trainingDesc" maxlength="2056" class="count"></textarea>
+            <p class="description">The description will be used in your training invitation email and registration page.</p>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-row-column column-9">
+            <label for="startDate">Start Date</label>
+            <div class="form-row-column column-18">
+                <input id="startDate" type="text" value="" title="Click Here!" readonly="readonly" data-cal-header="Choose a date:">
+            </div>
+        </div>
+        <div class="form-row-column column-5">
+            <label for="startTime">Start Time</label>
+            <div class="form-row-column column-8">
+                <input id="startTime" type="text" value="12:00">
+            </div>
+            <div class="form-row-column column-11 push-4">
+                <select class="symphony-select">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row-column column-5 push-1">
+            <label for="endTime">End Time</label>
+            <div class="form-row-column column-8">
+                <input id="endTime" type="text" value="1:00">
+            </div>
+            <div class="form-row-column column-11 push-4">
+                <select class="symphony-select">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<!--
+    Get Registrant By ID View
+ -->
+<div id="getRegistrantByIDErrMsg" class="alert-box alert radius" data-alert=""></div>
+
+<div class="large-12 columns">
+    <h3>Get Registrant By ID</h3>
+
+    <p>
+        <em>(GET /registrant/reg_id )</em>
+    </p>
+
+    <form>
+        <label>Please enter registrant ID</label>
+        <input type="text" data-bind="value: id"/>
+        <input type="button" value="Get Registrant" data-bind="click: getRegistrantByID"/>
+    </form>
+</div>
+<div id="getRegistrantByIDResults" style="position:inline; max-width:800px"></div>
+
+<script type="text/javascript">
+
+var RegistrantModel = function() {
+    			var self = this;
+    			self.id = ko.observable("");
+    			self.firstName = ko.observable("");
+    			self.lastName = ko.observable("");
+    			self.email = ko.observable("");
+    			self.eventId = ko.observable("");
+    			self.eventTitle = ko.observable("");
+    			self.eventStartTime = ko.observable("");
+    			self.eventEndTime = ko.observable("");
+
+    			self.getRegistrantByID = function(form){
+    				$('#getRegistrantByIDResults').text("");
+
+    				$.ajax({
+    					url : '/registrant/' + self.id(),
+    			        type: 'GET',
+    			        success: function(data){
+    			        	$('#getRegistrantByIDResults').html(data);
+    			        },
+    			        error:function (xhr, ajaxOptions, thrownError){
+    			    		$('#getRegistrantByIDErrMsg').text(xhr.responseText)
+    			    			.show().fadeOut(3600,function(){ $(this).remove(); });
+    			        }
+    				});
+    			};
+
+
+
+    		};
+
+ $(document).ready(function(){
+	ko.applyBindings(new RegistrantModel(), getRegistrantByIDDiv);
+
+});
+</script>

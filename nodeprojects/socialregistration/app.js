@@ -8,6 +8,7 @@ var routes = require('./routes');
 var registrant = require('./routes/registrants');
 var fbregistrant = require('./routes/fbregistrant');
 var linkedInRegistrant = require('./routes/linkedInRegistrant');
+var event = require('./routes/event');
 var http = require('http');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -41,9 +42,14 @@ app.post('/registrant', registrant.addRegistrant);
 app.post('/registrant/linkedin', linkedInRegistrant.registerWithLinkedIn);
 app.post('/registrant/facebook', fbregistrant.registerWithFacebook);
 app.get('/registrant/:reg_id', registrant.getRegistrantByID);
-app.get('/registrant', registrant.getRegistrant);
+app.get('/rest/registrant', registrant.getRegistrant);
 app.get('/rest/linkedin/authenticate', registrant.authenticateLinkedInUser);
 app.get('/rest/linkedin/register', registrant.registerLinkedInUser);
+app.get('/views/createEvent', event.getCreateEventView);
+app.get('/views/socialRegistration', registrant.getSocialRegistrationView);
+app.get('/views/addRegistrant', registrant.getAddRegistrantView);
+app.get('/views/getRegistrantByEmail', registrant.getRegistrantByEmailView);
+app.get('/views/getRegistrantByID', registrant.getRegistrantByIDView);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

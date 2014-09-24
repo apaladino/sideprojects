@@ -1,0 +1,482 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="stylesheets/foundation.css" />
+    <link rel="stylesheet" href="stylesheets/socialreg.css" />
+    <link rel="stylesheet" href="stylesheets/col-common.css" />
+    <script src="javascripts/vendor/modernizr.js"></script>
+    <script src="javascripts/jquery-1.4.2.min.js"></script>
+    <script src="javascripts/knockout-3.0.0.js"></script>
+    <script src="javascripts/web-library.js"></script>
+    <script type="text/javascript" src="https://platform.linkedin.com/in.js">
+      api_key : 750c8k09ptha6k
+    </script>
+    <script src="javascripts/socialdata.js"></script>
+
+
+</head>
+<body class="cols">
+
+<div class="container">
+<div class="header">
+    <div class="header-nav">
+        <ul class="nav-links">
+            <li><%=title%></li>
+        </ul>
+    </div>
+</div>
+
+<!-- End Header and Nav -->
+
+<div class="row">
+
+<!-- Main Content Section -->
+<div id="workspace" class="main">
+<div id="errorMsgDiv" class="alert-box alert round" data-alert=""></div>
+<div class="sidebar">
+    <div class="sidebar-content">
+        <div class="sidebar-content-shadow">
+            <!-- Sidebar Template -->
+            <ul class="sidebar-nav">
+                <li class="current"><a href="/some/link">API Methods</a></li>
+                <li><a id="addRegistrantLink" href="#">Add Registrant</a></li>
+                <li><a id="getRegistrantByIDLink" href="#">Get Registrant By ID</a></li>
+                <li><a id="getRegistrantByEmailLink" href="#">Get Registrant By Email</a></li>
+            </ul>
+            <hr>
+            <ul class="sidebar-nav">
+                <li><a id="createEventLink" href="#">Create New Event</a></li>
+                <li><a id="registerWithLinkedInLink" href="#">Social Registrant</a></li>
+            </ul>
+            <hr>
+            <div class="aside">
+                <div class="aside-content">
+                    <h3><small>General Information</small></h3>
+                    <p>
+                        This is a test administration page for the social data service. This service provides API calls
+                        to allow you to register users and look up social data for a particular user.
+                    </p>
+
+                </div>
+            </div>
+            <!-- End Sidebar Template -->
+        </div>
+    </div>
+</div>
+
+
+<div id="socialRegistrationDiv" class="row panel large-9 columns">
+    <div id="socialRegistrationErrMsg" class="alert-box alert radius" data-alert=""></div>
+    <div class="large-12 columns">
+        <h3>Example Attendee - Register For an event with Social Network Login</h3>
+        <form>
+            <h6>(Optional) Event</h6>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label>Event ID</label>
+                    <input type="text" data-bind="value: eventId" placeholder="Event ID">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-9 columns">
+                    <label>Event Title</label>
+                    <input type="text" data-bind="value: eventTitle" placeholder="Event Title">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-4 columns">
+                    <label>Start Date</label>
+                    <input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
+                </div>
+                <div class="small-4 columns left">
+                    <label>End Date</label>
+                    <input type="text" data-bind="value: eventEndTime" placeholder="End Time">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="small-6 columns">
+                    <a href="#" data-bind="click: registerWithLinkedIn" class="ssbtn linkedin pull-left">
+                        Sign up with LinkedIn
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-6 columns left">
+                    <a href="#" data-bind="click: registerWithFacebook" class="ssbtn facebook pull-left">Sign up with Facebook</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-6 columns left">
+                    <a href="#" class="ssbtn google pull-left">Sign up with Google Plus</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="socialRegistrationResults"></div>
+</div>
+
+<div id="createEventDiv" class="row panel large-9 columns">
+
+    <div style="width:450px">
+        <h3>Create A New Event</h3>
+        <p>
+            <em>(POST /event )</em>
+        </p>
+        <div class="form-row">
+            <div class="form-row-column column-24">
+                <label for="title">Training Title</label>
+                <input id="title" type="text" title="New Training" maxlength="128" class="count">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-row-column column-24">
+                <label for="trainingDesc">Training Description</label>
+                <textarea id="trainingDesc" maxlength="2056" class="count"></textarea>
+                <p class="description">The description will be used in your training invitation email and registration page.</p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-row-column column-9">
+                <label for="startDate">Start Date</label>
+                <div class="form-row-column column-18">
+                    <input id="startDate" type="text" value="" title="Click Here!" readonly="readonly" data-cal-header="Choose a date:">
+                </div>
+            </div>
+            <div class="form-row-column column-5">
+                <label for="startTime">Start Time</label>
+                <div class="form-row-column column-8">
+                    <input id="startTime" type="text" value="12:00">
+                </div>
+                <div class="form-row-column column-11 push-4">
+                    <select class="symphony-select">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row-column column-5 push-1">
+                <label for="endTime">End Time</label>
+                <div class="form-row-column column-8">
+                    <input id="endTime" type="text" value="1:00">
+                </div>
+                <div class="form-row-column column-11 push-4">
+                    <select class="symphony-select">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+        <span id="addRegistrantsSpan">
+	      	<div id="addRegistrantDiv" class="row panel columns" style="float: left; clear: right">
+                <div id="addRegistrantErrMsg" class="alert-box alert radius" data-alert=""></div>
+                <div id="addRegistrantSuccessMsg" class="alert-box success radius" data-alert=""></div>
+
+                <div style="width:450px">
+                    <h3>Add Registrant</h3>
+                    <p>
+                        <em>(POSt /registrant )</em>
+                    </p>
+                    <form>
+                        <div class="row">
+                            <div class="large-6 columns">
+                                <label>First Name</label>
+                                <input type="text" data-bind="value: firstName" placeholder="First Name">
+                            </div>
+                            <div class="large-6 columns">
+                                <label>Last Name</label>
+                                <input type="text" data-bind="value: lastName" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <label>Email Address</label>
+                                <input type="text" data-bind="value: email"  placeholder="Email Address">
+                            </div>
+                        </div>
+                        <hr/>
+                        <h6>(Optional) Event</h6>
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <label>Event ID</label>
+                                <input type="text" data-bind="value: eventId" placeholder="Event ID">
+                            </div>
+                            <div class="small-9 columns">
+                                <label>Event Title</label>
+                                <input type="text" data-bind="value: eventTitle" placeholder="Event Title">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-4 columns">
+                                <label>Start Date</label>
+                                <input type="text" data-bind="value: eventStartTime" placeholder="Start Time">
+                            </div>
+                            <div class="small-4 columns left">
+                                <label>End Date</label>
+                                <input type="text" data-bind="value: eventEndTime" placeholder="End Time">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <input type="button" value="Save" data-bind="click: addRegistrantSave"/>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+	      	<div id="getRegistrantByIDDiv" class="row panel columns" style="float: left; clear: right">
+                <div id="getRegistrantByIDErrMsg" class="alert-box alert radius" data-alert=""></div>
+
+                <div class="large-12 columns">
+                    <h3>Get Registrant By ID</h3>
+                    <p>
+                        <em>(GET /registrant/reg_id )</em>
+                    </p>
+                    <form>
+                        <label>Please enter registrant ID</label>
+                        <input type="text" data-bind="value: id"/>
+                        <input type="button" value="Get Registrant" data-bind="click: getRegistrantByID"/>
+                    </form>
+                </div>
+                <div id="getRegistrantByIDResults" style="position:inline; max-width:800px"></div>
+            </div>
+
+
+	      	<div id="getRegistrantByEmailDiv" class="row panel columns" style="float: left; clear: right; max-width: 800px">
+                <div id="getRegistrantByEmailErrMsg" class="alert-box alert radius" data-alert=""></div>
+
+                <div class="large-12 columns">
+                    <h3>Get Registrant By Email</h3>
+                    <p>
+                        <em>(GET /registrant?email=...)</em>
+                    </p>
+                    <form>
+                        <label>Please enter registrant email</label>
+                        <input type="text" data-bind="value: email"/>
+                        <input type="button" value="Get Registrant" data-bind="click: getRegistrantByEmail"/>
+                    </form>
+                </div>
+                <span id="getRegistrantResultsJSON" style="position:inline; max-width:800px"></span>
+                <hr/>
+                <br/>
+                <div id="getRegistrantResults" class="panel" style="background: white">
+
+                    <h4>Retrieved Results</h4>
+                    <div class="row" style="margin-left: 5px; margin-bottom: 10px">
+                        <div class="large-9 columns">
+                            <div class="large-6 columns">
+                                <img id="profilePic"/> &nbsp;
+                                <span id="fullNameTxt"/> &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="leftHeader">
+                            Linked In Profile :
+                        </div>
+                        <div id="linkedInDetails" class="small-10 columns leftColumn">
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        First Name:
+                                    </div>
+                                    <div class="small-2 columns leftColumn">
+                                        <span id="lnFirstName"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        Last Name:
+                                    </div>
+                                    <div class="small-2 columns leftColumn">
+                                        <span id="lnLastName"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        Email Address:
+                                    </div>
+                                    <div class="small-2 columns leftColumn">
+                                        <span id="lnEmail"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        Summary:
+                                    </div>
+                                    <div class="large-20 columns leftColumn">
+                                        <span id="lnSummary"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="small-10 columns leftColumn">
+                                    <div class="leftHeader">
+                                        Positions:
+                                    </div>
+                                    <div class="large-20 columns leftColumn">
+                                        <table id="lnPositionsTable">
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  #### FACEBOOK ### -->
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="leftHeader">
+                            Facebook Profile :
+                        </div>
+                    </div>
+                    <div id="facebookDetails">
+                        <div class="row">
+                            <div class="small-10 columns leftColumn">
+                                <div class="leftHeader">
+                                    First Name:
+                                </div>
+                                <div class="small-2 columns leftColumn">
+                                    <span id="fbFirstName"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-10 columns leftColumn">
+                                <div class="leftHeader">
+                                    Last Name:
+                                </div>
+                                <div class="small-2 columns leftColumn">
+                                    <span id="fbLastName"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-10 columns leftColumn">
+                                <div class="leftHeader">
+                                    Email Address:
+                                </div>
+                                <div class="small-2 columns leftColumn">
+                                    <span id="fbEmail"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 columns leftColumn">
+                                <div class="leftHeader">
+                                    Link:
+                                </div>
+                                <div class="small-12 columns leftColumn">
+                                    <span id="fbLink"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-10 columns leftColumn">
+                                <div class="leftHeader">
+                                    Age Range
+                                </div>
+                                <div class="small-2 columns leftColumn">
+                                    <span id="fbAgeRange"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="leftHeader">
+                            Events:
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-6 columns leftColumn">
+                            <table id="eventsTable">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+</span>
+</div>
+
+
+
+
+<script type="text/javascript">
+  	function hideAll(){
+  		$('#infoDiv').hide();
+  		$('#addRegistrantDiv').hide();
+  		$('#addRegistrantSuccessMsg').hide();
+  		$('#addRegistrantErrMsg').hide();
+  		$('#errorMsgDiv').hide();
+        $('#getRegistrantResults').hide();
+  		$('#getRegistrantByEmailDiv').hide();
+  		$('#getRegistrantByEmailErrMsg').hide();
+  		$('#getRegistrantByIDDiv').hide();
+  		$('#getRegistrantByIDErrMsg').hide();
+  		$('#socialRegistrationDiv').hide();
+  		$('#socialRegistrationErrMsg').hide();
+        $('#createEventDiv').hide();
+  	}
+  	$(document).ready(function(){
+  		hideAll();
+  		$('#infoDiv').show();
+  	});
+
+  	$('#registerWithLinkedInLink').click(function(){
+  		hideAll();
+  		$('#socialRegistrationDiv').show();
+
+  	});
+
+  	$('#addRegistrantLink').click(function(){
+  		hideAll();
+  		$('#addRegistrantDiv').show();
+  	});
+
+  	$('#getRegistrantByEmailLink').click(function(){
+  		hideAll();
+  		$('#getRegistrantByEmailDiv').show();
+  	});
+
+  	$('#getRegistrantByIDLink').click(function(){
+  		hideAll();
+  		$('#getRegistrantByIDDiv').show();
+  	})
+
+    $('#createEventLink').click(function(){
+        hideAll();
+        $('#createEventDiv').show();
+    })
+
+    $( document ).ready( function() {
+        var mindate = new Date();
+        $( "#startDate" ).COLCalendar( { minDate: mindate } );
+    } );
+  </script>
+
+
+</div>
+</body>
+</html>

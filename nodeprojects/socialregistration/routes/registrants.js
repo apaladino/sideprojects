@@ -9,10 +9,32 @@ var API_KEY = '750c8k09ptha6k';
 var SECRET_KEY = 'ECInL187WE272dAa';
 var request = require('request');
 var regIncludes = 'events facebookProfile linkedInProfile';
+var ObjectId = require('mongoose').Types.ObjectId;
+
+
+
+exports.getSocialRegistrationView = function(req, res){
+    res.render('socialRegistrationView');
+};
 
 exports.registerLinkedInUser = function (req, res) {
     res.send("registerLinkedInUser: " + JSON.stringify(req.query));
 };
+
+
+exports.getRegistrantByEmailView = function(req, res){
+    res.render('getRegistrantViewByEmail');
+}
+
+exports.getRegistrantByIDView = function(req, res){
+    res.render('getRegistrantByIDView');
+}
+
+exports.getAddRegistrantView = function(req, res){
+    res.render('addRegistrantView');
+};
+
+
 
 /*
  * authenticate linked in user and get access token.
@@ -65,7 +87,7 @@ exports.authenticateLinkedInUser = function (req, res) {
         res.send(JSON.stringify(req.params));
     }
 
-}
+};
 
 exports.getRegistrantByID = function (req, res) {
     console.log("GET /registrant/reg_id " + req.params.reg_id);
@@ -74,39 +96,40 @@ exports.getRegistrantByID = function (req, res) {
 
     Registrant.findOne({
         '_id': regId
-    }).populate("events")
-    .populate("linkedInProfile")
-    .populate("positions")
-    .populate("facebookProfile").exec(function (err, registrant) {
-                if (err) {
-                    res.send("Unexpected error: " + err);
-                }
+    }).populate("events linkedInProfile facebookProfile")
+    .exec(function (err, registrant) {
+        console.log("err: " + err);
+        if (err) {
+            res.send("Unexpected error: " + err);
+        }
 
-                console.log("registrant: " + JSON.stringify(registrant));
+        console.log("###" + typeof registrant);
+        if (typeof registrant == "undefined") {
+            res.status(404);
+            res.send("Error: Registrant with ID: " + regId + " not found.");
+        } else {
+            console.log("registrant: " + JSON.stringify(registrant));
 
-                if ((!registrant) || typeof registrant == "undefined") {
-                    res.status(404);
-                    res.send("Error: Registrant: " + email + " not found.");
-                } else {
-
-                    if(registrant.linkedInProfile && registrant.linkedInProfile.positions){
-                        var linkedInProfile = LinkedInProfile.findOne({'_id' : registrant.linkedInProfile._id})
-                        .populate("positions").exec(function (err, profile){
-                            if(err){
-                                console.log("Unable to retreive linkedIn profile.");
-                                return;
-                            }
-                            console.log("Looked up user linked in profile. " + JSON.stringify(profile));
-                            registrant.linkedInProfile = profile;
-                            res.status(200);
-                            res.send(JSON.stringify(registrant));
-                        });
-                    }else{
-                        res.status(200);
-                        res.send(JSON.stringify(registrant));
+            if(registrant.linkedInProfile && registrant.linkedInProfile.positions){
+                var linkedInProfile = LinkedInProfile.findOne({'_id' : registrant.linkedInProfile._id})
+                .populate("positions").exec(function (err, profile){
+                    if(err){
+                        console.log("Unable to retreive linkedIn profile.");
+                        return;
                     }
-                }
-            });
+                    console.log("Looked up user linked in profile. " + JSON.stringify(profile));
+                    registrant.linkedInProfile = profile;
+                    res.status(200);
+                    res.send(JSON.stringify(registrant));
+                });
+            }else{
+                res.status(200);
+                res.send(JSON.stringify(registrant));
+            }
+        }
+    });
+
+
 }
 
 exports.getRegistrant = function (req, res) {
@@ -151,7 +174,7 @@ exports.getRegistrant = function (req, res) {
                 }
 
             });
-}
+};
 
 exports.addRegistrant = function (req, res) {
 

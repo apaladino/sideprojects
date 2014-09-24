@@ -1,0 +1,12 @@
+/*
+ *  Handles all event relate requests.
+ */
+
+
+/*
+    Load the create event view
+ */
+exports.getCreateEventView = function(req, res){
+    res.render('createEvent');
+
+}

@@ -1,0 +1,292 @@
+<!--
+    Get Registrant View Page
+ -->
+
+<div id="getRegistrantByEmailErrMsg" class="alert-box alert radius" data-alert=""></div>
+
+<div class="large-12 columns">
+    <h3>Get Registrant By Email</h3>
+
+    <p>
+        <em>(GET /registrant?email=...)</em>
+    </p>
+
+    <form>
+        <label>Please enter registrant email</label>
+        <input type="text" data-bind="value: email"/>
+        <input type="button" value="Get Registrant" data-bind="click: getRegistrantByEmail"/>
+    </form>
+</div>
+<br/>
+<div id="getRegistrantResultsJSON">
+    <div class="message-banner information-banner">
+        <div class="banner-content">
+
+            <p  id="getRegistrantsResultsJSONText"
+                style="overflow:auto; position: relative; width: {any}; height: {any};">
+
+            </p>
+            </div>
+        </div>
+</div>
+<hr/>
+<br/>
+<div id="getRegistrantResults" class="panel" style="background: white">
+
+    <h4>Retrieved Results</h4>
+
+    <div  style="margin-left: 5px; margin-bottom: 10px">
+        <div class="large-9 columns">
+            <div class="large-6 columns">
+                <img id="profilePic"/> &nbsp;
+                <span id="fullNameTxt"/> &nbsp;
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+
+    <div  style="margin-bottom: 10px">
+        <div class="leftHeader">
+            Linked In Profile :
+        </div>
+        <div id="linkedInDetails">
+            <div >
+                <div class="small-10 columns leftColumn">
+                    <div class="leftHeader">
+                        First Name:
+                    </div>
+                    <div class="small-2 columns leftColumn">
+                        <span id="lnFirstName"/>
+                    </div>
+                </div>
+            </div>
+            <div >
+                <div class="small-10 columns leftColumn">
+                    <div class="leftHeader">
+                        Last Name:
+                    </div>
+                    <div class="small-2 columns leftColumn">
+                        <span id="lnLastName"/>
+                    </div>
+                </div>
+            </div>
+            <div >
+                <div class="small-10 columns leftColumn">
+                    <div class="leftHeader">
+                        Email Address:
+                    </div>
+                    <div class="small-2 columns leftColumn">
+                        <span id="lnEmail"/>
+                    </div>
+                </div>
+            </div>
+            <div >
+                <div class="small-10 columns leftColumn">
+                    <div class="leftHeader">
+                        Summary:
+                    </div>
+                    <div class="large-20 columns leftColumn">
+                        <span id="lnSummary"/>
+                    </div>
+                </div>
+            </div>
+            <br/>
+
+            <div >
+                <div class="small-10 columns leftColumn">
+                    <div class="leftHeader">
+                        Positions:
+                    </div>
+                    <div class="large-20 columns leftColumn">
+                        <table id="lnPositionsTable">
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  #### FACEBOOK ### -->
+    <div  style="margin-bottom: 10px">
+        <div class="leftHeader">
+            Facebook Profile :
+        </div>
+    </div>
+    <div id="facebookDetails">
+        <div >
+            <div class="small-10 columns leftColumn">
+                <div class="leftHeader">
+                    First Name:
+                </div>
+                <div class="small-2 columns leftColumn">
+                    <span id="fbFirstName"/>
+                </div>
+            </div>
+        </div>
+        <div >
+            <div class="small-10 columns leftColumn">
+                <div class="leftHeader">
+                    Last Name:
+                </div>
+                <div class="small-2 columns leftColumn">
+                    <span id="fbLastName"/>
+                </div>
+            </div>
+        </div>
+        <div >
+            <div class="small-10 columns leftColumn">
+                <div class="leftHeader">
+                    Email Address:
+                </div>
+                <div class="small-2 columns leftColumn">
+                    <span id="fbEmail"/>
+                </div>
+            </div>
+        </div>
+        <div >
+            <div class="small-12 columns leftColumn">
+                <div class="leftHeader">
+                    Link:
+                </div>
+                <div class="small-12 columns leftColumn">
+                    <span id="fbLink"/>
+                </div>
+            </div>
+        </div>
+        <div >
+            <div class="small-10 columns leftColumn">
+                <div class="leftHeader">
+                    Age Range
+                </div>
+                <div class="small-2 columns leftColumn">
+                    <span id="fbAgeRange"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div  style="margin-bottom: 10px">
+        <div class="leftHeader">
+            Events:
+        </div>
+    </div>
+    <div >
+        <div class="large-6 columns leftColumn">
+            <table id="eventsTable">
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+        $('#getRegistrantResults').hide();
+  		$('#getRegistrantByEmailErrMsg').hide();
+
+
+var GetRegistrantByEmailModel = function() {
+    			var self = this;
+    			self.id = ko.observable("");
+    			self.firstName = ko.observable("");
+    			self.lastName = ko.observable("");
+    			self.email = ko.observable("");
+    			self.eventId = ko.observable("");
+    			self.eventTitle = ko.observable("");
+    			self.eventStartTime = ko.observable("");
+    			self.eventEndTime = ko.observable("");
+
+    			self.getRegistrantByEmail = function(form) {
+
+    				$.ajax({
+    					url : '/rest/registrant?email=' + self.email(),
+    			        type: 'GET',
+    			        success: function(data){
+                            var registrant = JSON.parse(data);
+
+                            $('#getRegistrantsResultsJSONText').text("JSON RESPONSE: " + data);
+                            $('#getRegistrantResultsJSON').show();
+
+                            if(registrant.facebookProfile){
+                                $('#facebookDetails').show();
+                                 $('#fullNameTxt').text(registrant.firstname + " " + registrant.lastName);
+                                 $('#fbFirstName').text(registrant.facebookProfile.firstName);
+                                 $('#fbEmail').text(registrant.facebookProfile.emailAddress);
+                                 $('#fbLink').text(registrant.facebookProfile.fbLink);
+                                 $('#fbAgeRange').text(registrant.facebookProfile.ageRange);
+                            }else{
+                                $('#facebookDetails').hide();
+                            }
+
+                            if(registrant.linkedInProfile){
+                                $('#profilePic').attr("src", registrant.linkedInProfile.pictureUrl);
+                                $('#fullNameTxt').text(registrant.firstname + " " + registrant.lastName);
+                                $('#lnFirstName').text(registrant.linkedInProfile.firstName);
+                                $('#lnLastName').text(registrant.linkedInProfile.lastName);
+                                $('#lnEmail').text(registrant.linkedInProfile.emailAddress);
+                                $('#lnSummary').text(registrant.linkedInProfile.summary);
+
+                                if(registrant.linkedInProfile.positions
+                                    && registrant.linkedInProfile.positions.length > 0){
+
+                                    $('#lnPositionsTable')
+                                        .append('<tr><th>Name</th><th>Title</th><th>Industry</th><th>Size</th><th>Type</th>/tr>');
+
+                                    var positions = registrant.linkedInProfile.positions;
+
+                                    for(var i=0; i < positions.length; i++){
+                                        $('#lnPositionsTable')
+                                           .append('<tr><th>'+positions[i].name+
+                                           '</th><th>'+positions[i].title+
+                                           '</th><th>'+positions[i].industry+
+                                           '</th><th>'+positions[i].size+
+                                           '</th><th>'+positions[i].type+
+                                           '</th>/tr>');
+
+                                    }
+                                }
+                            }else {
+                                if(registrant.facebookProfile){
+                                    $('#profilePic').attr("src", registrant.facebookProfile.pictureUrl);
+                                }
+                            }
+
+                            // show events
+                            if(registrant.events && registrant.events.length > 0){
+                                 $('#eventsTable').append('<tr><th>Title</th><th>Start Time</th><th>End Time</th><th>Num Registrants</th>/tr>');
+
+                                 for(var i=0; i < registrant.events.length; i++){
+                                    var event = registrant.events[i];
+                                    var numRegistrants = 0;
+                                    if(event.registrants){
+                                        numRegistrants = event.registrants.length;
+                                    }
+                                    $('#eventsTable').append('<tr><th>'+event.eventTitle+'</th><th>'+
+                                        event.startTime+'</th><th>'+event.endTime+
+                                        '</th><th>'+numRegistrants +'</th>/tr>');
+
+                                 }
+                            }
+                            $('#getRegistrantResults').show();
+    			        },
+    			        error:function (xhr, ajaxOptions, thrownError){
+    			            $('#getRegistrantByEmailErrMsg').text(xhr.responseText).show().fadeOut(3600,function(){ $(this).remove(); });
+    			            alert("*" + xhr.responseText);
+
+    			        }
+    				});
+    			};
+
+
+
+    		};
+
+$(document).ready(function(){
+    $('#getRegistrantResultsJSON').hide();
+	ko.applyBindings(new GetRegistrantByEmailModel(), getRegistrantByEmailDiv);
+
+});
+
+</script>
+
