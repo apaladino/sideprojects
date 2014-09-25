@@ -5,29 +5,34 @@
 <div class="large-12 columns">
     <h3>Example Attendee - Register For an event with Social Network Login</h3>
     <form>
-        <h6>(Optional) Event</h6>
 
-        <div class="row">
-            <div class="small-3 columns">
-                <label>Event ID</label>
-                <input type="text" data-bind="value: eventId" placeholder="Event ID">
+        <div class="form-row">
+            <div class="form-row-column column-11">
+                <h6>(Optional) Event</h6>
             </div>
         </div>
 
-        <div class="row">
-            <div class="small-6 columns">
+        <div class="form-row">
+            <div class="form-row-column column-11">
+                <label for="eventId">Event ID</label>
+                <input id="eventId" type="text" data-bind="value: eventId" placeholder="Event ID">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-row-column column-5">
                 <a href="#" data-bind="click: registerWithLinkedIn" class="ssbtn linkedin pull-left">
                     Sign up with LinkedIn
                 </a>
             </div>
         </div>
-        <div class="row">
-            <div class="small-6 columns left">
+        <div class="form-row">
+            <div class="form-row-column column-5">
                 <a href="#" data-bind="click: registerWithFacebook" class="ssbtn facebook pull-left">Sign up with Facebook</a>
             </div>
         </div>
-        <div class="row">
-            <div class="small-6 columns left">
+        <div class="form-row">
+            <div class="form-row-column column-5">
                 <a href="#" class="ssbtn google pull-left">Sign up with Google Plus</a>
             </div>
         </div>
@@ -80,7 +85,8 @@ var RegisterWithLinkedInModel = function(){
 		    success: function(data){
 		        	if(data && data.lastIndexOf("Error:", 0) === 0){
 		        		var errMsg = data.substring(6);
-		        		$('#socialRegistrationErrMsg').text(errMsg).show().fadeOut(3600,function(){ $(this).remove(); });
+		        		$('#confirmationMsgDiv').text(errMsg);
+                        $('#confirmationMsgContainer').show().fadeOut(3600,function(){ $(this).remove(); });
 		        	}else{
 		        		$('#socialRegistrationResults').text(data).show().fadeOut(3600,function(){
 		        			$(this).remove();
@@ -142,6 +148,8 @@ function checkLoginState() {
 }(document, 'script', 'facebook-jssdk'));
 
 
+
+
 function fbRegister(eventInfo) {
     var fields='first_name,last_name, about, age_range, bio, birthday, ' +
             'education, email, link, locale, location, political, timezone, work';
@@ -184,6 +192,7 @@ function getFbProfilePic(fbProfile, eventInfo){
 
 
         });
+}
 
 $(document).ready(function(){
 	ko.applyBindings(new RegisterWithLinkedInModel(), socialRegistrationDiv);
