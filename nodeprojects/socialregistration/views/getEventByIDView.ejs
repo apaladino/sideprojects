@@ -1,0 +1,51 @@
+<!--
+    Get Event By ID View
+ -->
+<div id="getEventByIDErrMsg" class="alert-box alert radius" data-alert=""></div>
+
+<div id="getEventByIDDiv" class="large-12 columns">
+    <h3>Get Event By ID</h3>
+
+    <p>
+        <em>(GET /Event/reg_id )</em>
+    </p>
+
+    <form>
+        <label>Please enter Event ID</label>
+        <input type="text" data-bind="value: id"/>
+        <input type="button" value="Get Event" data-bind="click: getEventByID"/>
+    </form>
+</div>
+<div id="getEventByIDResults" style="position:inline; max-width:800px"></div>
+
+<script type="text/javascript">
+
+var GetEventByIDModel = function() {
+    			var self = this;
+    			self.id = ko.observable("");
+
+    			self.getEventByID = function(form){
+    				$('#getEventByIDResults').text("");
+
+    				$.ajax({
+    					url : '/events/' + self.id(),
+    			        type: 'GET',
+    			        success: function(data){
+    			        	$('#eventSettingsDiv').html(data);
+    			        },
+    			        error:function (xhr, ajaxOptions, thrownError){
+    			    		$('#getEventByIDErrMsg').text(xhr.responseText)
+    			    			.show().fadeOut(3600,function(){ $(this).remove(); });
+    			        }
+    				});
+    			};
+
+
+
+    		};
+
+ $(document).ready(function(){
+	ko.applyBindings(new GetEventByIDModel(), getEventByIDDiv);
+
+});
+</script>

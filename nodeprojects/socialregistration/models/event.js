@@ -6,12 +6,17 @@ var Schema = mongoose.Schema;
 
 
 var EventSchema = new Schema({
-	_registrantKey : { type: String, ref: 'Registrant' },
-    eventId: Number,
-    eventTitle: String,
-    startTime: Date,
-    endTime: Date,
+	organizerKey : { type: String, ref: 'Organizer' },
+	organizer : {type: Schema.Types.ObjectId, ref: 'Organizer'},
+	title : String,
+	description : String,
+	startDate : Date,
+	startTime : String,
+	startTimeAMPM : String,
+	endTime : String,
+	endTimeAMPM : String,
     registrants: [{ type: Schema.Types.ObjectId, ref: 'Registrant' }]
+
 });
 
 

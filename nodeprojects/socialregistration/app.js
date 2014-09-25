@@ -50,6 +50,9 @@ app.get('/views/socialRegistration', registrant.getSocialRegistrationView);
 app.get('/views/addRegistrant', registrant.getAddRegistrantView);
 app.get('/views/getRegistrantByEmail', registrant.getRegistrantByEmailView);
 app.get('/views/getRegistrantByID', registrant.getRegistrantByIDView);
+app.get('/events/:event_id', event.loadEventSettingsView);
+app.post('/events', event.createNewEvent);
+app.get('/views/eventSettings', event.getEventByIDView);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

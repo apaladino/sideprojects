@@ -15,9 +15,6 @@ exports.registerWithFacebook = function(req, res){
     var fbPicture = req.body.fbPicture;
 
     var eventId = eventInfo.eventId;
-    var eventTitle = eventInfo.eventTitle;
-    var eventStartTime = eventInfo.eventStartTime;
-    var eventEndTime = eventInfo.eventEndTime;
     var firstName = fbProfile.first_name;
     var lastName = fbProfile.last_name;
     var email = fbProfile.email;
@@ -45,183 +42,101 @@ exports.registerWithFacebook = function(req, res){
        }
     }
 
-    print(eventId + "," + eventTitle + ", " + eventStartTime + "," + eventEndTime + "," + firstName + "," +
+    print(eventId + "," + firstName + "," +
        lastName + "," + email + "," + fbLink + "," + timezone +","+ pictureUrl  +"," + ageRange);
 
-     Registrant.findOne({
-        'email': email
-    }).populate(regIncludes).exec(function (err, registrant) {
-        if (err) {
-            handleError("Unexpected error: " + err, res);
+
+    console.log("Looking for event: " + eventId);
+
+    Event.findOne({ "_id" : eventId}, function(err, event){
+        if(err){
+            console.log("Unexpected error: " + err);
+            res.status(500);
+            res.send("Unexpected error: " + err);
             return;
         }
 
-        if ((!registrant) || typeof registrant == "undefined") {
-            // not found
-            console.log("Registrant: " + email + " not found. Creating new Registrant Schema.");
+        if(!(typeof event === 'undefined') && event){
+            // event found
+            console.log("Located event.");
+            console.log("Looking up registrant " + email);
 
-            var newRegistrant = registrantService.createNewRegistrant(firstName, lastName, email);
+            Registrant.findOne({ 'email' : email})
+            .populate(regIncludes)
+            .exec(function(err, registrant){
 
-            newRegistrant.save(function (err) {
-                if (err) {
-                    handleError("Error: unable to save registrant: " + email + ".", res);
+                if(err){
+                    console.log("Unexpected Error: " + err);
+                    res.status(500);
+                    res.send("Unexpected Error: " + err);
                     return;
                 }
 
-                // new registrant saved, now save their facebook profile
-                var theirProfile =  registrantService.createNewFacebookProfile(firstName, lastName,
-                        email, fbLink, locale, timezone, pictureUrl, ageRange);
+                if(!(typeof registrant === 'undefined') && registrant){
+                    // registrant found
+                    console.log("registrant: " + email + " found.");
 
-                theirProfile.save(function (err) {
-                    if (err) {
-                        handleError("Unable to save Facebook profile. Error: " + err, res);
-                        return;
-                    }
-                });
+                }else{
+                    // not found
+                    console.log("registrant: " + email + " not found. Creating new registrant.");
+                    var newRegistrant = registrantService.createNewRegistrant(firstName, lastName, email);
 
-                console.log("Created new Profile " + JSON.stringify(theirProfile));
-
-               theirProfile.save();
-               newRegistrant.facebookProfile = theirProfile;
-
-                if (eventId && eventTitle) {
-
-                    // look up the event so see if it exists already and if so
-                    // add the user to the event
-                    Event.findOne({'eventId':eventId}).exec(function(err, event){
-                        if(err){
-                            handleError("Unable to look up event by eventId. Error: " + err, res);
-                        }
-
-                        if(event && typeof event != "undefined"){
-                            // event already exists
-                            event.registrants.push(registrant);
-                            event.save(function(err){
-                                handleError("Unable to add registrant to existing event. Error: " + err, res);
-
-                                console.log("Added registrant: " + email + " to event: " + eventTitle);
-                                res.send("Added registrant: " + email + " to event: " + eventTitle);
-                                return;
-                            });
-                        }
-                    });
-
-                    // optional event information supplied.
-                    var newEvent = registrantService.createNewEvent(newRegistrant._id, eventId, eventTitle, eventStartTime,
-                            eventEndTime);
-
-                    // save new event
-                    console.log("Creating new event. ");
-                    newEvent.registrants.push(newRegistrant);
-                    newEvent.save(function (err) {
+                    newRegistrant.save(function (err, registrant) {
                         if (err) {
-                            handleError("Error saving new event for registrant " + email + ". Error: " + err, res);
+                            handleError("Error: unable to save registrant: " + email + ".", res);
                             return;
                         }
-                    });
 
-                    newRegistrant.events.push(newEvent);
-                    newRegistrant.save();
-                }
+                        // new registrant saved, now save their facebook profile
+                        var theirProfile =  registrantService.createNewFacebookProfile(firstName, lastName,
+                                email, fbLink, locale, timezone, pictureUrl, ageRange);
 
-                console.log("new registrant created.");
+                        theirProfile.save(function (err, newProfile) {
+                            if (err) {
+                                handleError("Unable to save Facebook profile. Error: " + err, res);
+                                return;
+                            }
 
-                res.send("Registrant " + email + " successfully added.");
+                            console.log("Created new Profile " + JSON.stringify(theirProfile));
+                            registrant.facebookProfile = theirProfile;
 
-            });
+                            event.registrants.push(registrant);
+                            event.save(function(err){
+                                if(err){
+                                    handleError("Unable to add registrant to existing event. Error: " + err, res);
+                                }
 
-        } else {
-            console.log("Registrant already exists. " +
-                    JSON.stringify(registrant.facebookProfile));
+                                registrant.events.push(event);
 
-            if (!eventId) {
-                res.send("Error: User: " + email + " already exists.");
-                return;
-            }
+                                registrant.save(function(err, newProfile){
+                                    if(err){
+                                        handleError("Unable to save registrant. Error: " + err, res);
+                                    }
 
-            // check to see if user already has registered for this particular event
-            var isRegistered = registrantService.isUserRegisteredForEvent(registrant, eventId)
+                                     console.log("Updated registrant: " + email + " to event: " + eventId);
+                                    res.send("Added registrant: " + email + " to event: " + eventId);
+                                    return;
+                                });
 
-            if (!isRegistered) {
-                //
-                // look for existing event with same eventId and associate new user with
-                // this event
-                //
+                                console.log("Added registrant: " + email + " to event: " + eventId);
+                                res.send("Added registrant: " + email + " to event: " + eventId);
+                                return;
+                            });
 
-                // look up the event so see if it exists already and if so
-                // add the user to the event
-                Event.findOne({'eventId':eventId}).exec(function(err, event){
-                    if(err){
-                        handleError("Unable to look up event by eventId. Error: " + err, res);
-                    }
-
-                    if(event && typeof event != "undefined"){
-                        // event already exists
-                        event.registrants.push(registrant);
-                        event.save(function(err){
-                            handleError("Unable to add registrant to existing event. Error: " + err, res);
-
-                            console.log("Added registrant: " + email + " to event: " + eventTitle);
-                            res.send("Added registrant: " + email + " to event: " + eventTitle);
                         });
 
-                        return;
-                    }
+                    });
 
-                });
-
-                // optional event information supplied.
-                console.log("creating new event.");
-                var newEvent = registrantService.createNewEvent(registrant._key, eventId, eventTitle, eventStartTime, eventEndTime);
-                newEvent.registrants.push(registrant);
-
-                // save new event
-                newEvent.save(function (err) {
-                    if (err) {
-                        handleError("Error saving new event for registrant " + email + ". Error: " + err, res);
-                        return;
-                    }
-                });
-
-                registrant.events.push(newEvent);
-
-                // add facebook profile
-                console.log("** " + typeof registrant.facebookProfile + "  " + JSON.stringify(registrant.facebookProfile, undefined, 2));
-
-                console.log("creating facebook profile.");
-
-                var theirProfile =  registrantService.createNewFacebookProfile(firstName, lastName, email, fbLink,
-                            locale, timezone, pictureUrl, ageRange);
-
-                theirProfile.save(function (err) {
-                    if (err) {
-                        handleError("Error: registrant saved, but unable to add linkedIn profile. Error: "
-                                + err, res);
-                        return;
-                    }
-
-                console.log("Event created successfully.");
-
-                });
-
-                console.log("Checking to see if their facebook profile exists")
-                 if (!registrant.facebookProfile && theirProfile) {
-                        console.log("Facebook profile is missing from user. Updating their facebook profile");
-                        registrant.facebookProfile = theirProfile;
-                 }
-
-                    registrant.save();
-                    res.send("Registrant: " + email + " successfully registered.");
-
-            } else {
-                res.send("User " + email + " already registered for this event.");
-                return;
-            }
-        }
+                }
             });
+        }else{
+            console.log("Event with eventId: " + eventId + " not found.");
+            res.status(404);
+            res.send("Event not found.");
+            return;
+        }
+    });
 
-
-    res.send("SUCCESS: " + JSON.stringify(req.body));
 }
 
 

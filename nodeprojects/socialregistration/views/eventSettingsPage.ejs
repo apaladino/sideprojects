@@ -1,0 +1,142 @@
+<div id="createEventResult">
+    <div id="eventSettingsConfirmation" class="message-banner confirmation-banner">
+        <div class="banner-content">
+            <p id="eventSettingsConfirmationInfo">Event <strong><%=event.title%></strong> has been scheduled for <%=event.startDate%></p>
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <div class="form-row-column column-2">
+            <label>Title:</label>
+        </div>
+        <div class="form-row-column column-3">
+           <span><%=event.title%></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-row-column column-2">
+            <label>Description:</label>
+        </div>
+        <div class="form-row-column column-24 push-2">
+           <span><%=event.description%></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-row-column column-5">
+            <label>Start Date</label>
+            <div class="form-row-column column-18">
+                <span><%=event.startDate%></span>
+            </div>
+        </div>
+        <div class="form-row-column column-5">
+            <label>Start Time</label>
+            <div class="form-row-column column-8">
+                <span><%=event.startTime%></span>
+            </div>
+            <div class="form-row-column column-11 push-4">
+                <%=event.startTimeAMPM%>
+            </div>
+        </div>
+        <div class="form-row-column column-5 push-1">
+            <label>End Time</label>
+            <div class="form-row-column column-8">
+                <span><%=event.endTime%></span>
+            </div>
+            <div class="form-row-column column-11 push-4">
+                <span><%=event.endTimeAMPM%></span>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+</span>
+ <script type="text/javascript">
+
+
+    FB.init({
+            appId      : '747022911975099',
+            cookie     : true,  // enable cookies to allow the server to access
+            // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.1' // use version 2.1
+        });
+
+    var postToFacebook = function(organizerEmail, eventTitle, eventDescription, eventStartDate, eventStartTime, eventStartTimeAMPM){
+
+
+       FB.getLoginStatus(function(response) {
+             var message = "Please register to join my scheduled event: " + eventTitle
+                    + ". Scheduled on " + eventStartDate + " at " + eventStartTime + " " + eventStartTimeAMPM
+                    + ".Event Description: " + eventDescription + ".";
+
+            if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    doFacebookPost(message);
+
+            } else {
+                FB.login(function(response){
+                         // Logged into your app and Facebook.
+                    doFacebookPost(message);
+
+                },{
+                   scope: 'publish_actions',
+                   return_scopes: true
+                 });
+            }
+        });
+      }
+
+    var doFacebookPost = function(body){
+
+   //
+        FB.api('/me/feed', 'post', { message: body }, function(response) {
+              if (!response || response.error) {
+                genErrorMessage("Unable to post new event information to your facebook account. Error:" + JSON.stringify(response.error, undefined, 2));
+                alert(JSON.stringify(response.error, undefined, 2));
+              } else {
+                $('#eventSettingsConfirmationInfo').text("Event information posted to your Facebook account.");
+                $('#eventSettingsConfirmation').show().fadeOut(3600, function(){
+                    $(this).remove();
+                });
+
+              }
+        });
+    }
+
+
+    $(document).ready(function(){
+        $('#eventSettingsConfirmation').show().fadeOut(3600, function(){
+            $(this).remove();
+        });
+    })
+
+    <%
+        // For organizers who have just created an event and selected postTofacebook we
+        // will log them in and post the webinar details to their account.
+        if(!(typeof postToFacebook === "undefined") && postToFacebook == 'true'){
+
+    %>
+
+
+        $(document).ready(function(){
+            console.log("calling postToFacebook");
+             postToFacebook('<%=event.organizerEmail%>',
+                        '<%=event.title%>',
+                        '<%=event.description%>',
+                        '<%=event.startDate%>',
+                        '<%=event.startTime%>',
+                        '<%=event.startTimeAMPM%>');
+        });
+
+    <%
+        }
+    %>
+
+
+
+</script>

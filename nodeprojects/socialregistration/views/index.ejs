@@ -49,7 +49,7 @@
                             <li><a id="addRegistrantLink" href="#">Add Registrant</a></li>
                             <li><a id="getRegistrantByIDLink" href="#">Get Registrant By ID</a></li>
                             <li><a id="getRegistrantByEmailLink" href="#">Get Registrant By Email</a></li>
-
+                            <li><a id="getEventByIDLink" href="#">Get Event By ID</a></li>
                         </ul>
                         <hr>
                         <ul class="sidebar-nav">
@@ -78,16 +78,23 @@
                     <li><a href="/some/link">breadcrumb 2</a></li>
                     <li>breadcrumb 3</li>
                 </ul>
-                <h1><span id="workspaceTitle"/></h1>
+                <h2><span id="workspaceTitle"/></h2>
                 <p>
                     <!-- ####### Content Area ######-->
-                    <div id="errorMsgDiv" class="alert-box alert round" data-alert=""></div>
+                <div  id="errorMsgContainer" class="message-banner error-banner" style="display:none    ">
+                    <div class="banner-content">
+                        <h2><p  id="errorMsgDiv"></p></h2>
+                    </div>
+                </div>
 
                     <!-- Social Registration Div -->
                     <div id="socialRegistrationDiv"></div>
 
                     <!-- Create Event -->
                     <div id="createEventDiv"></div>
+
+                    <!-- Get Event -->
+                    <div id="eventSettingsDiv"></div>
 
                     <!-- Add Registrant -->
                     <div id="addRegistrantDiv"></div>
@@ -139,7 +146,7 @@
   		$('#addRegistrantDiv').hide();
   		$('#addRegistrantSuccessMsg').hide();
   		$('#addRegistrantErrMsg').hide();
-  		$('#errorMsgDiv').hide();
+  		$('#errorMsgContainer').hide();
         $('#getRegistrantByIDDiv').hide();
   		$('#getRegistrantByIDErrMsg').hide();
   		$('#socialRegistrationDiv').hide();
@@ -147,10 +154,16 @@
         $('#createEventDiv').hide();
         $('#getRegistrantByEmailDiv').hide();
         $('#workspaceTitle').text("");
+        $('#eventSettingsDiv').hide();
 
   	}
   	$(document).ready(function(){
   		hideAll();
+  	});
+
+  	$('#getEventByIDLink').click(function(){
+  	    hideAll();
+  	    loadEventSettingsForm();
   	});
   	
   	$('#socialRegistrationLink').click(function(){

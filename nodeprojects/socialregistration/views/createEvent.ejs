@@ -4,55 +4,178 @@
         $( "#startDate" ).COLCalendar( { minDate: mindate } );
     } );
 </script>
+<div id="createEventFormDiv">
+    <div id="createEventConfirmationDiv" class="message-banner confirmation-banner">
+        <div class="banner-content">
+            <p id="createEventConfirmationText"></p>
+        </div>
+    </div>
 
-<div style="width:450px">
+    <div id="createEventErrorDiv" class="message-banner error-banner">
+        <div class="banner-content">
+            <p id="createEventErrorText"></p>
+        </div>
+    </div>
+
+
     <h3>Create A New Event</h3>
     <p>
         <em>(POST /event )</em>
     </p>
     <div class="form-row">
+        <div class="form-row-column column-6">
+            <label for="organizerKey">Organizer Key</label>
+            <input id="organizerKey" type="text" title="Organizer Key" maxlength="128"
+                   data-bind="value: organizerKey">
+        </div>
+        <div class="form-row-column column-9 push-4">
+            <label for="organizerEmail">Organizer Email</label>
+            <input id="organizerEmail" type="text" title="Organizer Email" maxlength="128"
+                    data-bind="value: organizerEmail">
+        </div>
+    </div>
+
+    <hr/>
+
+
+    <div class="form-row">
         <div class="form-row-column column-24">
-            <label for="title">Training Title</label>
-            <input id="title" type="text" title="New Training" maxlength="128" class="count">
+            <label for="title">Event Title</label>
+            <input id="title" type="text" title="New Event" maxlength="128"
+                    data-bind="value: title">
         </div>
     </div>
     <div class="form-row">
         <div class="form-row-column column-24">
-            <label for="trainingDesc">Training Description</label>
-            <textarea id="trainingDesc" maxlength="2056" class="count"></textarea>
-            <p class="description">The description will be used in your training invitation email and registration page.</p>
+            <label for="EventDesc">Event Description</label>
+            <textarea id="EventDesc" maxlength="2056"
+                    data-bind="value: description"></textarea>
+            <p class="description">The description will be used in your event invitation notifications.</p>
         </div>
     </div>
     <div class="form-row">
-        <div class="form-row-column column-9">
+        <div class="form-row-column column-5">
             <label for="startDate">Start Date</label>
             <div class="form-row-column column-18">
-                <input id="startDate" type="text" value="" title="Click Here!" readonly="readonly" data-cal-header="Choose a date:">
+                <input id="startDate" type="text" value="" data-bind="value: startDate" title="Click Here!" readonly="readonly"
+                       data-cal-header="Choose a date:" >
             </div>
         </div>
         <div class="form-row-column column-5">
             <label for="startTime">Start Time</label>
             <div class="form-row-column column-8">
-                <input id="startTime" type="text" value="12:00">
+                <input id="startTime" type="text" value="12:00"
+                        data-bind="value: startTime">
             </div>
             <div class="form-row-column column-11 push-4">
-                <select class="symphony-select">
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
+                <select class="symphony-select" data-bind="options: startTimeAMPMOptions, value: startTimeAMPM">
                 </select>
             </div>
         </div>
         <div class="form-row-column column-5 push-1">
             <label for="endTime">End Time</label>
             <div class="form-row-column column-8">
-                <input id="endTime" type="text" value="1:00">
+                <input id="endTime" type="text" value="1:00" data-bind="value: endTime">
             </div>
             <div class="form-row-column column-11 push-4">
-                <select class="symphony-select">
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
+                <select class="symphony-select" data-bind="options: endTimeAMPMOptions, value: endTimeAMPM">
                 </select>
             </div>
         </div>
     </div>
+
+    <br/>
+    <div class="form-row">
+        <div class="form-row-column column-22">
+            <label class="inline">Publish To Social Media Accounts</label>
+            <p class="description">You can choose to publish this event to your social media account.</p>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-row-column column-2">&nbsp;</div>
+        <div class="form-row-column column-1">
+            <input name="built-in-options" id="facebookCheckBox" type="checkbox"
+                    data-bind="checked: postToFacebook">
+        </div>
+        <div class="form-row-column column-20 push-1">
+            <label for="facebookCheckBox" class="normal inline">Publish to your FaceBook Page.</label>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-row-column column-2">&nbsp;</div>
+        <div class="form-row-column column-1">
+            <input name="built-in-options" id="linkedInCheckBox"  type="checkbox"
+                    data-bind="checked: postToLinkedIn">
+        </div>
+        <div class="form-row-column column-20 push-1">
+            <label for="linkedInCheckBox" class="normal inline">Publish to your LinkedIn Pages.</label>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-row-column column-5">
+            <input type="button" value="Submit" data-bind="click: createEventSubmit"/>
+        </div>
+    </div>
 </div>
+<script type="text/javascript">
+
+var CreateEventModel = function() {
+    			var self = this;
+    			self.organizerKey = ko.observable("11");
+    			self.organizerEmail = ko.observable("org@jedix.com");
+    			self.title = ko.observable("event title 11");
+    			self.description = ko.observable("addaada");
+    			self.startDate = ko.observable("9/25/2014");
+    			self.startTime = ko.observable("12:00");
+    			self.startTimeAMPM = ko.observable("AM")
+    			self.startTimeAMPMOptions = ko.observableArray(["AM","PM"]);
+    			self.endTime = ko.observable("12:00");
+    			self.endTimeAMPM = ko.observable("AM");
+    			self.endTimeAMPMOptions = ko.observableArray(["AM","PM"]);
+    			self.postToFacebook = ko.observable(false);
+    			self.postToLinkedIn = ko.observable(true);
+
+
+    			self.createEventSubmit = function(){
+
+    			    var startDate = $('#startDate').val();
+
+                    $.ajax({
+    					url : '/events/',
+    					data: {organizerKey: self.organizerKey(),
+    					    organizerEmail : self.organizerEmail(),
+    					    title : self.title(),
+    					    description : self.description(),
+    					    startDate : startDate,
+    					    startTime : self.startTime(),
+    					    startTimeAMPM : self.startTimeAMPM(),
+    					    endTime : self.endTime(),
+    					    endTimeAMPM : self.endTimeAMPM(),
+    					    postToFacebook : self.postToFacebook(),
+    					    postToLinkedIn : self.postToLinkedIn()
+    					    },
+    			        type: 'POST',
+    			        success: function(data){
+                            $('#createEventDiv').html(data).show();
+    			        },
+    			        error : function(xhr, errorThrown){
+                            $('#errorMsgDiv').text(xhr.responseText);
+                            $('#errorMsgContainer').show().fadeOut(3600, function(){
+                                $(this).remove();
+                            });
+    			        }
+    				});
+    		    };
+
+    		};
+
+
+$(document).ready(function(){
+    $('#createEventConfirmationDiv').hide();
+    $('#createEventErrorDiv').hide();
+
+	ko.applyBindings(new CreateEventModel(), createEventFormDiv);
+});
+
+</script>
