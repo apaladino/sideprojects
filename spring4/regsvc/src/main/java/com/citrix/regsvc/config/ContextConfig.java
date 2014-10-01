@@ -1,17 +1,14 @@
 package com.citrix.regsvc.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
-import javax.sql.DataSource;
 
 /**
  * Created by apaladino on 9/29/14.
@@ -46,8 +43,7 @@ public class ContextConfig {
 
        return new EmbeddedDatabaseBuilder()
             .setType(EmbeddedDatabaseType.HSQL)
-            .addScript("classpath:com/bank/config/sql/schema.sql")
-            .addScript("classpath:com/bank/config/sql/test-data.sql")
+            .addScript("classpath:db/create-tables.sql")
             .build();
 
     }
