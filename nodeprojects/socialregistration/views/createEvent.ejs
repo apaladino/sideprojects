@@ -1,9 +1,4 @@
-<script type="text/javascript">
-     $( document ).ready( function() {
-        var mindate = new Date();
-        $( "#startDate" ).COLCalendar( { minDate: mindate } );
-    } );
-</script>
+
 <div id="createEventFormDiv">
     <div id="createEventConfirmationDiv" class="message-banner confirmation-banner">
         <div class="banner-content">
@@ -118,6 +113,15 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $( document ).ready( function() {
+        var mindate = new Date();
+        $( "#startDate" ).COLCalendar( { minDate: mindate } );
+    } );
+</script>
+
+
 <script type="text/javascript">
 
 var CreateEventModel = function() {
@@ -168,7 +172,7 @@ var CreateEventModel = function() {
     				});
     		    };
 
-    		};
+};
 
 
 $(document).ready(function(){
