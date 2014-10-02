@@ -1,6 +1,6 @@
 package com.citrix.regsvc.controller;
 
-import com.citrix.regsvc.domian.Registrant;
+import com.citrix.regsvc.domain.Registrant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
