@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -33,6 +34,7 @@ public class RegistrantController {
 
     private final Logger logger = Logger.getLogger(RegistrantController.class);
 
+    @RequestMapping(value = "/registrant/{registrantId}", method = GET)
     public Registrant getRegistrantByID(@PathVariable("registrantId") @NotNull Long registrantId,
             HttpServletResponse response){
 
