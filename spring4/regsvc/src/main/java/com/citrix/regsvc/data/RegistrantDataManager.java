@@ -9,7 +9,7 @@ public interface RegistrantDataManager {
 
     Registrant findRegistrantById(Long registrantId);
 
-    void createRegistrant(Registrant registrant);
+    Long createRegistrant(Registrant registrant);
 
     Registrant findRegistrantByEmail(String email);
 }

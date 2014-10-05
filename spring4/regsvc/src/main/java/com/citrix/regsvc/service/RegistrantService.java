@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface RegistrantService {
 
-    @Transactional
     Registrant findRegistrantById(Long registrantId);
 
-    void createRegistrant(Registrant registrant) throws RestConflictException;
+    @Transactional
+    Long createRegistrant(Registrant registrant) throws RestConflictException;
 }

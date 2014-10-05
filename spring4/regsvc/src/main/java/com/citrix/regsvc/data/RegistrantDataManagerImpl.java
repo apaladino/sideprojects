@@ -2,6 +2,7 @@ package com.citrix.regsvc.data;
 
 import com.citrix.regsvc.domain.Registrant;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +22,33 @@ public class RegistrantDataManagerImpl implements RegistrantDataManager {
     public Registrant findRegistrantById(Long registrantId){
         Session session = sessionFactory.getCurrentSession();
 
-        session.beginTransaction();
+        String qryStr = "from Registrant where registrantId = :id";
 
-        Registrant registrant = (Registrant) session.load(Registrant.class, registrantId);
+        Query query = session.createQuery(qryStr);
+        query.setLong("id", registrantId);
+        Registrant registrant = (Registrant) query.uniqueResult();
 
-        session.getTransaction().commit();
         return registrant;
     }
 
     @Override
-    public void createRegistrant(Registrant registrant){
+    public Long createRegistrant(Registrant registrant){
 
         Session session = sessionFactory.getCurrentSession();
-
-        session.save(registrant);
-        session.getTransaction().commit();
+        return (Long) session.save(registrant);
     }
 
     @Override
     public Registrant findRegistrantByEmail(String email) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        Session session = sessionFactory.getCurrentSession();
+
+        String qryStr = "from Registrant where email = :email";
+
+        Query query = session.createQuery(qryStr);
+        query.setString("email", email);
+        Registrant registrant = (Registrant) query.uniqueResult();
+
+        return registrant;
     }
 
 }

@@ -1,6 +1,9 @@
 package com.citrix.regsvc.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
@@ -10,6 +13,7 @@ import com.citrix.regsvc.service.RegistrantService;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -55,19 +60,26 @@ public class RegistrantController {
     }
 
     @RequestMapping(value = "/registrant", method = POST)
-    public void createRegistrant(@ModelAttribute Registrant registrant, BindingResult result,
+    @ResponseStatus(HttpStatus.CREATED)
+    public Map<String,String> createRegistrant(@ModelAttribute Registrant registrant, BindingResult result,
+            HttpServletRequest request,
             HttpServletResponse response) throws RestConflictException {
 
 
         Assert.notNull(registrant);
-        Assert.notNull(registrant.getFirstName());
-        Assert.notNull(registrant.getLastName());
-        Assert.notNull(registrant.getEmail());
+        Assert.notNull(registrant.getFirstName(), "Missing firstName parameter.");
+        Assert.notNull(registrant.getLastName(), "Missing lastName parameter");
+        Assert.notNull(registrant.getEmail(), "Missing email parameter");
 
         registrant.setCreateTime(new Date());
 
-        registrantService.createRegistrant(registrant);
+        Long registrantKey = registrantService.createRegistrant(registrant);
+        Assert.notNull(registrantKey,"Unable to create registrant");
 
+        Map<String,String> responseMap = new HashMap<String,String>();
+        responseMap.put("registrantKey" , registrantKey.toString());
+
+        return responseMap;
     }
 
 

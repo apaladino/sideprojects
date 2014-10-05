@@ -26,7 +26,7 @@ public class RegistrantServiceImpl implements RegistrantService {
     }
 
     @Override
-    public void createRegistrant(Registrant registrant) throws RestConflictException {
+    public Long createRegistrant(Registrant registrant) throws RestConflictException {
 
         Registrant r = registrantDataManager.findRegistrantByEmail(registrant.getEmail());
         if(r != null){
@@ -34,7 +34,7 @@ public class RegistrantServiceImpl implements RegistrantService {
             throw new RestConflictException("Registrant already exists with email: " + registrant.getEmail());
         }
 
-        registrantDataManager.createRegistrant(registrant);
+        return registrantDataManager.createRegistrant(registrant);
     }
 
     public void setRegistrantDataManager(RegistrantDataManager registrantDataManager) {
