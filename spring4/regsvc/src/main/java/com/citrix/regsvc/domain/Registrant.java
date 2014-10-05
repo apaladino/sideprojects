@@ -1,5 +1,7 @@
 package com.citrix.regsvc.domain;
 
+import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInProfile;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -7,18 +9,24 @@ import java.util.Date;
  * Created by apaladino on 9/28/14.
  */
 @Entity
-@Table(name="REGISTRANTS")
+@Table(name="REGISTRANTS", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "EMAIL")
+})
 public class Registrant {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "REGISTRANTID")
     private Long registrantId;
     private String firstName;
     private String lastName;
     private String email;
     private Date createTime;
 
-    @Id
-    @GeneratedValue
-    @Column(name = "REGISTRANTID")
+    @OneToOne(fetch = FetchType.LAZY,
+            mappedBy = "registrant", optional = true)
+    private LinkedInProfile linkedInProfile;
+
     public Long getRegistrantId() {
         return registrantId;
     }
@@ -59,20 +67,13 @@ public class Registrant {
         this.createTime = createTime;
     }
 
+    public LinkedInProfile getLinkedInProfile() {
+        return linkedInProfile;
+    }
 
-
-    /*
-	firstname: String,
-    lastName: String,
-    email: String,
-    events : [{ type: Schema.Types.ObjectId, ref: 'Event' }],
-    linkedInProfile : {type: Schema.Types.ObjectId, ref: 'LinkedInProfile'},
-    facebookProfile : {type: Schema.Types.ObjectId, ref: 'FacebookProfile'}
-
- */
-
-
-
+    public void setLinkedInProfile(LinkedInProfile linkedInProfile) {
+        this.linkedInProfile = linkedInProfile;
+    }
 
 }
 

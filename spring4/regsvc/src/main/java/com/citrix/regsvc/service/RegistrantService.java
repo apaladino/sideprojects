@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface RegistrantService {
 
+    @Transactional
     Registrant findRegistrantById(Long registrantId);
 
     @Transactional

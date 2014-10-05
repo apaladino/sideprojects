@@ -35,7 +35,14 @@ public class RegistrantDataManagerImpl implements RegistrantDataManager {
     public Long createRegistrant(Registrant registrant){
 
         Session session = sessionFactory.getCurrentSession();
-        return (Long) session.save(registrant);
+        Long registrantKey = (Long) session.save(registrant);
+
+        if(registrant.getLinkedInProfile() != null){
+            session.save(registrant.getLinkedInProfile());
+            session.update(registrant);
+        }
+
+        return registrantKey;
     }
 
     @Override

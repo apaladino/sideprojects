@@ -8,9 +8,13 @@ import java.util.Date;
 
 import com.citrix.regsvc.Application;
 import com.citrix.regsvc.domain.Registrant;
+import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInCompanyProfile;
+import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInProfile;
 import com.citrix.regsvc.service.RegistrantService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 
+import com.jayway.restassured.internal.mapper.ObjectMapperType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -20,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -42,6 +47,10 @@ public class RegistrantControllerTests {
     @Autowired
     private RegistrantService registrantService;
 
+    @Autowired
+    private RegistrantController registrantController;
+
+
 
     @Value("${local.server.port}")
     int port;
@@ -60,14 +69,49 @@ public class RegistrantControllerTests {
         registrant.setFirstName("firstName");
         registrant.setLastName("lastName");
 
+        LinkedInProfile linkedInProfile = new LinkedInProfile();
+        linkedInProfile.setEmail(registrant.getEmail());
+        linkedInProfile.setFirstName(registrant.getFirstName());
+        linkedInProfile.setLastName(registrant.getLastName());
 
-        given().parameters("firstName", "John", "lastName", "Doe", "email" , "test2@jedix.com")
-                .when()
-                .expect().statusCode(201)
-                .post("/registrant")
-                .then()
-                .body("registrantKey", equalTo("1"));
+        LinkedInCompanyProfile p1 = new LinkedInCompanyProfile();
+        p1.setCompanySize("10-50");
+        p1.setIndustry("computer");
+        p1.setName("Citrix");
+        p1.setStartDate(new Date());
+        p1.setIsCurrent(true);
+        p1.setSummary("summary info");
+        p1.setTitle("chief cook and bottle washer");
+        p1.setType("Saas");
 
+        LinkedInCompanyProfile p2 = new LinkedInCompanyProfile();
+        p2.setCompanySize("10-50");
+        p2.setIndustry("computer");
+        p2.setName("Yahoo");
+        p2.setStartDate(new Date());
+        p2.setIsCurrent(true);
+        p2.setSummary("summary info");
+        p2.setTitle("chief cook and bottle washer");
+        p2.setType("Saas");
+
+
+        linkedInProfile.getPositions().add(p1);
+        linkedInProfile.getPositions().add(p2);
+        registrant.setLinkedInProfile(linkedInProfile);
+
+        registrantController.createRegistrant(registrant, null, null, null);
+
+     /*   String json = new ObjectMapper().writeValueAsString(registrant);
+
+        given().contentType("application/json")
+               .body(json, ObjectMapperType.JACKSON_2)
+                       //.parameters("firstName", "John", "lastName", "Doe", "email" , "test2@jedix.com")
+                       .when()
+                       .expect().statusCode(201)
+                       .post("/registrant")
+                       .then()
+                       .body("registrantKey", equalTo("1"));
+*/
     }
 
     @Test
