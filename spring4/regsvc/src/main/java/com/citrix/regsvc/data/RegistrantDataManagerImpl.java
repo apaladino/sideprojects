@@ -27,7 +27,10 @@ public class RegistrantDataManagerImpl implements RegistrantDataManager {
         Query query = session.createQuery(qryStr);
         query.setLong("id", registrantId);
         Registrant registrant = (Registrant) query.uniqueResult();
-
+        if(registrant != null &&
+                registrant.getLinkedInProfile() != null){
+            registrant.getLinkedInProfile().getPositions();
+        }
         return registrant;
     }
 
@@ -35,18 +38,19 @@ public class RegistrantDataManagerImpl implements RegistrantDataManager {
     public Long createRegistrant(Registrant registrant){
 
         Session session = sessionFactory.getCurrentSession();
+
         Long registrantKey = (Long) session.save(registrant);
 
         if(registrant.getLinkedInProfile() != null){
             session.save(registrant.getLinkedInProfile());
-            session.update(registrant);
         }
-
         return registrantKey;
     }
 
     @Override
     public Registrant findRegistrantByEmail(String email) {
+
+
         Session session = sessionFactory.getCurrentSession();
 
         String qryStr = "from Registrant where email = :email";
@@ -54,7 +58,6 @@ public class RegistrantDataManagerImpl implements RegistrantDataManager {
         Query query = session.createQuery(qryStr);
         query.setString("email", email);
         Registrant registrant = (Registrant) query.uniqueResult();
-
         return registrant;
     }
 

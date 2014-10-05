@@ -23,7 +23,7 @@ public class Registrant {
     private String email;
     private Date createTime;
 
-    @OneToOne(fetch = FetchType.LAZY,
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             mappedBy = "registrant", optional = true)
     private LinkedInProfile linkedInProfile;
 

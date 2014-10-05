@@ -5,6 +5,7 @@ package com.citrix.regsvc.controller;
  */
 
 import java.util.Date;
+import java.util.Map;
 
 import com.citrix.regsvc.Application;
 import com.citrix.regsvc.domain.Registrant;
@@ -25,12 +26,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
+import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -99,7 +102,13 @@ public class RegistrantControllerTests {
         linkedInProfile.getPositions().add(p2);
         registrant.setLinkedInProfile(linkedInProfile);
 
-        registrantController.createRegistrant(registrant, null, null, null);
+       /* Map<String,String> responseMap = registrantController.createRegistrant(registrant, null, null, null);
+        assertNotNull(responseMap);
+*/
+        Long registrantKey = registrantService.createRegistrant(registrant);
+
+        Registrant createdRegistrant = registrantController.getRegistrantByID(registrantKey, new MockHttpServletResponse());
+        assertNotNull(createdRegistrant);
 
      /*   String json = new ObjectMapper().writeValueAsString(registrant);
 

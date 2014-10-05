@@ -24,11 +24,11 @@ public class LinkedInProfile {
     private String lastName;
     private String email;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "PROFILEID")
     List<LinkedInCompanyProfile> positions;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Registrant registrant;
 
