@@ -1,9 +1,18 @@
 package com.citrix.regsvc.domain;
 
-import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInProfile;
-
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import com.citrix.regsvc.domain.social.facebook.profile.FacebookProfile;
+import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInProfile;
 
 /**
  * Created by apaladino on 9/28/14.
@@ -26,6 +35,10 @@ public class Registrant {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             mappedBy = "registrant", optional = true)
     private LinkedInProfile linkedInProfile;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+            mappedBy = "registrant", optional = true)
+    private FacebookProfile facebookProfile;
 
     public Long getRegistrantId() {
         return registrantId;
@@ -75,5 +88,12 @@ public class Registrant {
         this.linkedInProfile = linkedInProfile;
     }
 
+    public FacebookProfile getFacebookProfile() {
+        return facebookProfile;
+    }
+
+    public void setFacebookProfile(FacebookProfile facebookProfile) {
+        this.facebookProfile = facebookProfile;
+    }
 }
 

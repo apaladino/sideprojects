@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 /**
  * Created by apaladino on 10/2/14.
@@ -20,18 +21,10 @@ public class RegistrantDataManagerImpl implements RegistrantDataManager {
 
     @Override
     public Registrant findRegistrantById(Long registrantId){
-        Session session = sessionFactory.getCurrentSession();
 
-        String qryStr = "from Registrant where registrantId = :id";
-
-        Query query = session.createQuery(qryStr);
-        query.setLong("id", registrantId);
-        Registrant registrant = (Registrant) query.uniqueResult();
-        if(registrant != null &&
-                registrant.getLinkedInProfile() != null){
-            registrant.getLinkedInProfile().getPositions();
-        }
-        return registrant;
+        Assert.notNull(registrantId);
+        return (Registrant) sessionFactory.getCurrentSession()
+                .get(Registrant.class, registrantId);
     }
 
     @Override
@@ -50,6 +43,7 @@ public class RegistrantDataManagerImpl implements RegistrantDataManager {
     @Override
     public Registrant findRegistrantByEmail(String email) {
 
+        Assert.isTrue(email != null && !email.isEmpty());
 
         Session session = sessionFactory.getCurrentSession();
 
