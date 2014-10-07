@@ -2,6 +2,7 @@ package com.citrix.regsvc.data;
 
 import com.citrix.regsvc.domain.Registrant;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,8 +24,14 @@ public class RegistrantDataManagerImpl implements RegistrantDataManager {
     public Registrant findRegistrantById(Long registrantId){
 
         Assert.notNull(registrantId);
-        return (Registrant) sessionFactory.getCurrentSession()
+        Registrant registrant = (Registrant) sessionFactory.getCurrentSession()
                 .get(Registrant.class, registrantId);
+
+        if(registrant.getLinkedInProfile() != null){
+            Hibernate.initialize(registrant.getLinkedInProfile().getPositions());
+        }
+
+        return registrant;
     }
 
     @Override

@@ -5,17 +5,15 @@ package com.citrix.regsvc.controller;
  */
 
 import java.util.Date;
-import java.util.Map;
 
 import com.citrix.regsvc.Application;
 import com.citrix.regsvc.domain.Registrant;
 import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInCompanyProfile;
 import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInProfile;
 import com.citrix.regsvc.service.RegistrantService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.citrix.regsvc.util.LoggingUtil;
 import com.jayway.restassured.RestAssured;
 
-import com.jayway.restassured.internal.mapper.ObjectMapperType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -25,16 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 import static junit.framework.TestCase.assertNotNull;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -109,7 +104,8 @@ public class RegistrantControllerTests {
 
         Registrant createdRegistrant = registrantController.getRegistrantByID(registrantKey, new MockHttpServletResponse());
         assertNotNull(createdRegistrant);
-
+        System.out.println("##");
+        System.out.println(LoggingUtil.toJSON(createdRegistrant));
      /*   String json = new ObjectMapper().writeValueAsString(registrant);
 
         given().contentType("application/json")
