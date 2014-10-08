@@ -2,8 +2,6 @@ package com.citrix.regsvc.domain.social.linkedin.profile;
 
 
 
-import com.citrix.regsvc.domain.Registrant;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +15,8 @@ public class LinkedInProfile {
 
     @Id
     @GeneratedValue
-    @Column(name = "PROFILEID")
-    private Long profileId;
-    private Long registrantId;
+    @Column(name = "LNPROFILEID")
+    private Long lnProfileId;
     private String firstName;
     private String lastName;
     private String email;
@@ -28,24 +25,13 @@ public class LinkedInProfile {
     @JoinColumn(name = "PROFILEID")
     List<LinkedInCompanyProfile> positions;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Registrant registrant;
 
-    public Long getProfileId() {
-        return profileId;
+    public Long getLnProfileId() {
+        return lnProfileId;
     }
 
-    public void setProfileId(Long profileId) {
-        this.profileId = profileId;
-    }
-
-    public Long getRegistrantId() {
-        return registrantId;
-    }
-
-    public void setRegistrantId(Long registrantId) {
-        this.registrantId = registrantId;
+    public void setLnProfileId(Long lnProfileId) {
+        this.lnProfileId = lnProfileId;
     }
 
     public String getFirstName() {
@@ -83,11 +69,4 @@ public class LinkedInProfile {
         this.positions = positions;
     }
 
-    public Registrant getRegistrant() {
-        return registrant;
-    }
-
-    public void setRegistrant(Registrant registrant) {
-        this.registrant = registrant;
-    }
 }

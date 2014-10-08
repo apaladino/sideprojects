@@ -8,6 +8,7 @@ import java.util.Date;
 
 import com.citrix.regsvc.Application;
 import com.citrix.regsvc.domain.Registrant;
+import com.citrix.regsvc.domain.social.facebook.profile.FacebookProfile;
 import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInCompanyProfile;
 import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInProfile;
 import com.citrix.regsvc.service.RegistrantService;
@@ -97,9 +98,18 @@ public class RegistrantControllerTests {
         linkedInProfile.getPositions().add(p2);
         registrant.setLinkedInProfile(linkedInProfile);
 
-       /* Map<String,String> responseMap = registrantController.createRegistrant(registrant, null, null, null);
-        assertNotNull(responseMap);
-*/
+        FacebookProfile facebookProfile = new FacebookProfile();
+        facebookProfile.setEmail(registrant.getEmail());
+        facebookProfile.setFirstName(registrant.getFirstName());
+        facebookProfile.setLastName(registrant.getLastName());
+        facebookProfile.setAgeRange("10-40");
+        facebookProfile.setCreateTime(new Date());
+        facebookProfile.setFbLink("fbLink");
+        facebookProfile.setLocale("en_US");
+        facebookProfile.setPictureUrl("http://someaddress.com");
+        facebookProfile.setFbProfileId(100L);
+        facebookProfile.setTimezone("Los_Angeles/Pacific");
+        registrant.setFacebookProfile(facebookProfile);
         Long registrantKey = registrantService.createRegistrant(registrant);
 
         Registrant createdRegistrant = registrantController.getRegistrantByID(registrantKey, new MockHttpServletResponse());

@@ -1,15 +1,7 @@
 package com.citrix.regsvc.domain;
 
 import java.util.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 import com.citrix.regsvc.domain.social.facebook.profile.FacebookProfile;
 import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInProfile;
@@ -32,12 +24,16 @@ public class Registrant {
     private String email;
     private Date createTime;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
-            mappedBy = "registrant", optional = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            optional = true)
+    @JoinColumn(name="LN_PROFILEID",insertable=true,
+            updatable=true,nullable=true,unique=true)
     private LinkedInProfile linkedInProfile;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
-            mappedBy = "registrant", optional = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            optional = true)
+    @JoinColumn(name="FB_PROFILEID",insertable=true,
+            updatable=true,nullable=true,unique=true)
     private FacebookProfile facebookProfile;
 
     public Long getRegistrantId() {

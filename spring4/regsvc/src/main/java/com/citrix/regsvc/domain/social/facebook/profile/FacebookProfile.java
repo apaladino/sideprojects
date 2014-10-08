@@ -1,17 +1,11 @@
 package com.citrix.regsvc.domain.social.facebook.profile;
 
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import com.citrix.regsvc.domain.Registrant;
 
 /**
  * @author: Andy Paladino
@@ -23,8 +17,8 @@ public class FacebookProfile {
 
     @Id
     @GeneratedValue
-    @Column(name = "PROFILEID")
-    private Long profileId;
+    @Column(name = "FBPROFILEID")
+    private Long fbProfileId;
 
     private String firstName;
     private String lastName;
@@ -36,17 +30,13 @@ public class FacebookProfile {
     private String timezone;
     private Date createTime;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Registrant registrant;
 
-
-    public Long getProfileId() {
-        return profileId;
+    public Long getFbProfileId() {
+        return fbProfileId;
     }
 
-    public void setProfileId(Long profileId) {
-        this.profileId = profileId;
+    public void setFbProfileId(Long fbProfileId) {
+        this.fbProfileId = fbProfileId;
     }
 
     public String getFirstName() {
@@ -120,14 +110,5 @@ public class FacebookProfile {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
-    public Registrant getRegistrant() {
-        return registrant;
-    }
-
-    public void setRegistrant(Registrant registrant) {
-        this.registrant = registrant;
-    }
-
 
 }
