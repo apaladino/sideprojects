@@ -107,7 +107,6 @@ public class RegistrantControllerTests {
         facebookProfile.setFbLink("fbLink");
         facebookProfile.setLocale("en_US");
         facebookProfile.setPictureUrl("http://someaddress.com");
-        facebookProfile.setFbProfileId(100L);
         facebookProfile.setTimezone("Los_Angeles/Pacific");
         registrant.setFacebookProfile(facebookProfile);
         Long registrantKey = registrantService.createRegistrant(registrant);
