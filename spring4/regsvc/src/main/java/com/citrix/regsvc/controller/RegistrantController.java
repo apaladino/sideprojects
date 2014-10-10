@@ -17,12 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -61,7 +56,7 @@ public class RegistrantController {
 
     @RequestMapping(value = "/registrant", method = POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String,String> createRegistrant(@ModelAttribute Registrant registrant, BindingResult result,
+    public Map<String,String> createRegistrant(@RequestBody Registrant registrant, BindingResult result,
             HttpServletRequest request,
             HttpServletResponse response) throws RestConflictException {
 

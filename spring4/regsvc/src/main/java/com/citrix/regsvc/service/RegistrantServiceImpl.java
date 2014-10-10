@@ -37,6 +37,11 @@ public class RegistrantServiceImpl implements RegistrantService {
         return registrantDataManager.createRegistrant(registrant);
     }
 
+    @Override
+    public Registrant findRegistrantByEmail(String email) {
+        return registrantDataManager.findRegistrantByEmail(email);
+    }
+
     public void setRegistrantDataManager(RegistrantDataManager registrantDataManager) {
         this.registrantDataManager = registrantDataManager;
     }

@@ -24,13 +24,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import static com.jayway.restassured.RestAssured.when;
 import static junit.framework.TestCase.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -39,6 +48,9 @@ import static junit.framework.TestCase.assertNotNull;
 public class RegistrantControllerTests {
 
 
+
+    @Autowired
+    private WebApplicationContext wac;
 
     private MockMvc mockMvc;
 
@@ -58,10 +70,48 @@ public class RegistrantControllerTests {
     @Before
     public void setUp(){
         RestAssured.port = port;
+
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
     @Test
     public void testCreateRegistrant() throws Exception{
+
+        Registrant registrant = createMockRegistrant();
+
+        String content = LoggingUtil.toJSON(registrant);
+
+        mockMvc.perform(post("/registrant").contentType(MediaType.APPLICATION_JSON)
+                .content(content))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.registrantKey").value("1"));
+
+        Registrant newRegistrant = registrantService.findRegistrantByEmail(registrant.getEmail());
+        assertNotNull(newRegistrant);
+
+    }
+
+    @Test
+    public void testGetByRegistrantId() throws Exception {
+
+        Registrant registrant = createMockRegistrant();
+        Long registrantKey = registrantService.createRegistrant(registrant);
+
+
+        this.mockMvc.perform(get("/registrant/" + registrantKey).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andDo(print())
+                .andExpect(jsonPath("$.registrantId").value(registrantKey.intValue()))
+                .andExpect(jsonPath("$.email").value(registrant.getEmail()))
+                .andExpect(jsonPath("$.linkedInProfile.email").value(registrant.getEmail()))
+                .andExpect(jsonPath("$.facebookProfile.email").value(registrant.getEmail()));
+
+    }
+
+
+    private Registrant createMockRegistrant() {
         Registrant registrant = new Registrant();
         registrant.setCreateTime(new Date());
         registrant.setEmail("test@jedix.com");
@@ -109,35 +159,10 @@ public class RegistrantControllerTests {
         facebookProfile.setPictureUrl("http://someaddress.com");
         facebookProfile.setTimezone("Los_Angeles/Pacific");
         registrant.setFacebookProfile(facebookProfile);
-        Long registrantKey = registrantService.createRegistrant(registrant);
 
-        Registrant createdRegistrant = registrantController.getRegistrantByID(registrantKey, new MockHttpServletResponse());
-        assertNotNull(createdRegistrant);
-        System.out.println("##");
-        System.out.println(LoggingUtil.toJSON(createdRegistrant));
-     /*   String json = new ObjectMapper().writeValueAsString(registrant);
-
-        given().contentType("application/json")
-               .body(json, ObjectMapperType.JACKSON_2)
-                       //.parameters("firstName", "John", "lastName", "Doe", "email" , "test2@jedix.com")
-                       .when()
-                       .expect().statusCode(201)
-                       .post("/registrant")
-                       .then()
-                       .body("registrantKey", equalTo("1"));
-*/
+        return registrant;
     }
 
-    @Test
-    public void testGetByRegistrantId() throws Exception {
-
-        Long registrantId = 1L;
-        when().
-                get("/registrant/{registrantId}", registrantId).
-                then()
-                .statusCode(HttpStatus.SC_OK)
-                .body("name", Matchers.is(""));
-    }
 }
 
 /*

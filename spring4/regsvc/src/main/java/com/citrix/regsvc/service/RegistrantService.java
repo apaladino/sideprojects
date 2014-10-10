@@ -16,4 +16,7 @@ public interface RegistrantService {
 
     @Transactional
     Long createRegistrant(Registrant registrant) throws RestConflictException;
+
+    @Transactional
+    Registrant findRegistrantByEmail(String email);
 }
