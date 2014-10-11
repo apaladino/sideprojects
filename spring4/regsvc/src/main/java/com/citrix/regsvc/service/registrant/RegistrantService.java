@@ -1,4 +1,4 @@
-package com.citrix.regsvc.service;
+package com.citrix.regsvc.service.registrant;
 
 import com.citrix.regsvc.domain.Registrant;
 import com.citrix.regsvc.exceptions.RestConflictException;

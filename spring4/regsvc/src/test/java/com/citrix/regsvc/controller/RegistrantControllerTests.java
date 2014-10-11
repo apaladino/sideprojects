@@ -11,7 +11,7 @@ import com.citrix.regsvc.domain.Registrant;
 import com.citrix.regsvc.domain.social.facebook.profile.FacebookProfile;
 import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInCompanyProfile;
 import com.citrix.regsvc.domain.social.linkedin.profile.LinkedInProfile;
-import com.citrix.regsvc.service.RegistrantService;
+import com.citrix.regsvc.service.registrant.RegistrantService;
 import com.citrix.regsvc.util.LoggingUtil;
 import com.jayway.restassured.RestAssured;
 

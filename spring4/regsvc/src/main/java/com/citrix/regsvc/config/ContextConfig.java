@@ -21,5 +21,5 @@ public class ContextConfig {
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(){
         return new MappingJackson2HttpMessageConverter();
     }
-    //org.springframework.http.converter.json.MappingJacksonHttpMessageConverter
+
 }

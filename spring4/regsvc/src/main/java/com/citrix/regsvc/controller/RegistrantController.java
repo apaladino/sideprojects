@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import com.citrix.regsvc.domain.Registrant;
 import com.citrix.regsvc.exceptions.RestConflictException;
-import com.citrix.regsvc.service.RegistrantService;
+import com.citrix.regsvc.service.registrant.RegistrantService;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.citrix.regsvc.controller;
 
 import com.citrix.regsvc.config.ContextConfig;
-import com.citrix.regsvc.data.RegistrantDataManager;
-import com.citrix.regsvc.service.RegistrantServiceImpl;
+import com.citrix.regsvc.data.registrant.RegistrantDataManager;
+import com.citrix.regsvc.service.registrant.RegistrantServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

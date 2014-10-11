@@ -3,7 +3,7 @@ package com.citrix.regsvc.config;
 import java.util.Properties;
 import javax.sql.DataSource;
 
-import com.citrix.regsvc.data.RegistrantDataManagerImpl;
+import com.citrix.regsvc.data.registrant.RegistrantDataManagerImpl;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

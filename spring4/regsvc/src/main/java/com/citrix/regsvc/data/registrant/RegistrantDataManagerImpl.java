@@ -1,4 +1,4 @@
-package com.citrix.regsvc.data;
+package com.citrix.regsvc.data.registrant;
 
 import com.citrix.regsvc.domain.Registrant;
 

@@ -1,9 +1,10 @@
-package com.citrix.regsvc.service;
+package com.citrix.regsvc.service.registrant;
 
-import com.citrix.regsvc.data.RegistrantDataManager;
+import com.citrix.regsvc.data.registrant.RegistrantDataManager;
 import com.citrix.regsvc.domain.Registrant;
 import com.citrix.regsvc.exceptions.RestConflictException;
 
+import com.citrix.regsvc.service.registrant.RegistrantService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
