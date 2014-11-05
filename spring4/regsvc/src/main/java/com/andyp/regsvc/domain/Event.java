@@ -24,6 +24,7 @@ public class Event {
     private String description;
     private Date startDate;
     private Date endDate;
+    private Boolean isPublic;
 
 
     public Long getEventId() {
@@ -72,5 +73,13 @@ public class Event {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Boolean getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(Boolean isPublic) {
+        this.isPublic = isPublic;
     }
 }
