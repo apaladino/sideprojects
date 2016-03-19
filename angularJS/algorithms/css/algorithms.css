@@ -1,0 +1,63 @@
+li{
+	list-style: none;	
+	line-height: 25px;
+	font-size: 14px;
+}
+nav{
+	width: 10%;
+	height: 100%;
+	border: 1px solid red;
+	float: left;
+	clear: right;
+}
+main{
+	width: 90%;
+	height: 100%;
+	border: 1px solid green;
+}
+
+section{
+	float: left;
+	clear: right;
+	margin-left: 5px;
+	padding-left: 5px;
+	
+}
+
+.queue li{
+	margin-left: 5px;
+	width: 70px;
+	height: 70px;
+	border: 1px solid blue;
+	font-size: 40px;
+	font-weight: bold;
+	margin: Auto;
+	text-align: center;
+	padding-top: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+}
+
+.stack li{
+	margin-left: 5px;
+	width: 70px;
+	height: 70px;
+	border: 1px solid blue;
+	font-size: 40px;
+	font-weight: bold;
+	margin: Auto;
+	text-align: center;
+	padding-top: 10px;
+	vertical-align: middle;
+	line-height: normal;
+}
+
+.left-section{
+	float: left;
+	clear: both;
+	margin-right: 5px;
+}
+.right-section{
+	float:left;
+}
