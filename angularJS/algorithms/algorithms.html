@@ -4,20 +4,24 @@
 
 <link rel="stylesheet" type="text/css" href="css/algorithms.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 
 <script src="js/jquery-1.12.1.min.js"></script>
 <script src="js/angular.min.js"></script>
+<script src="js/angular-route.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/controllers/mainController.js"></script>
+<script src="js/controllers/arrayController.js"></script>
 <script src="js/controllers/queueController.js"></script>
 <script src="js/controllers/stackController.js"></script>
+<script src="js/controllers/insertionSortController.js"></script>
 <script>
 	
 
 </script>
 
 </head>
-<body ng-controller="MainController">
+<body>
 <header>
 	<div class="primary-text" style="width:60%; padding-left: 10px; padding-bottom: 5px">
 		<h2>Andy's Algorithms Examples</h2>
@@ -25,87 +29,27 @@
 	</div>
 </header>
 <nav>
+<hr/>
 <p class="text-primary">
-<div style="width: 70%; margin:auto"><h4>Data Types</h4></div>
+<div style="width: 70%; margin:auto"><h5>Data Types</h5></div>
 <hr/>
 </p>
 <ul>
-	<li><a href="#" ng-click="setMode('Queue')">Queues</a></li>
-	<li><a href="#" ng-click="setMode('Stack')">Stacks</a></li>
+	<li><a href="#arrays">Arrays</a></li>
+	<li><a href="#stacks">Stacks</a></li>
+	<li><a href="#queues">Queues</a></li>
+</ul>
+<hr/>
+<p class="text-primary">
+<div style="width: 70%; margin:auto; margin-top:5px"><h5>Sorting</h5></div>
+<hr/>
+</p>
+<ul>
+	<li><a href="#insertionSort">Insertion Sort</a></li>
 </ul>
 </nav>
 <main >
-	
-	<section ng-show="isMode('Stack')" ng-hide="!isMode('Stack')" ng-controller="StackController">
-		<!-- STACK Example -->
-		<div class="form-group">
-			<h3>{{title}}</h3>
-			<p>
-				<small>Stacks only allow you add to and remove from the end of a list. </small><br/>
-			</p>
-			<div class="left-section">
-				<p>
-					New Item:<input type="text" ng-model="newItem" ng-model-options="{ updateOn: 'blur' }" />
-				</p>
-				<button ng-click="push()">Push</button>
-				<button ng-click="pop()">Pop</button>
-			</div>
-			<div class="right-section">
-				<p>
-					<ul class="stack">
-						<li ng-repeat="item in stack">
-							{{ item }}
-						</li>
-					</ul>
-				</p>
-			</div>
-		</div>
-	</section>
-	
-	<section ng-show="isMode('Queue')" ng-hide="!isMode('Queue')" ng-controller="QueueController">
-		<!-- QUEUE Example -->
-	
-		<div class="form-group">
-			<h3>{{title}}</h3>
-			<p>
-				<small>Standard Queues have an ordering <mark>FIFO</mark> or <mark>LIFO</mark>.
-				Priority queues always remove the smallest value.</small><br/>
-			<p>
-			<p>
-				<ul class="queue">
-				<li ng-repeat="item in queue">
-					{{ item }}
-				</li>
-			</ul>
-			</p>
-			<p>
-				<label>
-					<input type="radio" ng-model="queueType" value="standard">
-					Standard Queue
-				</label>
-				<label>
-					<input type="radio" ng-model="queueType" value="priority">
-					Priority Queue
-				</label>
-			</p>
-			<p ng-show="isStandard()" ng-hide="!isStandard()">
-				<label>
-					<input type="radio" ng-model="orderType" value="FIFO">
-					FIFO
-				</label>
-				<label>
-					<input type="radio" ng-model="orderType" value="LIFO">
-					LIFO
-				</label>
-			</p>
-			<p>
-				New Item:<input type="text" ng-model="newItem" ng-model-options="{ updateOn: 'blur' }" />
-			</p>
-			<button ng-click="enqueue()">Enqueue</button>
-			<button ng-click="dequeue()">Dequeue</button>
-		</div>
-	</section>
-	
+	<div ng-view></div>
 </main>
 
 </body>
