@@ -31,7 +31,13 @@ app.config(function($routeProvider) {
             .when('/insertionSort', {
                 templateUrl : 'routes/insertionSort.html',
                 controller  : 'InsertionSortController'
-            });
+            })
+			
+			// route for the Merge Sort Page
+			.when('/mergeSort', {
+				templateUrl: 'routes/mergeSort.html',
+				controller: 'MergeSortController'
+			});
     });
 
 app.run(function($templateCache) {
