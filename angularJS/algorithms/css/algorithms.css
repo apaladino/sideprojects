@@ -1,17 +1,22 @@
+code{
+	background-color: #ccffdd;
+	color: #000033;
+}
+
 li{
 	list-style: none;	
 	line-height: 25px;
 	font-size: 14px;
 }
 nav{
-	width: 10%;
+	width: 15%;
 	height: 100%;
 	border: 1px solid red;
 	float: left;
 	clear: right;
 }
 main{
-	width: 90%;
+	width: 85%;
 	height: 100%;
 	border: 1px solid green;
 }

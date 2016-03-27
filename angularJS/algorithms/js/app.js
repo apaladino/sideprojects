@@ -37,6 +37,24 @@ app.config(function($routeProvider) {
 			.when('/mergeSort', {
 				templateUrl: 'routes/mergeSort.html',
 				controller: 'MergeSortController'
+			})
+			
+			// route for Binary Search Page
+			.when('/binarySearch', {
+				templateUrl: 'routes/binarySearch.html',
+				controller: 'BinarySearchController'
+			})
+			
+			// routes for selection sort
+			.when('/selectionSort', {
+				templateUrl: 'routes/selectionSort.html',
+				controller: 'SelectionSortController'
+			})
+			
+			// route for max subarray problem
+			.when('/maxSubArray', {
+				templateUrl: 'routes/maxSubArray.html',
+				controller: 'MaxSubArrayController'
 			});
     });
 
