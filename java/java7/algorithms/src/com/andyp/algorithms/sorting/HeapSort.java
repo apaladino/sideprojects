@@ -1,5 +1,7 @@
 package com.andyp.algorithms.sorting;
 
+import java.util.Arrays;
+
 public class HeapSort {
 
 	public static void main(String args[]){
@@ -9,25 +11,48 @@ public class HeapSort {
 	public void run(){
 	
 		// initial array
-		int [] a = { 16, 14, 10, 8, 7, 9, 3, 2, 4, 1};
+		int [] a = { 1, 4, 10, 8, 7, 9, 3, 2, 44, 16};
 		
 		Heap heap = new Heap(a, 0, a.length);
+		System.out.println("Before: " + Arrays.toString(heap.a));
+		
+		buildHeap(heap);
+		
+		System.out.println("After buildHeap: " + Arrays.toString(heap.a));
+		
+		heapSort(heap);
+		
+		System.out.println("after heapSort: " + Arrays.toString(heap.a));
+		
 		
 	}
 	
-	private void buildHeap(Heap heap){
+
 	
-		heap.heapSize = heap.length;
+	private void heapSort(Heap heap){
+		buildHeap(heap);
 		
-		int mid = Double.valueOf(Math.floor(heap.length/2)).intValue();
+		for(int i=heap.length -1; i > 2; i--){
+			int tmp = heap.a[1];
+			heap.a[1] = heap.a[i];
+			heap.a[i] = tmp;
+			heap.heapSize--;
+			maxHeapify(heap, 1);
+		}
+	}
+	
+	private void buildHeap(Heap heap){
+		heap.heapSize = heap.length - 1;
+		
+		int mid = Double.valueOf(Math.floor(heap.heapSize/2)).intValue();
 		
 		for(int i = mid; i > 0; i--){
 			maxHeapify(heap, i);
 		}
+		
 	}
 	
 	private void maxHeapify(Heap heap, int i){
-		
 		int l = left(i);
 		int r = right(i);
 		int largest = -1;
@@ -35,7 +60,7 @@ public class HeapSort {
 		if(l <= heap.heapSize && heap.a[l] > heap.a[i])
 			largest = l;
 		else
-			largest = r;
+			largest = i;
 		
 		if( r <= heap.heapSize && heap.a[r] > heap.a[largest])
 			largest = r;
@@ -48,6 +73,7 @@ public class HeapSort {
 			
 			maxHeapify(heap, largest);
 		}
+		
 	}
 	
 	private int parent(int i){
@@ -55,11 +81,11 @@ public class HeapSort {
 	}
 	
 	private int left(int i){
-		return 2*i;
+		return i<<1;
 	}
 	
 	private int right(int i){
-		return (2 * i) +  1;
+		return (i<<1) +  1;
 	}
 	
 	class Heap{
@@ -73,9 +99,5 @@ public class HeapSort {
 			this.length = length;		// number of elements in array
 		}
 	}
+
 }
-
-/*
- 
-
-*/
