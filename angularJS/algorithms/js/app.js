@@ -55,6 +55,12 @@ app.config(function($routeProvider) {
 			.when('/maxSubArray', {
 				templateUrl: 'routes/maxSubArray.html',
 				controller: 'MaxSubArrayController'
+			})
+			
+			// route for heap sort
+			.when('/heapSort', {
+				templateUrl: 'routes/heapSort.html',
+				controller: 'HeapSortController'
 			});
     });
 

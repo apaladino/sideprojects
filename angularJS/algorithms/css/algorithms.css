@@ -11,14 +11,12 @@ li{
 nav{
 	width: 15%;
 	height: 100%;
-	border: 1px solid red;
 	float: left;
 	clear: right;
 }
 main{
 	width: 85%;
 	height: 100%;
-	border: 1px solid green;
 }
 
 section{
