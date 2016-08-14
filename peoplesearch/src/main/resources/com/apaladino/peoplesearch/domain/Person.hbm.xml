@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.apaladino.peoplesearch.domain">
+    <class name="Person" table="PERSON">
+        <id name="personId" column="PERSON_ID">
+            <generator class="native"/>
+        </id>
+        <property name="ssn" type="string" column="SSN"/>
+        <property name="dateOfBrith" type="timestamp" column="DATE_OF_BIRTH"/>
+        <property name="firstName" type="string" column="FIRST-NAME"/>
+        <property name="lastName" type="string" column="LAST-NAME"/>
+		<property name="heightIn" type="double" column="HEIGHT_IN"></property>        
+		<property name="weightLb" type="double" column="WEIGHT_LB"></property>        
+       
+    </class>
+</hibernate-mapping>
