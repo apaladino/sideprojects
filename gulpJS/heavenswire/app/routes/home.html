@@ -1,0 +1,60 @@
+
+<section ng-controller="MainController">
+	<h4>{{title}}</h4>
+	
+	<div id="container"></div>
+	<br/>
+	<h5>Under Construction.</h5>
+	
+	
+</section>
+
+		<!-- THREEJS -->
+		<script type="text/javascript">
+			
+			var camera, scene, renderer, cube, material, mesh;
+			var width = 500;
+			var height = 400;
+			
+			function init(){
+				var container = document.getElementById('container');
+				
+				scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera(75, (width-5)/(height-5), 1, 10000);
+				camera.position.z = 1000;
+				scene.add(camera);
+				
+				cube = new THREE.CubeGeometry(600, 600, 600);
+				material = new THREE.MeshLambertMaterial(
+					{
+						map: THREE.ImageUtils.loadTexture('img/logo.png')
+					}
+				);
+				
+				var materials = [material, material, material, material, material, material];
+				var meshFaceMaterial = new THREE.MeshFaceMaterial( materials );
+				mesh = new THREE.Mesh(cube, meshFaceMaterial);
+				scene.add(mesh);
+				
+				renderer = new THREE.CanvasRenderer({ alpha: true });
+				renderer.setSize(width, height);
+				
+				container.appendChild(renderer.domElement);
+				
+				
+				animate();
+			}
+			
+			function animate(){
+				console.log("animate");
+				requestAnimationFrame(animate);
+				mesh.rotation.x += 0.005;
+				mesh.rotation.y += 0.005;
+				renderer.render(scene, camera);
+			}
+		
+			$(document).ready(function(){
+				init();
+			});
+		
+		</script>

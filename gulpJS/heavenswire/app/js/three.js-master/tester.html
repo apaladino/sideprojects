@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - interactive cubes (gpu)</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+			
+			#container{
+				width: 500px;
+				height:400px;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+				border: 1px solid blue;
+			}
+			canvas{
+				-webkit-box-shadow: 8px 8px 10px rgba(50, 50, 50, 0.5);
+			}
+			
+		</style>
+		<script type="text/javascript" src="build/three.min.js"></script>
+		<script type="text/javascript" src="jquery-1.12.1.min.js"></script>
+		<script type="text/javascript" src="examples/js/renderers/CanvasRenderer.js"></script>
+		<script type="text/javascript" src="examples/js/renderers/Projector.js"></script>
+		<script type="text/javascript">
+			
+			var camera, scene, renderer, cube, material, mesh;
+			var width = 500;
+			var height = 400;
+			
+			function init(){
+				var container = document.getElementById('container');
+				
+				scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera(75, (width-5)/(height-5), 1, 10000);
+				camera.position.z = 1000;
+				scene.add(camera);
+				
+				cube = new THREE.CubeGeometry(600, 600, 600);
+				material = new THREE.MeshLambertMaterial(
+					{
+						map: THREE.ImageUtils.loadTexture('peoplefluent.png')
+					}
+				);
+				
+				var material1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('peoplefluent.png') } );
+				var material2 = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('peoplefluent.png') } );
+				
+				var material3 = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('peoplefluent.png') } );
+				var material4 = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('peoplefluent.png') } );
+				var material5 = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('peoplefluent.png') } );
+				var material6 = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('peoplefluent.png') } );
+				//var material6 = new THREE.MeshLambertMaterial({color: 0x0000FF})
+				
+				var materials = [material1, material2, material3, material4, material5, material6];
+				var meshFaceMaterial = new THREE.MeshFaceMaterial( materials );
+				mesh = new THREE.Mesh(cube, meshFaceMaterial);
+				scene.add(mesh);
+				
+				renderer = new THREE.CanvasRenderer({ alpha: true });
+				renderer.setSize(width, height);
+				
+				container.appendChild(renderer.domElement);
+				
+				
+				animate();
+			}
+			
+			function animate(){
+				console.log("animate");
+				requestAnimationFrame(animate);
+			//	mesh.rotation.x += 0.02;
+				mesh.rotation.y += 0.005;
+				renderer.render(scene, camera);
+			}
+		
+			$(document).ready(function(){
+				init();
+			});
+		
+		</script>
+	</head>
+	<body>
+	
+		<div id="container"></div>
+	
+	
+	</body>
+</html>

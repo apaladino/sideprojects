@@ -1,18 +1,53 @@
-<html>
+<html ng-app="heavensWireApp">
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/algorithms.css">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+	
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap/font-awesome.css">
 
-		<script src="js/jquery-1.12.1.min.js"></script>
-		<script src="js/angular.min.js"></script>
-		<script src="js/angular-route.min.js"></script>
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f2fafc;
+				margin: 0px;
+				overflow: hidden;
+			}
+			
+			#container{
+				width: 500px;
+				height:400px;
+				background-color: #f2fafc;
+				margin: 0px;
+				overflow: hidden;
+			}
+			canvas{
+				-webkit-box-shadow: 8px 8px 10px rgba(50, 50, 50, 0.5);
+			}
+			section{
+				margin:20px;
+			}
+			
+		</style>
+		
+		<script src="js/jquery/jquery-1.12.1.min.js"></script>
+		<script src="js/angular/angular.min.js"></script>
+		<script src="js/angular/angular-route.min.js"></script>
 		<script src="js/app.js"></script>
+
+		<script type="text/javascript" src="js/threejs/three.min.js"></script>
+		<script type="text/javascript" src="js/threejs/renderers/CanvasRenderer.js"></script>
+		<script type="text/javascript" src="js/threejs/renderers/Projector.js"></script>
 		<script src="js/controllers/mainController.js"></script>
+
+
 	</head>
 	<body>
-		Example Gulp
-	
+		<nav>
+			
+		</nav>
+		<main >
+			<div ng-view></div>
+		</main>
 	</body>
 
 
