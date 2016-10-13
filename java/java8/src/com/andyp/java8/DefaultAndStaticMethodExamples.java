@@ -1,6 +1,7 @@
 package com.andyp.java8;
 
 import com.andyp.java8.interfaces.UserInterface;
+import com.andyp.java8.misc.DataHelper;
 import com.andyp.java8.model.User;
 
 import java.util.Collections;
@@ -20,7 +21,7 @@ public class DefaultAndStaticMethodExamples {
 		 * Example using interface default method (getUserInfo)
 		 */
 		System.out.println("-Unsorted-");
-		List<User> users = buildUserList();
+		List<User> users = DataHelper.buildUserList();
 		users.forEach(u -> {
 			System.out.println(u.getUserInfo());
 		});
@@ -40,16 +41,7 @@ public class DefaultAndStaticMethodExamples {
 		users.forEach(u -> System.out.println(u.getUserInfo()));
 	}
 	
-	private List<User> buildUserList() {
-		List<User> users = new ArrayList<>();
-		users.add(new User("clint.eastwood", "uid001", "clint.eastwood@andyp.com"));
-		users.add(new User("jackie.chan", "uid002", "jackie.chan@andyp.com"));
-		users.add(new User("charles.bronson", "uid003", "charles.bronsonh@andyp.com"));
-		users.add(new User("sylvester.stallone", "uid004", "sylvester.stallone@andyp.com"));
-		users.add(new User("chuck.norris", "uid005", "chuck.norris@andyp.com"));
-		
-		return users;
-	}
+	
 
 	public static void main(String args[]){
 		new DefaultAndStaticMethodExamples().run();

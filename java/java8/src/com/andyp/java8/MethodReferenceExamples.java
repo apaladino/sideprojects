@@ -1,5 +1,6 @@
 package com.andyp.java8;
 
+import com.andyp.java8.misc.DataHelper;
 import com.andyp.java8.model.Person;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class MethodReferenceExamples {
 
 	public void run(){
 		
-		List<Person> peeps = genPersonList();
+		List<Person> peeps = DataHelper.genPersonList();
 		
 		/*
 		 * Example using static method reference
@@ -38,15 +39,6 @@ public class MethodReferenceExamples {
 		return p1.getFirstName().compareTo(p2.getFirstName());
 	}
 	
-	protected List<Person> genPersonList() {
-		List<Person> peeps = new ArrayList<>();
-		peeps.add(new Person("Sally", "Smith", "001", 23));
-		peeps.add(new Person("Stanley", "Smith", "002", 25));
-		peeps.add(new Person("Percy", "Pickler", "003", 33));
-		peeps.add(new Person("Abigail", "Bresley", "004", 35));
-		peeps.add(new Person("Donald", "Duck", "005", 19));
-		return peeps;
-	}
 	public static void main(String args[]){
 		new MethodReferenceExamples().run();
 	}
