@@ -27,7 +27,7 @@ public class StreamsExamples {
 		users.stream().filter(p).forEach(u -> System.out.println(u.getUserInfo()));
 		
 		/*
-		 * Example parallell stream
+		 * Example parallel stream
 		 */
 		System.out.println("\n-Paralel stream-");
 		users.parallelStream().forEach(u -> System.out.println(u.getUserInfo()));
