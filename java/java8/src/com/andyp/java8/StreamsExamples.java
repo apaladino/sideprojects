@@ -5,6 +5,7 @@ import com.andyp.java8.model.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -44,6 +45,23 @@ public class StreamsExamples {
 		 */
 		Stream<User> stream2 = Arrays.stream(userArr);
 		stream2.filter(p).forEach(u -> System.out.println(u.getUserInfo()));
+		
+		/*
+		 * Example using Stream aggregate functions: sum and ave 
+		 *   - uses mapToInt with lambda expression
+		 */
+		List<Person> peeps = DataHelper.genPersonList();
+		int sumOfAllAges = peeps.stream()
+				.mapToInt(person -> person.getAge())
+				.sum();
+		System.out.println("\nSum of all ages is " + sumOfAllAges);
+		
+		OptionalDouble ave = peeps.stream()
+				.mapToInt(person -> person.getAge())  // passes in lambda expression to map each person to an int value
+				.average();
+		
+		if(ave.isPresent())
+			System.out.println("\nAverage age is " + ave.getAsDouble());
 		
 		
 	}

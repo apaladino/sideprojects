@@ -1,5 +1,6 @@
 package com.andyp.java8.misc;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,9 @@ public class DataHelper {
 		peeps.add(new Person("Sally", "Smith", "001", 23));
 		peeps.add(new Person("Stanley", "Smith", "002", 25));
 		peeps.add(new Person("Percy", "Pickler", "003", 33));
-		peeps.add(new Person("Abigail", "Bresley", "004", 35));
+		peeps.add(new Person("Abigail", "Andrews", "004", 35));
 		peeps.add(new Person("Donald", "Duck", "005", 19));
+		peeps.add(new Person("Will", "Robingson", "006", 21));
 		return peeps;
 	}
 
@@ -46,5 +48,17 @@ public class DataHelper {
 			users[i] = new User(userName, userId, email);
 		}
 		return users;
+	}
+
+	/*
+	 * Benchmarking method - just does some work to eat up some cycles.
+	 */
+	public static void doSomeWork(int times) {
+		
+		for(int i = 0; i < times; i++){
+			BigDecimal num = new BigDecimal(127.8D).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			BigDecimal den = new BigDecimal(3.3D).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			BigDecimal div = num.divide(den, BigDecimal.ROUND_HALF_EVEN);	
+		}
 	}
 }
