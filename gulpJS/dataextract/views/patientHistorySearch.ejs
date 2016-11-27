@@ -1,0 +1,58 @@
+<p>
+<hr/>
+</p>
+<div class="row">
+	<h6><%=title%></h6>
+</div>
+
+<div class="row">
+   <div class="small-6 columns"><strong>Search Type: </strong> <%=searchType%></div>
+   <div class="small-6 columns"><strong>Search Field: </strong> <%=searchField%></div>
+   <div class="small-6 columns"><strong>Search Query: </strong> <%=searchQuery%></div>
+   <div class="small-6 columns"><strong>Records Found: </strong> <span class="secondary badge"> <%=records.length %> </span></div>
+</div>
+
+<%  
+   if(records && records.length > 0){
+%>
+
+<div class="row">
+<p></p>
+<table>
+	<thead>
+		<tr>
+			<th>PHID</th>
+			<th>PID</th>
+			<th>Doctors</th>
+			<th>Symptoms</th>
+			<th>Diagnosis</th>
+			<th>Prescription</th>
+			<th>Status</th>
+			<th>Patient Info</th>
+		</tr>
+   </thead>
+   <tbody>
+<%
+        for(var i=0; i< records.length; i++ ){
+        	var record = records[i];
+%>
+			<tr>
+				<td><%=record.phid%></td>
+				<td><%=record.pid%></td>
+				<td><%=record.doctors%></td>
+				<td><%=record.symptoms%></td>
+				<td><%=record.diagnosis%></td>
+				<td><%=record.prescription%></td>
+				<td><%=record.status%></td>
+				<td><a target="new" href="http://localhost:8000/patientInfo/search?searchType=Personal&searchField=pid&searchQuery=<%=record.pid%>">Click here</a></td>
+			</tr>
+<%      
+        }
+%>
+	</tbody>
+</table> 
+</div>
+<%	    
+   }
+%>
+

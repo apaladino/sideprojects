@@ -1,0 +1,69 @@
+<p>
+<hr/>
+</p>
+<div class="row">
+	<h6><%=title%></h6>
+</div>
+
+
+<div class="row">
+   <div class="small-6 columns"><strong>Search Type: </strong> <%=searchType%></div>
+   <div class="small-6 columns"><strong>Search Field: </strong> <%=searchField%></div>
+   <div class="small-6 columns"><strong>Search Query: </strong> <%=searchQuery%></div>
+   <div class="small-6 columns"><strong>Records Found: </strong> <span class="secondary badge"> <%=records.length%> </span></div>
+</div>
+
+<%  
+   if(records && records.length > 0){
+%>
+
+<div class="row">
+<p></p>
+<table>
+	<thead>
+		<tr>
+			<th>PID</th>
+			<th>First Name</th>
+			<th>Middle Name</th>
+			<th>Last Name</th>
+			<th>Phone</th>
+			<th>Gender</th>
+			<th>Marital Status</th>
+			<th>Date of Birth</th>
+			<th>Next Of Kin</th>
+			<th>Next Of Kin Contacts</th>
+			<th>Date Of Registration</th>
+			<th>Residence</th>
+			<th>History</th>
+		</tr>
+   </thead>
+   <tbody>
+<%
+        for(var i=0; i< records.length; i++ ){
+        	var record = records[i];
+%>
+			<tr>
+				<td><%=record.pid%></td>
+				<td><%=record.firstName%></td>
+				<td><%=record.middleName%></td>
+				<td><%=record.lastName%></td>
+				<td><%=record.phone%></td>
+				<td><%=record.gender%></td>
+				<td><%=record.maritalStatus%></td>
+				<td><%=record.dob%></td>
+				<td><%=record.nextOfKin%></td>
+				<td><%=record.nextOfKinContacts%></td>
+				<td><%=record.dateOfRegistration%></td>
+				<td><%=record.residence%></td>
+				<td><a target="new" href="http://localhost:8000/patientInfo/search?searchType=PatientHistory&searchField=pid&searchQuery=<%=record.pid%>">Click here</a></td>
+			</tr>
+<%      
+        }
+%>
+	</tbody>
+</table> 
+</div>
+<%	    
+   }
+%>
+

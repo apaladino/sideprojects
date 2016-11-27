@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="dataSearchApp">
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/foundation.min.css' />
+    <script src="javascripts/jquery-1.12.1.min.js"></script>
+	<script src="javascripts/angular.min.js"></script>
+	<script src="javascripts/angular-route.min.js"></script>
+	<script src="javascripts/main.js"></script>
+	<script src="javascripts/controllers/SearchController.js"></script>
+  </head>
+  <body>
+    
+    <div class="row">
+    	<span class="secondary label">Welcome to <%= title %></span>
+	</div>
+
+
+   <div ng-controller="SearchController">
+	   	
+	<div class="row">
+		<div id="errorMsgDiv" style="display:none" class="callout warning" ></div>
+		<div id="successMsgDiv" style="display:none" class="callout success" ></div>
+	</div>
+	<div class="row">
+		<form data-abide novalidate>
+		  <fieldset class="large-6 columns">
+		  	  <p>
+		     	 <legend><h4>{{title}}</h4></legend>
+		      </p>
+		      <input type="radio" name="searchType" ng-model="searchType" value="Personal" id="personalSearchType" required><label for="personalSearchType">Personal Records</label>
+		      <input type="radio" name="searchType" ng-model="searchType" value="History" id="historySearchType"><label for="historySearchType">Patient History</label>
+			  <br/>
+			  <span class="small-6 columns><label for="useRegEx">Regular Expression</label>
+			  <input type="checkbox" ng-model="useRegex" ng-true-value="'YES'" ng-false-value="'NO'">
+			  </span>
+				  <label for="searchField">Search Field</label>
+				  <select name="searchField" ng-model="searchField" ng-options="val for val in getSearchOptions()">
+				  </select>
+		      <ul class="menu">
+		      <li><input type="search" placeholder="Search" ng-model="searchQuery" ng-model-options="{ updateOn: 'blur' }"  required />
+		      	<span class="form-error">
+		         Search Query is a required field.
+		        </span>
+        	  </li>
+		      <li><button type="button" class="button" ng-click="search()">Search</button></li>
+		    </ul>
+		    </fieldset>
+		</form>
+	</div>
+	<div class="row">
+		<span id="results"></span>
+	</div>
+   </div>
+  </body>
+</html>
