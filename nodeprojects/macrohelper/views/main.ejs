@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="stylesheets/foundation.css" />
+    
+    <script src="javascripts/vendor/jquery.js"></script>
+    <script src="javascripts/foundation/foundation.js"></script>
+    <script src="javascripts/foundation/foundation.reveal.js"></script>
+	<script type="text/javascript" src="javascripts/knockout-3.0.0.js"></script>
+ 	<script type="text/javascript">
+ 	
+ 		$(document).ready(function(){
+	 		$('#macroSearchTxt').keypress(function(){
+				var searchText = $('#macroSearchTxt').val();
+				if(searchText && searchText.length > 4){
+					
+					doSearch(searchText);
+				}
+			});
+			
+			$('#searchBtn').click(function(){
+			    console.log("searchBtn click");
+				var searchText = $('#macroSearchTxt').val();
+				if(searchText && searchText.length > 2){
+					
+					doSearch(searchText);
+				}
+			});
+ 		
+ 		});
+		
+		function doSearch(searchText){
+			console.log("doSearch method. searchVal=" + searchText);
+			
+			 // load the migration stats into the showStatsDiv
+        	$.ajax({
+	
+	            type: "POST",
+	            url: '/search',
+	            data: {
+	            	"searchVal" : searchText
+	            },
+	            success: function(data) {
+	                // data is ur summary
+	                $('#resultsDiv').html(data);
+	            }
+
+	        });
+		}	 		
+ 	</script>
+  </head>
+  <body>
+    <p class="label">Welcome to <%= title %></p>
+    <div id="inputForm" class="row">
+    	<form>
+    		<p>
+    			<label>Search for a Velocity Macro in TM code base </label>
+    			<input type="text" id="macroSearchTxt" />
+    		</p>
+    		<p>
+    			<input id="searchBtn" type="button" value="Search"/>
+    			
+    		</p>
+    	</form>
+    </div>
+    <div id="resultsDiv">
+    
+    </div>
+  </body>
+</html>

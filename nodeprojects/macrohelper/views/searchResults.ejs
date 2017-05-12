@@ -1,0 +1,77 @@
+
+<div class="row columns 8">
+    <h4>Search Results: <%= macros ? macros.length : 0 %></h4>
+		    
+
+        <%
+        	if(macros && macros.length > 0){
+        	
+        		for(var i=0; i < macros.length ;i++){
+        %>
+        		<dl>
+        			<dt>
+        				Method Name:
+        			</dt>
+        			<dd>
+        				<%= macros[i].name %>
+        			</dd>
+        			<dt>
+						Method Signature:
+        			</dt>
+        			<dd>
+        				<%=macros[i].fullName %>
+        			</dd>
+        			<dt>
+        			  Comments
+        			</dt>
+        			<dd>
+        				<%
+        					var comments = macros[i].comments ? macros[i].comments : "";
+        				%>
+        				<span style="color: green; font-size: 12px">
+        				
+        				<%
+        					for(var k=0; k < comments.length; k++){
+        				%>
+        					<%=comments[k]%> <br/>
+        				<%
+        					}
+        				%>
+        				<%=comments%>
+        				
+        				</span>
+        			</dd>
+        			<dt>File Name</dt>
+        			<dd><%= macros[i].filename%></dd>
+        			<dt>Body</dt>
+        			<dd>
+        				<%
+        					var body = macros[i].body ? macros[i].body : "";
+        					//body = body.replace(/\\r/g, "<br/>").replace(/\\n/g, "<br/>").replace(/\\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;");
+        				%>
+        				<kbd>
+        				<%	
+        					for(var j=0; j < body.length; j++){
+        				%>
+        					<%=String(body[j]).replace(/\t/g, "....")%><br/>
+        				<%	
+        					}
+        				%>
+        				
+        				</kbd>
+        			</dd>
+        			
+        		</dl>
+        		<hr/>
+        <%
+        		}
+        	}else{
+        %>
+        
+        <%	
+        	}
+        %>
+      
+        </tbody>
+    </table>
+</div>
