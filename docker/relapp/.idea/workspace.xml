@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="600bb3bb-a242-47c2-900a-a2cc6dba04ea" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/backendapp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/backendapp/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/backendapp/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/backendapp/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/backendapp/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/backendapp/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/backendapp/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/connect_docker.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/db.sqlite3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/aria_log.00000001" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/aria_log_control" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/ib_buffer_pool" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/ib_logfile0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/ib_logfile1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/ibdata1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/multi-master.info" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/column_stats.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/column_stats.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/column_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/columns_priv.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/columns_priv.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/columns_priv.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/db.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/db.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/db.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/event.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/event.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/event.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/func.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/func.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/func.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/general_log.CSM" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/general_log.CSV" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/general_log.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/gtid_slave_pos.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/gtid_slave_pos.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_category.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_category.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_category.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_keyword.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_keyword.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_keyword.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_relation.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_relation.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_relation.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_topic.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_topic.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/help_topic.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/host.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/host.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/host.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/index_stats.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/index_stats.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/index_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/innodb_index_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/innodb_index_stats.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/innodb_table_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/innodb_table_stats.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/plugin.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/plugin.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/plugin.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/proc.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/proc.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/proc.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/procs_priv.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/procs_priv.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/procs_priv.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/proxies_priv.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/proxies_priv.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/proxies_priv.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/roles_mapping.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/roles_mapping.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/roles_mapping.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/servers.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/servers.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/servers.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/slow_log.CSM" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/slow_log.CSV" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/slow_log.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/table_stats.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/table_stats.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/table_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/tables_priv.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/tables_priv.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/tables_priv.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_leap_second.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_leap_second.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_leap_second.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_name.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_name.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_name.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_transition.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_transition.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_transition.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_transition_type.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_transition_type.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/time_zone_transition_type.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/transaction_registry.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/transaction_registry.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/user.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/user.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/mysql/user.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/performance_schema/db.opt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_group.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_group.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_group_permissions.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_group_permissions.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_permission.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_permission.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_user.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_user.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_user_groups.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_user_groups.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_user_user_permissions.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/auth_user_user_permissions.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/backendapp_user.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/backendapp_user.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/db.opt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/django_admin_log.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/django_admin_log.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/django_content_type.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/django_content_type.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/django_migrations.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/django_migrations.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/django_session.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/mysql_database/relapp/django_session.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/relapp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/relapp/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/relapp/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/relapp/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker_django_ex/start_python_server.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/aria_log.00000001" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/aria_log_control" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/ib_buffer_pool" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/ib_logfile0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/ib_logfile1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/ibdata1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/multi-master.info" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/column_stats.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/column_stats.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/column_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/columns_priv.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/columns_priv.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/columns_priv.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/db.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/db.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/db.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/event.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/event.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/event.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/func.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/func.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/func.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/general_log.CSM" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/general_log.CSV" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/general_log.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/gtid_slave_pos.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/gtid_slave_pos.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_category.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_category.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_category.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_keyword.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_keyword.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_keyword.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_relation.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_relation.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_relation.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_topic.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_topic.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/help_topic.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/host.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/host.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/host.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/index_stats.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/index_stats.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/index_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/innodb_index_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/innodb_index_stats.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/innodb_table_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/innodb_table_stats.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/plugin.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/plugin.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/plugin.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/proc.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/proc.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/proc.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/procs_priv.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/procs_priv.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/procs_priv.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/proxies_priv.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/proxies_priv.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/proxies_priv.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/roles_mapping.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/roles_mapping.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/roles_mapping.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/servers.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/servers.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/servers.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/slow_log.CSM" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/slow_log.CSV" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/slow_log.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/table_stats.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/table_stats.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/table_stats.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/tables_priv.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/tables_priv.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/tables_priv.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_leap_second.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_leap_second.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_leap_second.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_name.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_name.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_name.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_transition.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_transition.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_transition.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_transition_type.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_transition_type.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/time_zone_transition_type.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/transaction_registry.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/transaction_registry.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/user.MYD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/user.MYI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/mysql/user.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/performance_schema/db.opt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_group.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_group.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_group_permissions.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_group_permissions.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_permission.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_permission.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_user.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_user.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_user_groups.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_user_groups.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_user_user_permissions.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/auth_user_user_permissions.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/backendapp_user.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/backendapp_user.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/db.opt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/django_admin_log.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/django_admin_log.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/django_content_type.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/django_content_type.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/django_migrations.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/django_migrations.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/django_session.frm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/mysql_database/relapp/django_session.ibd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/backendapp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/backendapp/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/backendapp/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/backendapp/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/backendapp/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/backendapp/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/backendapp/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/connect_docker.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/db.sqlite3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/relapp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/relapp/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/relapp/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/relapp/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../relapp/relapp/start_python_server.sh" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="543008457">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="5" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.open.time.9" value="1" />
+          <entry key="project.opened" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="00000001" value="1" />
+          <entry key="Dockerfile" value="2" />
+          <entry key="gitignore" value="1" />
+          <entry key="md" value="1" />
+          <entry key="py" value="10" />
+          <entry key="sh" value="2" />
+          <entry key="yml" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Bash" value="2" />
+          <entry key="Dockerfile" value="2" />
+          <entry key="Markdown" value="1" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="Python" value="10" />
+          <entry key="YAML" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="Dockerfile" value="122" />
+          <entry key="md" value="45" />
+          <entry key="py" value="221" />
+          <entry key="sh" value="167" />
+          <entry key="yml" value="400" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Bash" value="167" />
+          <entry key="Dockerfile" value="122" />
+          <entry key="Markdown" value="45" />
+          <entry key="Python" value="221" />
+          <entry key="YAML" value="400" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file:///Library/Python/2.7/site-packages/django/db/models/fields/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="107">
+              <caret line="874" column="13" selection-start-line="874" selection-start-column="13" selection-end-line="874" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>3306</find>
+      <find>libpng12-dev</find>
+      <find>allow</find>
+      <find>backendapp</find>
+      <find>l</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/backend/relapp/relapp/settings.py" />
+        <option value="$PROJECT_DIR$/backend/Dockerfile" />
+        <option value="$PROJECT_DIR$/backend/relapp/backendapp/admin.py" />
+        <option value="$PROJECT_DIR$/backend/relapp/backendapp/models.py" />
+        <option value="$PROJECT_DIR$/backend/docker-compose.yml" />
+        <option value="$PROJECT_DIR$/backend/relapp/start_python_server.sh" />
+        <option value="$PROJECT_DIR$/relapp/backendapp/views.py" />
+        <option value="$PROJECT_DIR$/relapp/start_python_server.sh" />
+        <option value="$PROJECT_DIR$/start_python_server.sh" />
+        <option value="$PROJECT_DIR$/README.md" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1680" />
+    <option name="height" value="1027" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="relapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540175296061" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.customizations" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="600bb3bb-a242-47c2-900a-a2cc6dba04ea" name="Default Changelist" comment="" />
+      <created>1540055684412</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1540055684412</updated>
+      <workItem from="1540055695025" duration="9328000" />
+      <workItem from="1540070992657" duration="1791000" />
+      <workItem from="1540135935654" duration="13261000" />
+      <workItem from="1540172045359" duration="2570000" />
+      <workItem from="1540175605927" duration="201000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="27151000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25885227" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="10" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="12" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Maven Projects" order="5" />
+      <window_info anchor="right" id="SciView" order="6" />
+      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="right" id="Theme Preview" order="9" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25885227" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="10" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="12" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Maven Projects" order="5" />
+      <window_info anchor="right" id="SciView" order="6" />
+      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="right" id="Theme Preview" order="9" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/backend/relapp/relapp/settings.py</url>
+          <line>52</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/backend/relapp/relapp/urls.py" />
+    <entry file="file://$PROJECT_DIR$/backend/mysql_database/aria_log.00000001" />
+    <entry file="file:///Library/Python/2.7/site-packages/django/db/models/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/docker-compose.yml" />
+    <entry file="file://$PROJECT_DIR$/backend/Dockerfile" />
+    <entry file="file://$PROJECT_DIR$/backend/relapp/backendapp/models.py" />
+    <entry file="file://$PROJECT_DIR$/backend/relapp/backendapp/admin.py" />
+    <entry file="file://$PROJECT_DIR$/backend/relapp/backendapp/views.py" />
+    <entry file="file://$PROJECT_DIR$/backend/relapp/backendapp/tests.py" />
+    <entry file="file://$PROJECT_DIR$/backend/relapp/relapp/settings.py" />
+    <entry file="file://$PROJECT_DIR$/backend/relapp/relapp/wsgi.py" />
+    <entry file="file://$PROJECT_DIR$/backend/relapp/start_python_server.sh" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="195">
+            <caret line="13" selection-start-line="13" selection-end-line="13" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backendapp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start_python_server.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="39" lean-forward="true" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/django/db/models/fields/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="874" column="13" selection-start-line="874" selection-start-column="13" selection-end-line="874" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
