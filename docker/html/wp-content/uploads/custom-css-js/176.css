@@ -1,0 +1,16 @@
+<!-- start Simple Custom CSS and JS -->
+<style type="text/css">
+/* Add your CSS code here.
+
+For example:
+.example {
+    color: red;
+}
+
+For brushing up on your CSS knowledge, check out http://www.w3schools.com/css/css_syntax.asp
+
+End of comment */ 
+#home_p1 { animation-duration: 3s; animation-name: slidein; animation-iteration-count: 1; animation-direction: alternate; }
+
+</style>
+<!-- end Simple Custom CSS and JS -->

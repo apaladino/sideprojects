@@ -1,0 +1,49 @@
+version: '2.1'
+services:
+  #wordpress:
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile
+  wordpress:
+    image: wordpress
+    links:
+      - maria_db:mysql
+    environment:
+      - WORDPRESS_DB_PASSWORD=docker
+    ports:
+      - 8080:80
+    volumes:
+      - ./code:/code
+      - ./html:/var/www/html
+  maria_db:
+    container_name: mariadb
+    image: mariadb
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_ROOT_PASSWORD: "docker"
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'docker'
+      MYSQL_DATABASE: 'testdb'
+    volumes:
+      - ./mysql_database:/var/lib/mysql
+    ports:
+      - 3306:3306
+    expose:
+      - "3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - maria_db:db
+    ports:
+      - 8181:80
+    environment:
+      PMA_USER: root
+      PMA_PASSWORD: docker
+  php-apache:
+    image: php:7.2.1-apache
+    ports:
+      - 80:80
+    volumes:
+      - ./DocumentRoot:/var/www/html
+    links:
+      - 'maria_db'

@@ -1,0 +1,10 @@
+This is a simple wordpress web application built with docker compose. 
+
+To build:  run- docker-compose build
+To Run: run- docker-compose up
+
+SERVICES DEFINED:
+- wordpress
+- mariadb
+- phpmyadmin
+- php-apache
