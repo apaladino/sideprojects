@@ -11,7 +11,7 @@
 
     <properties>
         <spring.version>3.2.0.RELEASE</spring.version>
-        <spring.security.version>3.1.4.RELEASE</spring.security.version>
+        <spring.security.version>5.4.0</spring.security.version>
         <jetty.version>8.0.1.v20110908</jetty.version>
         <jetty.port>65111</jetty.port>
         <jetty.stopPort>65112</jetty.stopPort>
