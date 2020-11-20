@@ -24,7 +24,7 @@
             </ul><br>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-lg-6">
 
             <h2>{{welcome_msg}}</h2>
             <hr/>
@@ -45,65 +45,57 @@
                     </p>
                 </div>
                 <br/>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Please enter in the required details for new user below</h4>
+                <div>
+                    <div class="alert alert-info">
+                        <strong>Please</strong> enter in the required details for new user below.
                     </div>
-                    <div class="panel-body col-sm-4">
-                        {% if error %}
 
+                    <div class="panel-body col-lg-6">
+                        {% if error %}
+                            <h3 class="alert-block">{{error}}</h3>
                         {% else %}
-                        <form action="/action_page.php">
+
+                        {{ form.non_field_errors }}
+                        <form action="/dbutil/postcreateuser.html" method="post">
+                            {% csrf_token %}
                             <div class="panel">
                                 <p>
-                                <div class="form-group">
-                                    <label for="database">Select Database:</label>
-                                    <select id="database" name="database"  class="form-control">
-                                        {% for database in databases %}
-                                        <option value="{{database.name}}">{{database.title}}</option>
-
-                                        {% endfor %}
-                                    </select>
+                               <div class="form-group">
+                                    <label for="{{ form.databases.id_for_label }}">Select Database:</label>
+                                    {{form.databases}}
                                 </div>
-                                <br>
+                                    <div class="form-group">
+                                        <label for="{{form.username.id_for_label}}">Username:</label>
+                                        {{form.username}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{form.firstname.id_for_label}}">First Name:</label>
+                                        {{form.firstname}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{form.lastname.id_for_label}}">Last Name:</label>
+                                        {{form.lastname}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{form.primaryloc.id_for_label}}">Primary Location:</label>
+                                        {{form.primaryloc}}
+                                    </div>
                                 </p>
                                 <p>
-                                <h4><span class="label label-info">New User Details</span></h4>
-                                <div class="form-group">
-                                    <label for="username">Username:</label>
-                                    <input type="text" class="form-control" id="username">
-                                </div>
-                                <div class="form-group">
-                                    <label for="firstname">First Name:</label>
-                                    <input type="text" class="form-control" id="firstname">
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastname">Last Name:</label>
-                                    <input type="text" class="form-control" id="lastname">
-                                </div>
-                                <div class="form-group">
-                                    <label for="primaryloc">Primary Location:</label>
-                                    <input type="text" class="form-control" id="primaryloc">
-                                </div>
-                                </p>
-                                <p>
-                                <div class="form-group">
-                                    <label for="likeuser" data-toggle="tooltip" data-placement="top" title="The reference user's username">Like Username:</label>
-                                    <input type="text" class="form-control" id="likeuser">
-                                </div>
+                                    <div class="form-group">
+                                        <label for="{{form.likeuser.id_for_label}}" data-toggle="tooltip" data-placement="top" title="The reference user's username">Like Username:</label>
+                                        {{form.likeuser}}
+                                    </div>
                                 </p>
                             </div>
-                            <button type="submit" class="btn btn-default">Create User</button>
+                            <button type="submit" class="btn btn-primary">Create User</button>
                         </form>
                         {% endif %}
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 </body>
-
 </html>
