@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.http import HttpResponse
 from django.template import loader
 from dbutil.model import Constants
-from dbutil.svc import CreateRequest, UserCreator, CreateUserForm
+from dbutil.svc import CreateRequest, UserCreator, CreateUserForm, LookupDriverForm
 import json
 
 class Database:
@@ -41,6 +41,21 @@ def getCreateRequest(createUserForm):
     return CreateRequest.CreateRequest(username, first_name, last_name, primary_loc, like_user)
 
 
+def handle_create_user_error(request, err_msg):
+    context = gen_create_user_context()
+    context['error'] = err_msg
+
+    template = loader.get_template('dbutil/createusers.html')
+    return HttpResponse(template.render(context, request))
+
+def gen_lookup_driver_context():
+    context = {
+        'title': Constants.dbutil_title,
+        'welcome_msg': Constants.lookup_driver_welcome_msg,
+        'sub_title': Constants.sub_title,
+        'media_heading': 'Lookup Driver Information',
+        'databases': databases}
+    return context
 
 ###
 ###    Handler methods
@@ -70,13 +85,13 @@ def create_user(request):
     print("request.post %s " % request.POST )
     print("request.get %s " % request.GET )
 
-
     if request.method != "POST":
         return handle_create_user_error(request,  'Invalid request method given. Must be POST')
 
     try:
         # parse request params
         createUserForm = CreateUserForm.CreateUserForm(request.POST)
+        
         if not createUserForm.is_valid():
             print(createUserForm.errors)
             return handle_create_user_error(request, "Invalid data submitted")
@@ -103,12 +118,11 @@ def create_user(request):
         return handle_create_user_error(request, e.message)
 
 
-def handle_create_user_error(request, err_msg):
-    context = gen_create_user_context()
-    context['error'] = err_msg
+def lookup_driver(request):
+    driverForm = LookupDriverForm.LookupDriverForm()
 
-    template = loader.get_template('dbutil/createusers.html')
+    context = gen_lookup_driver_context()
+    context['form'] = driverForm
+
+    template = loader.get_template('dbutil/lookupdriver.html')
     return HttpResponse(template.render(context, request))
-
-
-
