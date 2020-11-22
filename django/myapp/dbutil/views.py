@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 from django.http import HttpResponse
 from django.template import loader
 from dbutil.model import Constants
-from dbutil.svc import CreateRequest, UserCreator, CreateUserForm, LookupDriverForm
+from dbutil.svc import CreateRequest, UserCreator, CreateUserForm, \
+    LookupDriverForm, DriverLookupSvc, DriverInfo
 import json
 
 class Database:
@@ -21,7 +22,16 @@ def gen_create_user_context():
         'title': Constants.dbutil_title,
         'welcome_msg': Constants.create_user_welcome_msg,
         'sub_title': Constants.sub_title,
-        'media_heading': 'Create User',
+        'media_heading': Constants.create_user_header,
+        'databases': databases}
+    return context
+
+def gen_lookup_driver_context():
+    context = {
+        'title': Constants.dbutil_title,
+        'welcome_msg': Constants.lookup_driver_welcome_msg,
+        'sub_title': Constants.sub_title,
+        'media_heading': Constants.lookup_driver_header,
         'databases': databases}
     return context
 
@@ -48,14 +58,14 @@ def handle_create_user_error(request, err_msg):
     template = loader.get_template('dbutil/createusers.html')
     return HttpResponse(template.render(context, request))
 
-def gen_lookup_driver_context():
-    context = {
-        'title': Constants.dbutil_title,
-        'welcome_msg': Constants.lookup_driver_welcome_msg,
-        'sub_title': Constants.sub_title,
-        'media_heading': 'Lookup Driver Information',
-        'databases': databases}
-    return context
+
+def handle_lookup_driver_error(request, err_msg):
+    context = gen_lookup_driver_context()
+    context['error'] = err_msg
+
+    template = loader.get_template('dbutil/lookupdriver.html')
+    return HttpResponse(template.render(context, request))
+
 
 ###
 ###    Handler methods
@@ -136,3 +146,36 @@ def lookup_driver(request):
 
     template = loader.get_template('dbutil/lookupdriver.html')
     return HttpResponse(template.render(context, request))
+
+def handle_lookup_driver_submit(request):
+    print("lookup driver submission received")
+    print("Request method %s " % request.method)
+    print("request.post %s " % request.POST )
+
+    if request.method != "POST":
+        return handle_lookup_driver_error(request,  'Invalid request method given. Must be POST')
+
+    try:
+        lookupDriverForm = LookupDriverForm.LookupDriverForm(request.POST)
+
+        if not lookupDriverForm.is_valid():
+            print(lookupDriverForm.errors)
+            return handle_create_user_error(request, "Invalid data submitted. Errors: %s" % lookupDriverForm.errors)
+
+        # do lookup
+        driverLookupSvc = DriverLookupSvc.DriverLookupSvc()
+        requestInfo = lookupDriverForm.cleaned_data
+        if requestInfo['license_search']:
+            results = driverLookupSvc.lookup_driver_by_driver_number(requestInfo['driver_number'])
+        else:
+            results = driverLookupSvc.lookup_driver(requestInfo)
+
+        context = gen_lookup_driver_context()
+        #context['form'] = lookupDriverForm
+        context['personData'] = results['personData']
+        context['records'] = results['records']
+        template = loader.get_template('dbutil/driverdetails.html')
+        return HttpResponse(template.render(context, request))
+    except Exception as e:
+        print e
+        return handle_lookup_driver_error(request, 'Unexpected error occurred: %s' % e.message)

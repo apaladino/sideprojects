@@ -18,6 +18,20 @@ CREATE TABLE USER_DEFAULTS(
   location_id TEXT
   );
 
+CREATE TABLE PERSON(
+  user_id NUMBER  PRIMARY KEY,
+  user_name TEXT,
+  first_name TEXT,
+  last_name TEXT,
+  address TEXT,
+  dob TEXT
+);
+
+insert into PERSON(user_id, user_name, first_name, last_name, address, dob)
+    VALUES(1, 'ANDREWSJ', 'JAMES', 'ANDREWS', '100 Chestnut Lane, Springfield MA 04111', '10-01-1971');
+
+insert into PERSON(user_id, user_name, first_name, last_name, address, dob)
+    VALUES(2, 'YATESS', 'SALLY', 'YATES', '23 Olson Cir, Augusta ME 04322', '10-01-1971');
         
 insert into USER(user_id, user_name, first_name, last_name) 
 	VALUES(1, 'ANDREWSJ', 'JAMES', 'ANDREWS');

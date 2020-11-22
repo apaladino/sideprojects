@@ -48,7 +48,7 @@
                 <li><a href="/dbutil">Home</a></li>
                 <li><a href="/dbutil/createuser">Create User Like Existing User</a></li>
                 <li class="disabled"><a href="/dbutil/lookup_customer">Lookup Customer Details</a></li>
-                <li class="disabled"><a href="/dbutil/lookupdriver">Lookup Driver Information For Driver</a></li>
+                <li><a href="/dbutil/lookupdriver">Lookup Driver Information For Driver</a></li>
                 <li class="disabled"><a href="/dbutil/purcedriver">Purge Driver Records For Driver</a></li>
             </ul><br>
         </div>
@@ -83,7 +83,7 @@
                         {% else %}
 
                         {{ form.non_field_errors }}
-                        <form action="/dbutil/postcreateuser.html" method="post" class="form-horizontal">
+                        <form action="/dbutil/postlookupdriver/" method="post" class="form-horizontal">
                             {% csrf_token %}
                             <div class="panel">
                                 <p>
