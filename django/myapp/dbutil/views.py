@@ -37,8 +37,8 @@ def getCreateRequest(createUserForm):
     last_name = createUserForm.cleaned_data['lastname']
     primary_loc = createUserForm.cleaned_data['primaryloc']
     like_user = createUserForm.cleaned_data['likeuser']
-
-    return CreateRequest.CreateRequest(username, first_name, last_name, primary_loc, like_user)
+    sid = createUserForm.cleaned_data['databases']
+    return CreateRequest.CreateRequest(username, first_name, last_name, primary_loc, like_user, sid)
 
 
 def handle_create_user_error(request, err_msg):
@@ -100,7 +100,7 @@ def create_user(request):
 
         # create the user
         userCreator = UserCreator.UserCreator()
-        userCreator.create_user_like_existing_user(createRequest)
+        results_data = userCreator.create_user_like_existing_user(createRequest)
 
         success_msg = "User: [%s] successfully created with same settings as existing user: [%s]" % \
                       (createRequest.username, createRequest.like_user)
@@ -110,6 +110,16 @@ def create_user(request):
         context['status'] = 'success';
         context['success_msg'] = success_msg
         context['user_created_msg'] = "User Successfully Created"
+        context['username'] = createRequest.username
+        context['first_name'] = createRequest.first_name
+        context['last_name'] = createRequest.last_name
+        context['primary_loc'] = createRequest.primary_loc
+        context['like_user'] = createRequest.like_user
+        context['newuser_roles'] = results_data['newuser.roles']
+        context['newuser_locations'] = results_data['newuser.locations']
+        context['likeuser_roles'] = results_data['likeuser.roles']
+        context['likeuser_locations'] = results_data['likeuser.locations']
+
         template = loader.get_template('dbutil/usercreated.html')
         return HttpResponse(template.render(context, request))
 

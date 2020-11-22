@@ -87,30 +87,30 @@
                             {% csrf_token %}
                             <div class="panel">
                                 <p>
+                                <div class="form-group">
+                                    <label for="{{ form.license_search.id_for_label }}">Driver Licence Search</label>
+                                    {{form.license_search}}
+                                </div>
+                                <div class="form-group-lg" id="driver_number_lookup_panel">
                                     <div class="form-group">
-                                        <label for="{{ form.license_search.id_for_label }}">Driver Licence Search</label>
-                                        {{form.license_search}}
+                                        <label for="{{form.driver_number.id_for_label}}">Driver Number:</label>
+                                        {{form.driver_number}}
                                     </div>
-                                    <div class="form-group-lg" id="driver_number_lookup_panel">
-                                        <div class="form-group">
-                                            <label for="{{form.driver_number.id_for_label}}">Driver Number:</label>
-                                            {{form.driver_number}}
-                                        </div>
+                                </div>
+                                <div id="name_lookup_panel" >
+                                    <div class="form-group">
+                                        <label for="{{form.firstname.id_for_label}}">First Name:</label>
+                                        {{form.firstname}}
                                     </div>
-                                    <div id="name_lookup_panel" >
-                                        <div class="form-group">
-                                            <label for="{{form.firstname.id_for_label}}">First Name:</label>
-                                            {{form.firstname}}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="{{form.lastname.id_for_label}}">Last Name:</label>
-                                            {{form.lastname}}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="{{form.dob.id_for_label}}">D.O.B:</label>
-                                            {{form.dob}}
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="{{form.lastname.id_for_label}}">Last Name:</label>
+                                        {{form.lastname}}
                                     </div>
+                                    <div class="form-group">
+                                        <label for="{{form.dob.id_for_label}}">D.O.B:</label>
+                                        {{form.dob}}
+                                    </div>
+                                </div>
                                 </p>
 
                             </div>

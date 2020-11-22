@@ -2,6 +2,7 @@ from django import forms
 
 class CreateUserForm(forms.Form):
     DBS = (
+        ('test', 'Test'),
         ('dev', 'Development'),
         ('staging', 'Staging'),
         ('meta', 'Meta'),
