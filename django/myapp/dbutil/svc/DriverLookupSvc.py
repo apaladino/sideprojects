@@ -13,13 +13,13 @@ class DriverLookupSvc:
         but for now just mock it out"""
 
         personData = {
-            'first_name' : 'Ron',
-            'last_name' : 'Toodles',
-            'address': '100 chestnut lane, Boston MA 42331',
-            'dob': '07-26-1976',
-            'driver_id': '122446',
-            'driver_number': driver_number,
-            'customer_id': '6699302'
+            'First Name' : 'Ron',
+            'Last Name' : 'Toodles',
+            'Address': '100 chestnut lane, Boston MA 42331',
+            'D.O.B': '07-26-1976',
+            'Driver ID': '122446',
+            'Driver Number': driver_number,
+            'Customer ID': '6699302'
         }
 
         records = [

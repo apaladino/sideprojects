@@ -8,3 +8,9 @@ create_user_header='Create User'
 
 lookup_driver_welcome_msg='Lookup Driver Details'
 lookup_driver_header='Lookup Driver Details'
+
+transfer_user_welcome_msg='Transfer Internal User'
+transfer_user_header='Transfer User'
+
+compare_users_welcome_msg='Compare Two Users'
+compare_users_header='Compare Users'

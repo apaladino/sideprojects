@@ -1,38 +1,15 @@
-import CreateRequest
-import sqlite3
 import os
+import sqlite3
+
+import UserSvc
 
 
 class UserCreator:
 
     def __init__(self):
         self.tables_created = True
+        self.userSvc = UserSvc.UserSvc
 
-    def getUserLocations(self, user, curs):
-        sql = "select location_id from USER_DEFAULTS where user_name='%s'" % user
-        curs.execute(sql)
-
-        records = []
-        for row in curs:
-            if type(row) is tuple:
-                row = row[0]
-            records.append(row)
-
-        return records
-
-    def getUserRoles(self, like_user, curs):
-        sql = "select granted_role from ROLES where user_name='%s'" % like_user
-        curs.execute(sql)
-
-        records = []
-        for row in curs:
-            if type(row) is tuple:
-                row = row[0]
-            print("Row: %s" % row)
-            records.append(row)
-
-        print(records)
-        return records
 
     def printTableCounts(self, curs):
         tables = ["USER", "USER_DEFAULTS", "ROLES"]
@@ -107,8 +84,8 @@ class UserCreator:
 
         self.printTableCounts(c)
 
-        likeUserRoles = self.getUserRoles(createRequest.like_user, c)
-        likeuserLocs = self.getUserLocations(createRequest.like_user, c)
+        likeUserRoles = self.userSvc.getUserRoles(createRequest.like_user, c)
+        likeuserLocs = self.userSvc.getUserLocations(createRequest.like_user, c)
 
         # create new user
         self.insertUser(createRequest.username, createRequest.first_name, createRequest.last_name, c)
@@ -121,8 +98,8 @@ class UserCreator:
         self.printTableCounts(c)
 
         # look up the roles and locations for new user
-        newUserRoles = self.getUserRoles(createRequest.username, c)
-        newUserLocs = self.getUserLocations(createRequest.username, c)
+        newUserRoles = self.userSvc.getUserRoles(createRequest.username, c)
+        newUserLocs = self.userSvc.getUserLocations(createRequest.username, c)
 
         self.validateNewUserRoles(newUserRoles, likeUserRoles)
         self.validateNewUserLocs(newUserLocs, likeuserLocs)

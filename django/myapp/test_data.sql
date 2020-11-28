@@ -16,6 +16,7 @@ CREATE TABLE USER_DEFAULTS(
   user_id NUMBER PRIMARY KEY,
   user_name TEXT,
   location_id TEXT
+  primary_loc BOOLEAN default false
   );
 
 CREATE TABLE PERSON(

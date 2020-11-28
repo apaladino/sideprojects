@@ -5,8 +5,13 @@ from django.http import HttpResponse
 from django.template import loader
 from dbutil.model import Constants
 from dbutil.svc import CreateRequest, UserCreator, CreateUserForm, \
-    LookupDriverForm, DriverLookupSvc, DriverInfo
+    LookupDriverForm, DriverLookupSvc, CompareUserForm, CompareUsersSvc, \
+    TransferUserForm, TransferUserSvc
+
 import json
+
+username='test user'
+password='passwd'
 
 class Database:
     def __init__(self, name, title):
@@ -58,12 +63,26 @@ def handle_create_user_error(request, err_msg):
     template = loader.get_template('dbutil/createusers.html')
     return HttpResponse(template.render(context, request))
 
+def handle_transfer_user_error(request, err_msg):
+    context = gen_transfer_user_context()
+    context['error'] = err_msg
+
+    template = loader.get_template('dbutil/transferuser.html')
+    return HttpResponse(template.render(context, request))
+
 
 def handle_lookup_driver_error(request, err_msg):
     context = gen_lookup_driver_context()
     context['error'] = err_msg
 
     template = loader.get_template('dbutil/lookupdriver.html')
+    return HttpResponse(template.render(context, request))
+
+def handle_compare_usres_error(request, err_msg):
+    context = gen_compare_users_context()
+    context['error'] = err_msg
+
+    template = loader.get_template('dbutil/compareusers.html')
     return HttpResponse(template.render(context, request))
 
 
@@ -138,6 +157,106 @@ def create_user(request):
         return handle_create_user_error(request, e.message)
 
 
+def gen_compare_users_context():
+    context = {
+        'title': Constants.dbutil_title,
+        'welcome_msg': Constants.compare_users_welcome_msg,
+        'sub_title': Constants.sub_title,
+        'media_heading': Constants.compare_users_header,
+        'databases': databases}
+    return context
+
+def gen_transfer_user_context():
+    context = {
+        'title': Constants.dbutil_title,
+        'welcome_msg': Constants.transfer_user_welcome_msg,
+        'sub_title': Constants.sub_title,
+        'media_heading': Constants.transfer_user_header,
+        'databases': databases}
+    return context
+
+def compare_users(request):
+    form = CompareUserForm.CompareUserForm()
+    context = gen_compare_users_context()
+    context['form'] = form
+
+    template = loader.get_template('dbutil/compareusers.html')
+    return HttpResponse(template.render(context, request))
+
+
+def post_compare_users(request):
+    if request.method != "POST":
+        return handle_compare_usres_error(request,  'Invalid request method given. Must be POST')
+
+    try:
+        form = CompareUserForm.CompareUserForm(request.POST)
+
+        context = gen_compare_users_context()
+        context['form'] = form
+
+        if not form.is_valid():
+            print(form.errors)
+            return handle_compare_usres_error(request, "Invalid data submitted. Errors: %s" % form.errors)
+
+        database = form.cleaned_data['databases']
+        user1 = form.cleaned_data['first_user']
+        user2 = form.cleaned_data['second_user']
+
+        compareUserSvc = CompareUsersSvc.CompareUsersSvc(username, password, database)
+        data = compareUserSvc.get_comparison_data(user1, user2)
+        context['data'] = data
+
+        template = loader.get_template('dbutil/compareusers.html')
+        return HttpResponse(template.render(context, request))
+
+    except Exception as e:
+        print("Unexpected error occured. error: %s" % e.message)
+        handle_compare_usres_error(request, e.message)
+
+
+def transfer_user(request):
+    transferUserForm = TransferUserForm.TransferUserForm()
+
+    context = gen_transfer_user_context()
+    context['form'] = transferUserForm
+    template = loader.get_template('dbutil/transferuser.html')
+    return HttpResponse(template.render(context, request))
+
+def post_transfer_user(request):
+    if request.method != "POST":
+        return handle_lookup_driver_error(request,  'Invalid request method given. Must be POST')
+    context = gen_transfer_user_context()
+
+    try:
+        transferUserForm = TransferUserForm.TransferUserForm(request.POST)
+        context['form'] = transferUserForm
+
+        if not transferUserForm.is_valid():
+            print(transferUserForm.errors)
+            return handle_transfer_user_error(request, "Invalid data submitted. Errors: %s" % transferUserForm.errors)
+
+        user = transferUserForm.cleaned_data['user']
+        location = transferUserForm.cleaned_data['location']
+        cloneExistingUser = transferUserForm.cleaned_data['mimic_user']
+        like_user = transferUserForm.cleaned_data['like_user']
+        database = transferUserForm.cleaned_data['databases']
+
+        transferUserSvc = TransferUserSvc.TransferUserSvc(username, password, database)
+        data = transferUserSvc.transfer_user(user, location, cloneExistingUser, like_user)
+        context['clone_existing_user'] = cloneExistingUser
+        context['data'] = data
+        context['status'] = data['status']
+        template = loader.get_template('dbutil/transferuser.html')
+        return HttpResponse(template.render(context, request))
+    except Exception as e:
+        print("Unexpected error occurred during transfer user request. error: %s" % e.message)
+        context['error'] = e.message
+
+        template = loader.get_template('dbutil/transferuser.html')
+        return HttpResponse(template.render(context, request))
+
+
+
 def lookup_driver(request):
     driverForm = LookupDriverForm.LookupDriverForm()
 
@@ -174,6 +293,24 @@ def handle_lookup_driver_submit(request):
         #context['form'] = lookupDriverForm
         context['personData'] = results['personData']
         context['records'] = results['records']
+        tables = []
+        tables.append({
+            'table_name': 'Personal Data',
+            'keys': results['personData'].keys(),
+            'records' : [results['personData']]
+        })
+        tables.append({
+            'table_name': 'Driver Records',
+            'keys': results['records'][0].keys(),
+            'records': results['records']
+        })
+        tables.append({
+            'table_name': 'Driver Records3',
+            'keys': results['records'][0].keys(),
+            'records': results['records']
+        })
+
+        context['tables'] = tables
         template = loader.get_template('dbutil/driverdetails.html')
         return HttpResponse(template.render(context, request))
     except Exception as e:
