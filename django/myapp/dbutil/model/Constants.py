@@ -1,3 +1,4 @@
+SUCCESS='SUCCESS'
 
 dbutil_title='DBA Utilities App'
 dbutil_welcome_msg='Welcome to the DBA Utilities App'

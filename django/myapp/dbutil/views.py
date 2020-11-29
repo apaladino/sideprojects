@@ -6,7 +6,7 @@ from django.template import loader
 from dbutil.model import Constants
 from dbutil.svc import CreateRequest, UserCreator, CreateUserForm, \
     LookupDriverForm, DriverLookupSvc, CompareUserForm, CompareUsersSvc, \
-    TransferUserForm, TransferUserSvc
+    TransferUserForm, TransferUserSvc, LookupCustomerForm, LookupCustomerSvc
 
 import json
 
@@ -40,6 +40,13 @@ def gen_lookup_driver_context():
         'databases': databases}
     return context
 
+def gen_context(welcome_msg, header):
+    return  {
+        'title': Constants.dbutil_title,
+        'welcome_msg': welcome_msg,
+        'sub_title': Constants.sub_title,
+        'media_heading': header,
+        'databases': databases}
 
 def getRequiredPostParam(request, param):
     if not request.POST[param]:
@@ -256,7 +263,6 @@ def post_transfer_user(request):
         return HttpResponse(template.render(context, request))
 
 
-
 def lookup_driver(request):
     driverForm = LookupDriverForm.LookupDriverForm()
 
@@ -265,6 +271,47 @@ def lookup_driver(request):
 
     template = loader.get_template('dbutil/lookupdriver.html')
     return HttpResponse(template.render(context, request))
+
+def lookup_customer(request):
+    driverForm = LookupCustomerForm.LookupCustomerForm()
+
+    context = gen_context("Lookup Customer", "Lookup Customer By Customer ID")
+    context['form'] = driverForm
+
+    template = loader.get_template('dbutil/lookupcustomer.html')
+    return HttpResponse(template.render(context, request))
+
+def post_lookup_customer(request):
+    customerForm = LookupCustomerForm.LookupCustomerForm(request.POST)
+    template = loader.get_template('dbutil/lookupcustomer.html')
+    context = gen_context("Lookup Customer", "Lookup Customer By Customer ID")
+    context['form'] = customerForm
+
+    if request.method != "POST":
+        context['errors'] = 'Invalid request. Must by an HTTP POST request!'
+        return HttpResponse(template.render(context, request))
+
+    try:
+        if not customerForm.is_valid():
+            print(customerForm.errors)
+            context['errors'] = customerForm.errors
+            return HttpResponse(template.render(context, request))
+
+        customer_id = customerForm.cleaned_data['customer_id']
+        database = customerForm.cleaned_data['databases']
+        lookupCustomerSvc = LookupCustomerSvc.LookupCustomerSvc(username, password, database)
+
+        cust_data = lookupCustomerSvc.get_customer_date(customer_id)
+
+        context['customer_data'] = cust_data
+
+        driver_data = lookupCustomerSvc.get_driver_data(customer_id)
+        context['driver_data'] = driver_data
+
+        context['status'] = Constants.SUCCESS
+        return HttpResponse(template.render(context, request))
+    except Exception as e:
+        print("Unexpected error: %s" % e.message)
 
 def handle_lookup_driver_submit(request):
     print("lookup driver submission received")
