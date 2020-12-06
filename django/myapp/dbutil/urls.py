@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^postlookupdriver/$', views.handle_lookup_driver_submit, name='post_lookup_driver'),
     url(r'^lookupcustomer/$', views.lookup_customer, name='lookup_customer'),
     url(r'^postlookupcustomer/$', views.post_lookup_customer, name='post_lookup_customer'),
+    url(r'^addlocations/$', views.add_locations_to_user, name='add_locations_to_user'),
 ]

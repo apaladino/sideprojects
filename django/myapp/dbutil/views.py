@@ -6,12 +6,17 @@ from django.template import loader
 from dbutil.model import Constants
 from dbutil.svc import CreateRequest, UserCreator, CreateUserForm, \
     LookupDriverForm, DriverLookupSvc, CompareUserForm, CompareUsersSvc, \
-    TransferUserForm, TransferUserSvc, LookupCustomerForm, LookupCustomerSvc
+    TransferUserForm, TransferUserSvc, LookupCustomerForm, LookupCustomerSvc, \
+    AddLocationsForm, LocationSvc
 
-import json
+import ConfigParser
 
-username='test user'
-password='passwd'
+config = ConfigParser.ConfigParser()
+config.read('Config.properties')
+
+username = config.get('DatabaseSection', 'username')
+password= config.get('DatabaseSection', 'password')
+workDir = config.get('MainSection', 'work.dir')
 
 class Database:
     def __init__(self, name, title):
@@ -96,6 +101,17 @@ def handle_compare_usres_error(request, err_msg):
 ###
 ###    Handler methods
 ###
+def add_locations_to_user(request):
+    context = gen_context("Welcome To The Add Locations Page", "Add Locations To User")
+    locationSvc = LocationSvc.LocationSvc(username, password, workDir)
+    locations = locationSvc.get_locations("OPAL")
+    form = AddLocationsForm.AddLocationsForm()
+    context['form'] = form
+
+    template = loader.get_template('dbutil/addlocations.html')
+    return HttpResponse(template.render(context, request))
+
+
 def create_user_like_existing_user(request):
     context = gen_create_user_context()
     createUserForm = CreateUserForm.CreateUserForm()
@@ -247,9 +263,10 @@ def post_transfer_user(request):
         cloneExistingUser = transferUserForm.cleaned_data['mimic_user']
         like_user = transferUserForm.cleaned_data['like_user']
         database = transferUserForm.cleaned_data['databases']
+        work_order = "WO_1234"
 
-        transferUserSvc = TransferUserSvc.TransferUserSvc(username, password, database)
-        data = transferUserSvc.transfer_user(user, location, cloneExistingUser, like_user)
+        transferUserSvc = TransferUserSvc.TransferUserSvc(username, password, database, workDir)
+        data = transferUserSvc.transfer_user(user, location, cloneExistingUser, like_user, work_order)
         context['clone_existing_user'] = cloneExistingUser
         context['data'] = data
         context['status'] = data['status']
