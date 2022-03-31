@@ -10,7 +10,7 @@
     </description>
 
     <properties>
-        <spring.version>3.2.0.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <spring.security.version>3.1.4.RELEASE</spring.security.version>
         <jetty.version>8.0.1.v20110908</jetty.version>
         <jetty.port>65111</jetty.port>
