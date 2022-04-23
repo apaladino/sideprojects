@@ -15,7 +15,7 @@
 
     <properties>
         <start-class>com.andyp.regsvc.Application</start-class>
-        <spring.version>4.1.0.RELEASE</spring.version>
+        <spring.version>5.3.19</spring.version>
     </properties>
 
     <dependencies>
